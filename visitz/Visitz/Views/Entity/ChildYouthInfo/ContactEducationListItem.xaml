@@ -21,6 +21,10 @@
             Value="{Binding SchoolNameBinding}"
         />
         <formControls:InfoItemView
+            Label="{local:Localize StartDate}"
+            Value="{Binding DisplayStartDate}"
+        />
+        <formControls:InfoItemView
             Label="{local:Localize Last grade completed}"
             Value="{Binding DegreeBinding}"
         />
@@ -39,10 +43,6 @@
         <formControls:InfoItemView
             Label="{local:Localize Address}"
             Value="{Binding AddressBinding}"
-        />
-        <formControls:InfoItemView
-            Label="{local:Localize StartDate}"
-            Value="{Binding DisplayStartDate}"
         />
     </VerticalStackLayout>
 </ContentView>
