@@ -50,26 +50,49 @@ public partial class Expander : BaseContentView
     {
         try
         {
-            if (BindingContext == null || !IsExpanded)
+            if (!IsExpanded)
                 return;
 
             await Task.Delay(10); // not a fan but it's the easiest way to let the layout settle
 
-            if (Parent.FindFirstParent<CollectionView>() is CollectionView cv)
-            {
-                // Because UI items in a collection inherit BindingContext, we can reasonably assume we
-                // can use it directory to scroll the parent.
-
-                cv.ScrollTo(BindingContext, position: ScrollToPosition.Start);
-            }
-            else if (Parent.FindFirstParent<ScrollView>() is ScrollView sv)
-            {
-                await sv.ScrollToAsync(this, ScrollToPosition.Start, true);
-            }
+            // Scrolling both first and last parent as a low-effort way to try to scroll this
+            // into view in scenarios where scrollable views are nested (e.g. CollectionView
+            // inside ScrollView)
+            await ScrollFirstParent();
+            await ScrollLastParent();
         }
         catch (Exception ex)
         {
             Logger.LogException(ex);
+        }
+    }
+
+    async Task ScrollFirstParent()
+    {
+        if (Parent.FindFirstParent<ScrollView>() is ScrollView sv)
+        {
+            await sv.ScrollToAsync(this, ScrollToPosition.Start, true);
+        }
+        else if (BindingContext != null && Parent.FindFirstParent<CollectionView>() is CollectionView cv)
+        {
+            // Because UI items in a collection inherit BindingContext, we can reasonably assume we
+            // can use it directory to scroll the parent.
+
+            cv.ScrollTo(BindingContext, position: ScrollToPosition.Start);
+        }
+    }
+
+    async Task ScrollLastParent()
+    {
+        if (this.FindLastParent<ScrollView>() is ScrollView lastSv)
+        {
+            await lastSv.ScrollToAsync(this, ScrollToPosition.Start, true);
+        }
+        else if (BindingContext != null && this.FindLastParent<CollectionView>() is CollectionView lastCv)
+        {
+            // Because UI items in a collection inherit BindingContext, we can reasonably assume we
+            // can use it directory to scroll the parent.
+            lastCv.ScrollTo(BindingContext, position: ScrollToPosition.Start);
         }
     }
 }
