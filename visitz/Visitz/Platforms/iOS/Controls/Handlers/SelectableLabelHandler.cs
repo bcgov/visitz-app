@@ -4,6 +4,8 @@ using UIKit;
 
 namespace Visitz.Controls.Handlers;
 
+// TODO: Do we still need this Handler now that SelectableLabel can set text selection on its own?
+// Or is it because this handler exists for iOS that SeletableLabel can use it?
 public partial class SelectableLabelHandler() : ViewHandler<SelectableLabel, UITextView>(s_mapper, null)
 {
     static readonly IPropertyMapper<SelectableLabel, SelectableLabelHandler> s_mapper = new PropertyMapper<
