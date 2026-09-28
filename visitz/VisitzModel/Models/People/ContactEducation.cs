@@ -52,6 +52,7 @@ public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJ
         CreatedByName = json.CreatedByName;
         EndDate = Timestamp.ParseDateTimeOffsetNullable(json.EndDate);
         Degree = json.Degree;
+        ContactPerson = json.ContactPerson;
         ContactPersonRole = json.ContactPersonRole;
         Year = Timestamp.ParseDateTimeOffsetNullable(json.Year);
         Address = json.Address;
