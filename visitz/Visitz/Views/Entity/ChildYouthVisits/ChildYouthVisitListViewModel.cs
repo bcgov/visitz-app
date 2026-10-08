@@ -42,12 +42,6 @@ public partial class ChildYouthVisitListViewModel : IcmRecordViewModel, IRequest
     public partial string BannerText { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial bool HasVisitData { get; set; } = true;
-
-    [ObservableProperty]
-    public partial bool ShowEmptyIcon { get; set; } = false;
-
-    [ObservableProperty]
     public partial string OpenAddVisitIconGlyph { get; set; } = string.Empty;
 
     [ObservableProperty]
@@ -100,7 +94,7 @@ public partial class ChildYouthVisitListViewModel : IcmRecordViewModel, IRequest
 
     private void VisitsQueryItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        UpdatePersonVisitRelatedInfo();
+        TryUpdateBanner();
     }
 
     private void DraftVisits_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -108,15 +102,15 @@ public partial class ChildYouthVisitListViewModel : IcmRecordViewModel, IRequest
         ApplyDraftButtonText(isDraftAvailable: (sender as ObservableCollection<PersonVisitDraft>)?.Any() ?? false);
     }
 
-    private void UpdatePersonVisitRelatedInfo()
+    private void TryUpdateBanner()
     {
-        HasVisitData = VisitsQuery?.HasAnyItems ?? false;
-        ShowEmptyIcon = !HasVisitData;
-
-        // Note that if we ever change sort order, we need to query for latest
-        // visit instead of just using FirstOrDefault here
-        if (VisitsQuery?.Items.FirstOrDefault() is ChildYouthVisitListItemViewModel lastVisit)
-            SetBannerInfo(lastVisit.Visit);
+        if (
+            DataRealm != null
+            && PersonVisit.GetLatestPolicyVisit(DataRealm, BusinessObject.Id) is PersonVisit latestVisit
+        )
+        {
+            SetBannerInfo(latestVisit);
+        }
     }
 
     private void SetBannerInfo(PersonVisit personVisit)

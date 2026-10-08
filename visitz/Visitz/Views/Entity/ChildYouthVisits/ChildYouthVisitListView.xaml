@@ -6,6 +6,7 @@
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:childYouthVisit="clr-namespace:Visitz.Views.Entity.ChildYouthVisits"
     xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:views="clr-namespace:Visitz.Views"
@@ -13,11 +14,17 @@
     x:DataType="childYouthVisit:ChildYouthVisitListViewModel"
     x:TypeArguments="childYouthVisit:ChildYouthVisitListViewModel"
 >
+    <base:IcmRecordContentView.Resources>
+        <ResourceDictionary>
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        </ResourceDictionary>
+    </base:IcmRecordContentView.Resources>
+
     <Grid HorizontalOptions="Fill" VerticalOptions="Fill" RowDefinitions="Auto, Auto, *, 0.5, Auto">
         <banners:InfoBanner
             Grid.Row="0"
             Margin="{StaticResource DefaultMargin}"
-            IsVisible="{Binding HasVisitData}"
+            IsVisible="{Binding VisitsQuery.HasAnyItems}"
             Level="{Binding BannerLevel}"
             Text="{Binding BannerText}"
         />
@@ -25,7 +32,7 @@
         <CollectionView
             x:Name="VisitsCollectionView"
             Grid.Row="2"
-            IsVisible="{Binding HasVisitData}"
+            IsVisible="{Binding VisitsQuery.HasAnyItems}"
             ItemsSource="{Binding VisitsQuery.Items}"
             VerticalOptions="Fill"
             SelectionMode="None"
@@ -37,7 +44,10 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <controls:EmptyIcon Grid.Row="2" IsVisible="{Binding ShowEmptyIcon}" />
+        <controls:EmptyIcon
+            Grid.Row="2"
+            IsVisible="{Binding VisitsQuery.HasAnyItems, Converter={StaticResource BoolNegationConverter}}"
+        />
 
         <BoxView Grid.Row="3" HeightRequest="0.5" Color="{StaticResource SeparatorColor}" />
 
