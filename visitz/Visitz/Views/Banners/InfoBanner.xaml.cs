@@ -68,7 +68,7 @@ public partial class InfoBanner : ContentView
                 break;
             case AlertLevel.Critical:
                 banner.BackgroundColor = VisitzColors.AlertBannerCriticalBackground;
-                banner.IconLabel.Text = MaterialIcons.Release_alert;
+                banner.IconLabel.Text = MaterialIcons.Report;
                 banner.IconLabel.TextColor = VisitzColors.AlertBannerCriticalPrimary;
                 banner.Border.Stroke = VisitzColors.AlertBannerCriticalPrimary;
                 break;
