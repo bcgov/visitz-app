@@ -4,12 +4,16 @@ using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
+using VisitzModel.Resources.Localization;
 
 namespace VisitzModel.Models.InPersonVisits;
 
 public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParentRecord, IEquatable<PersonVisit>
 {
-    static readonly string _defaultType = "In Person Child Youth";
+    static readonly string s_defaultType = "In Person Child Youth";
+
+    static readonly string s_defaultSortPredicate =
+        $"TRUEPREDICATE SORT({nameof(DateOfVisit)} DESC, {nameof(Created)} DESC)";
 
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -28,7 +32,7 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
 
     public string VisitDescription { get; set; } = string.Empty;
 
-    public string Type { get; set; } = _defaultType;
+    public string Type { get; set; } = s_defaultType;
 
     public DateTimeOffset DateOfVisit { get; set; } = DateTimeOffset.Now;
 
@@ -117,20 +121,17 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         return outList;
     }
 
-    public static async Task SynchronizeAsync(Realm realm, IEnumerable<VisitJson> visits, string parentId)
+    public static async Task SynchronizeAsync(Realm realm, IEnumerable<VisitJson> visits, string parentCaseId)
     {
         await realm.SynchronizeByQueryAsync(
             incomingItems: FromApiArray(visits),
-            existingQuery: GetVisitsByCaseId(realm, parentId)
+            existingQuery: GetVisitsByCaseId(realm, parentCaseId)
         );
     }
 
-    public static IQueryable<PersonVisit> GetVisitsByCaseId(Realm realm, string caseId)
+    public static IQueryable<PersonVisit> GetVisitsByCaseId(Realm realm, string parentCaseId)
     {
-        return realm
-            .All<PersonVisit>()
-            .Where(person => person.ParentId == caseId)
-            .Filter($"TRUEPREDICATE SORT({nameof(DateOfVisit)} DESC, {nameof(Created)} DESC)");
+        return realm.All<PersonVisit>().Where(person => person.ParentId == parentCaseId).Filter(s_defaultSortPredicate);
     }
 
     public static void RemoveByParent(Realm realm, EntityType type, string parentId)
@@ -143,17 +144,41 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
     }
 
     /// <summary>
-    /// Gets an <see cref="IQueryable"/> representing the latest visit for every distinct parent record currently in
-    /// the database.
+    /// Gets an <see cref="IQueryable"/> representing the latest policy visit for every distinct parent record
+    /// currently in the database.
     /// </summary>
     /// <param name="realm"></param>
     /// <returns></returns>
-    public static IQueryable<PersonVisit> GetLatestVisitsPerParentRecord(Realm realm)
+    public static IQueryable<PersonVisit> GetLatestPolicyVisitsPerParentRecord(Realm realm)
     {
+        // As of October 2026, only private visits reset the 90-day policy counter.
+        List<string> privateStrings =
+        [
+            PersonVisitDetails.Api_PrivateVisitAge0_5,
+            PersonVisitDetails.Api_PrivateVisitInHome,
+            PersonVisitDetails.Api_PrivateVisitMedicalSupportNeeds,
+            PersonVisitDetails.Api_PrivateVisitNotInHome,
+        ];
+        privateStrings = privateStrings.Select(s => $"'{s}'").ToList();
+
+        string privateDetails = $"{{ {string.Join(", ", privateStrings)} }}";
+
         return realm
             .All<PersonVisit>()
-            .Filter($"TRUEPREDICATE SORT({nameof(DateOfVisit)} DESC, {nameof(Created)} DESC)")
-            .Filter($"TRUEPREDICATE DISTINCT({nameof(ParentId)})");
+            .Filter(s_defaultSortPredicate)
+            .Filter($"TRUEPREDICATE DISTINCT({nameof(ParentId)})")
+            .Filter($"ANY {nameof(VisitDetails)} == ANY {privateDetails}");
+    }
+
+    /// <summary>
+    /// <para>Gets the latest visit for a given parent case as per policy requirements.</para>
+    /// </summary>
+    /// <param name="realm"></param>
+    /// <param name="parentCaseId"></param>
+    /// <returns></returns>
+    public static PersonVisit? GetLatestPolicyVisit(Realm realm, string parentCaseId)
+    {
+        return GetLatestPolicyVisitsPerParentRecord(realm).FirstOrDefault(visit => visit.ParentId == parentCaseId);
     }
 
     /// <summary>
