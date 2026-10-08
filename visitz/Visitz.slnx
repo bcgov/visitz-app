@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Project Path="Oidc/Oidc.csproj" />
+  <Project Path="OidcTest/OidcTest.csproj" />
+  <Project Path="RealmBindingGenerator/RealmBindingGenerator.csproj" />
+  <Project Path="Visitz/Visitz.csproj">
+    <BuildDependency Project="VisitzApi/VisitzApi.csproj" />
+    <Deploy />
+  </Project>
+  <Project Path="VisitzApi/VisitzApi.csproj" />
+  <Project Path="VisitzApiTest/VisitzApiTest.csproj" />
+  <Project Path="VisitzModel/VisitzModel.csproj" />
+  <Project Path="VisitzModelTest/VisitzModelTest.csproj" />
+</Solution>
