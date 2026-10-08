@@ -1739,7 +1739,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Next in-person visit due by {0}..
+        ///   Looks up a localized string similar to Next private in-person visit due by {0}..
         /// </summary>
         public static string NextVisitDueBy {
             get {
@@ -1946,7 +1946,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Overdue child/youth visit.
+        ///   Looks up a localized string similar to Overdue private child/youth visit.
         /// </summary>
         public static string OverdueVisit {
             get {
@@ -1955,7 +1955,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to In-person visit was due on {0}..
+        ///   Looks up a localized string similar to Private in-person visit was due on {0}..
         /// </summary>
         public static string OverdueVisitOn {
             get {
@@ -3172,7 +3172,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upcoming child/youth visit.
+        ///   Looks up a localized string similar to Upcoming private child/youth visit.
         /// </summary>
         public static string UpcomingVisit {
             get {
@@ -3217,7 +3217,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to In-person visit due by {0}..
+        ///   Looks up a localized string similar to Private in-person visit due by {0}..
         /// </summary>
         public static string VisitDueBy {
             get {
