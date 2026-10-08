@@ -495,4 +495,10 @@ public partial class DebugOptions(IPreferences preferences) : ObservableObject
 
         logger.LogCritical("Critical log");
     }
+
+    [RelayCommand]
+    public static void CrashApp()
+    {
+        throw new InvalidOperationException("Intentional Visitz app crash");
+    }
 }
