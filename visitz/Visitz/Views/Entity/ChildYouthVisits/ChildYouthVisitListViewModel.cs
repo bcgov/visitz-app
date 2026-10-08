@@ -126,9 +126,6 @@ public partial class ChildYouthVisitListViewModel : IcmRecordViewModel, IRequest
                 BannerText = string.Format(LocalizedStrings.VisitDueBy, dateInBanner);
                 break;
             case VisitDaysThreshold.Critical:
-                BannerLevel = AlertLevel.Critical;
-                BannerText = string.Format(LocalizedStrings.OverdueVisitOn, dateInBanner);
-                break;
             default:
                 BannerLevel = AlertLevel.Critical;
                 BannerText = string.Format(LocalizedStrings.OverdueVisitOn, dateInBanner);
