@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Events;
 using Visitz.Services;
+using Visitz.Services.AppLogs;
 using Visitz.Services.Caseload;
 using Visitz.Storage;
 using Visitz.Views.AppLock;
@@ -37,6 +38,9 @@ public partial class VisitzApp : Application, IRecipient<AppLockMessage>
         ServiceHandler = ServiceProvider.Current.GetService<ServiceHandler>();
 
         CleanupStaleRecords();
+        var crashLoggingService = ServiceProvider.Current.GetRequiredService<CrashLoggingService>();
+
+        _ = crashLoggingService.ProcessPendingAsync();
     }
 
     protected override Window CreateWindow(IActivationState? activationState)
