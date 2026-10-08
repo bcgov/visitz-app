@@ -141,7 +141,7 @@ public partial class ChildYouthVisitListViewModel : IcmRecordViewModel, IRequest
 
     static void TryRemove(PersonVisit item, ObservableCollection<ChildYouthVisitListItemViewModel> targetList)
     {
-        ChildYouthVisitListItemViewModel? found = targetList.FirstOrDefault(vm => vm.Visit.Id == item.Id);
+        ChildYouthVisitListItemViewModel? found = targetList.FirstOrDefault(vm => vm.Visit == item);
         if (found != null)
             targetList.Remove(found);
     }
