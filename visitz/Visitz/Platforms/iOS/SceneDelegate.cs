@@ -3,6 +3,4 @@ using Foundation;
 namespace Visitz;
 
 [Register("SceneDelegate")]
-public class SceneDelegate : MauiUISceneDelegate
-{
-}
+public class SceneDelegate : MauiUISceneDelegate { }
