@@ -1811,6 +1811,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A private visit has not been recorded yet..
+        /// </summary>
+        public static string NoPrivateVisitsYet {
+            get {
+                return ResourceManager.GetString("NoPrivateVisitsYet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No results for &apos;{0}&apos;.
         /// </summary>
         public static string NoResultsForSearch {

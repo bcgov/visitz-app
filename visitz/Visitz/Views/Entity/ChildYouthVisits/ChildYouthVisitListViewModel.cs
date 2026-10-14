@@ -54,6 +54,9 @@ public partial class ChildYouthVisitListViewModel : IcmRecordViewModel, IRequest
         if (DataRealm == null)
             return;
 
+        // Show the "empty" banner now, since we won't get a callback on an empty collection from the ObservableQuery
+        TryUpdateBanner();
+
         VisitsQuery = new(
             DataRealm,
             PersonVisit.GetVisitsByCaseId(DataRealm, BusinessObject.Id),
@@ -104,38 +107,41 @@ public partial class ChildYouthVisitListViewModel : IcmRecordViewModel, IRequest
 
     private void TryUpdateBanner()
     {
-        if (
-            DataRealm != null
-            && PersonVisit.GetLatestPolicyVisit(DataRealm, BusinessObject.Id) is PersonVisit latestVisit
-        )
-        {
-            SetBannerInfo(latestVisit);
-        }
+        if (DataRealm != null)
+            SetBannerInfo(PersonVisit.GetLatestPolicyVisit(DataRealm, BusinessObject.Id));
     }
 
-    private void SetBannerInfo(PersonVisit personVisit)
+    private void SetBannerInfo(PersonVisit? personVisit)
     {
-        string dateInBanner = personVisit.DueDate.ToString("MMMM d, yyyy");
-        var threshold = personVisit.CurrentDueDateThreshold;
-        switch (threshold)
+        if (personVisit == null)
         {
-            case VisitDaysThreshold.Info:
-                BannerLevel = AlertLevel.Info;
-                BannerText = string.Format(LocalizedStrings.NextVisitDueBy, dateInBanner);
-                break;
-            case VisitDaysThreshold.Warning:
-                BannerLevel = AlertLevel.Warning;
-                BannerText = string.Format(LocalizedStrings.VisitDueBy, dateInBanner);
-                break;
-            case VisitDaysThreshold.Danger:
-                BannerLevel = AlertLevel.Danger;
-                BannerText = string.Format(LocalizedStrings.VisitDueBy, dateInBanner);
-                break;
-            case VisitDaysThreshold.Critical:
-            default:
-                BannerLevel = AlertLevel.Critical;
-                BannerText = string.Format(LocalizedStrings.OverdueVisitOn, dateInBanner);
-                break;
+            BannerLevel = AlertLevel.Warning;
+            BannerText = LocalizedStrings.NoPrivateVisitsYet;
+        }
+        else
+        {
+            string dateInBanner = personVisit.DueDate.ToString("MMMM d, yyyy");
+            var threshold = personVisit.CurrentDueDateThreshold;
+            switch (threshold)
+            {
+                case VisitDaysThreshold.Info:
+                    BannerLevel = AlertLevel.Info;
+                    BannerText = string.Format(LocalizedStrings.NextVisitDueBy, dateInBanner);
+                    break;
+                case VisitDaysThreshold.Warning:
+                    BannerLevel = AlertLevel.Warning;
+                    BannerText = string.Format(LocalizedStrings.VisitDueBy, dateInBanner);
+                    break;
+                case VisitDaysThreshold.Danger:
+                    BannerLevel = AlertLevel.Danger;
+                    BannerText = string.Format(LocalizedStrings.VisitDueBy, dateInBanner);
+                    break;
+                case VisitDaysThreshold.Critical:
+                default:
+                    BannerLevel = AlertLevel.Critical;
+                    BannerText = string.Format(LocalizedStrings.OverdueVisitOn, dateInBanner);
+                    break;
+            }
         }
     }
 

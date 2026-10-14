@@ -1232,4 +1232,7 @@ It is unlikely that the file can be recovered.</value>
   <data name="OtherLanguage" xml:space="preserve">
     <value>Other language</value>
   </data>
+  <data name="NoPrivateVisitsYet" xml:space="preserve">
+    <value>A private visit has not been recorded yet.</value>
+  </data>
 </root>

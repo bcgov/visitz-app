@@ -24,7 +24,6 @@
         <banners:InfoBanner
             Grid.Row="0"
             Margin="{StaticResource DefaultMargin}"
-            IsVisible="{Binding VisitsQuery.HasAnyItems}"
             Level="{Binding BannerLevel}"
             Text="{Binding BannerText}"
         />
