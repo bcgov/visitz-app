@@ -20,13 +20,13 @@ env:
   BUILD_NUM: ${{ inputs.build_number }}
   PROJPATH: "visitz/Visitz"
   GLOBAL_JSON_PATH: "global.json"
-  XCODE_VERSION: "26.6"
+  XCODE_VERSION: "27.0"
 
 jobs:
 
   build-ios-package:
     name: Building, archiving and uploading IPA to GitHub
-    runs-on: macOS-26
+    runs-on: xcode-27
     environment: ${{ inputs.environment }}
     timeout-minutes: 200
     steps:
