@@ -38,9 +38,8 @@ public partial class VisitzApp : Application, IRecipient<AppLockMessage>
         ServiceHandler = ServiceProvider.Current.GetService<ServiceHandler>();
 
         CleanupStaleRecords();
-        var crashLoggingService = ServiceProvider.Current.GetRequiredService<CrashLoggingService>();
 
-        _ = crashLoggingService.ProcessPendingAsync();
+        ProcessCrashLogs();
     }
 
     protected override Window CreateWindow(IActivationState? activationState)
@@ -74,5 +73,10 @@ public partial class VisitzApp : Application, IRecipient<AppLockMessage>
     {
         if (message.Value == AppLockStatus.Closed)
             WeakReferenceMessenger.Default.Send(AutoRefreshService.MakeStartMessage());
+    }
+
+    private static void ProcessCrashLogs()
+    {
+        WeakReferenceMessenger.Default.Send(CrashLoggingService.MakeStartMessage());
     }
 }

@@ -1,57 +1,74 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
+using Realms;
+using Visitz.Services.Base;
+using Visitz.Services.Messages;
+using Visitz.Storage;
 using VisitzModel.Models.Logging;
 
-namespace Visitz.Services.AppLogs
+namespace Visitz.Services.AppLogs;
+
+public class CrashLoggingService(CrashFileStore crashFileStore) : VisitzService
 {
-    public class CrashLoggingService
+    public static StartServiceMessage MakeStartMessage()
     {
-        private readonly CrashFileStore _crashFileStore;
-        private readonly ILogger _logger;
+        return new() { ServiceId = MakeId(), ServiceType = typeof(CrashLoggingService) };
+    }
 
-        public CrashLoggingService(CrashFileStore crashFileStore)
-        {
-            _crashFileStore = crashFileStore;
-            _logger = ServiceProvider.GetService<ILogger<CrashLoggingService>>();
-        }
+    public static string MakeId()
+    {
+        return nameof(CrashLoggingService);
+    }
 
-        public async Task ProcessPendingAsync()
+    public override string GetId()
+    {
+        return MakeId();
+    }
+
+    public async Task ProcessPendingAsync()
+    {
+        using Realm logRealm = await VisitzRealms.GetLogRealmAsync();
+        foreach (string filePath in crashFileStore.GetPendingCrashFiles())
         {
-            foreach (string filePath in _crashFileStore.GetPendingCrashFiles())
+            try
             {
-                try
+                string json = await File.ReadAllTextAsync(filePath);
+
+                CrashRecord? crash = JsonSerializer.Deserialize<CrashRecord>(json);
+
+                if (crash == null)
                 {
-                    string json = await File.ReadAllTextAsync(filePath);
+                    Logger.LogWarning("Unable to deserialize crash file {FilePath}", filePath);
 
-                    CrashRecord? crash = JsonSerializer.Deserialize<CrashRecord>(json);
-
-                    if (crash == null)
-                    {
-                        _logger.LogWarning("Unable to deserialize crash file {FilePath}", filePath);
-
-                        continue;
-                    }
-
-                    // Replay the previous crash through the normal logging pipeline
-                    _logger.LogCritical(
-                        "Recovered crash from previous app run. "
-                            + "Timestamp: {TimestampToLog}, Message: {Message}, StackTrace: {ExceptionText}",
-                        crash.TimestampToLog,
-                        crash.Message,
-                        crash.ExceptionText
-                    );
-
-                    // Successfully processed, so remove the temporary crash file
-                    File.Delete(filePath);
+                    continue;
                 }
-                catch (Exception ex)
+
+                var logEntry = new LogEntry
                 {
-                    _logger.LogError(ex, "Failed to process crash file {FilePath}", filePath);
-                }
+                    LogLevel = LogLevel.Critical,
+                    Source = GetId(),
+                    Timestamp = crash.TimestampUtc,
+                    Message = crash.ExceptionText,
+                };
+
+                await logRealm.WriteAsync(() =>
+                {
+                    logRealm.Add(logEntry);
+                });
+
+                // Successfully processed, so remove the temporary crash file
+                File.Delete(filePath);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Failed to process crash file {FilePath}", filePath);
             }
         }
+    }
+
+    protected override async Task RunServiceAsync()
+    {
+        await ProcessPendingAsync();
+        ResultCode = Result.Successful;
     }
 }

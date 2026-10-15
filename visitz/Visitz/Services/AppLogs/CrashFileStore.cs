@@ -1,60 +1,47 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.Json;
 using VisitzModel.Models.Logging;
 
-namespace Visitz.Services.AppLogs
+namespace Visitz.Services.AppLogs;
+
+public class CrashFileStore
 {
-    public class CrashFileStore
+    private const string CrashDirectoryName = "pending-crashes";
+    private static readonly string s_crashDirectory = Path.Combine(FileSystem.AppDataDirectory, CrashDirectoryName);
+
+    private static readonly JsonSerializerOptions s_jsonOptions = new() { WriteIndented = true };
+
+    public void Initialize()
     {
-        private readonly string _crashDirectory;
+        Directory.CreateDirectory(s_crashDirectory);
+    }
 
-        public CrashFileStore()
-        {
-            _crashDirectory = Path.Combine(FileSystem.AppDataDirectory, "pending-crashes");
-        }
+    public void PersistSynchronously(Exception exception)
+    {
+        var crash = new CrashRecord(
+            Guid.NewGuid(),
+            DateTimeOffset.UtcNow,
+            DeviceInfo.Current.Platform.ToString(),
+            exception.GetType().FullName ?? "Unknown",
+            exception.Message,
+            exception.ToString()
+        );
 
-        public void Initialize()
-        {
-            Directory.CreateDirectory(_crashDirectory);
-        }
+        string json = SerializeCrash(crash);
 
-        public void PersistSynchronously(Exception exception)
-        {
-            var crash = new CrashRecord(
-                Guid.NewGuid(),
-                DateTimeOffset.UtcNow,
-                DeviceInfo.Current.Platform.ToString(),
-                exception.GetType().FullName ?? "Unknown",
-                exception.Message,
-                exception.ToString()
-            );
+        string fileName = $"crash-{DateTime.UtcNow:yyyyMMdd-HHmmss}-{crash.Id}.json";
 
-            string json = JsonSerializer.Serialize(crash, new JsonSerializerOptions { WriteIndented = true });
+        string filePath = Path.Combine(s_crashDirectory, fileName);
 
-            string fileName = $"crash-{DateTime.UtcNow:yyyyMMdd-HHmmss}-{crash.Id}.json";
+        File.WriteAllText(filePath, json);
+    }
 
-            string finalPath = Path.Combine(_crashDirectory, fileName);
+    public IEnumerable<string> GetPendingCrashFiles()
+    {
+        return Directory.EnumerateFiles(s_crashDirectory, "crash-*.json");
+    }
 
-            string tempPath = finalPath + ".tmp";
-
-            using (var stream = new FileStream(tempPath, FileMode.CreateNew, FileAccess.Write, FileShare.None))
-            using (var writer = new StreamWriter(stream))
-            {
-                writer.Write(json);
-
-                writer.Flush();
-
-                stream.Flush(flushToDisk: true);
-            }
-
-            File.Move(tempPath, finalPath);
-        }
-
-        public IEnumerable<string> GetPendingCrashFiles()
-        {
-            return Directory.EnumerateFiles(_crashDirectory, "crash-*.json");
-        }
+    private static string SerializeCrash(CrashRecord crash)
+    {
+        return JsonSerializer.Serialize(crash, s_jsonOptions);
     }
 }
