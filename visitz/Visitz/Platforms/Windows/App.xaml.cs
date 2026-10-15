@@ -6,6 +6,7 @@ using Microsoft.Maui.Controls.Handlers.Items;
 using Microsoft.Windows.AppLifecycle;
 using Oidc.WinWorkaround;
 using Visitz.Platforms.Windows.Visitz;
+using Visitz.Services.AppLogs;
 using Visitz.Views.WebViewer;
 using VisitzModel.Platforms.Windows.Logging;
 using WebAuthenticator = Oidc.WinWorkaround.WebAuthenticator;
@@ -18,6 +19,7 @@ namespace Visitz.WinUI;
 public partial class App : MauiWinUIApplication
 {
     public CancellationTokenSource? AuthCancelTokenSource { get; set; }
+    private CrashFileStore? _crashFileStore;
 
     /// <summary>
     /// Initializes the singleton application object.  This is the first line of authored code
@@ -27,6 +29,8 @@ public partial class App : MauiWinUIApplication
     {
         InitializeComponent();
         UnhandledException += App_UnhandledException;
+
+        AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
         try
         {
@@ -81,11 +85,29 @@ public partial class App : MauiWinUIApplication
         return false;
     }
 
-    protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+    protected override MauiApp CreateMauiApp()
+    {
+        MauiApp app = MauiProgram.CreateMauiApp();
+
+        _crashFileStore = app.Services.GetRequiredService<CrashFileStore>();
+
+        _crashFileStore.Initialize();
+
+        return app;
+    }
 
     private void App_UnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
         WriteExceptionToEventViewer(e.Exception);
+        _crashFileStore?.PersistSynchronously(e.Exception);
+    }
+
+    private void CurrentDomain_UnhandledException(object sender, System.UnhandledExceptionEventArgs e)
+    {
+        if (e.ExceptionObject is Exception exception)
+        {
+            _crashFileStore?.PersistSynchronously(exception);
+        }
     }
 
     private void WriteExceptionToEventViewer(Exception exception)

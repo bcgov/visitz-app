@@ -44,7 +44,7 @@
                 Text="General"
             />
 
-            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
                 <Label
                     StyleClass="DebugLayout,DebugLabel"
                     Grid.Row="0"
@@ -143,6 +143,14 @@
                     Grid.Column="1"
                     Command="{Binding Options.WriteTestingLogsCommand}"
                     Text="Write testing logs"
+                />
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="10"
+                    Grid.Column="1"
+                    Command="{Binding Options.CrashAppCommand}"
+                    Text="Crash App"
                 />
             </Grid>
 
