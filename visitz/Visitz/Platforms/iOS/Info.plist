@@ -49,5 +49,23 @@
 	<string>Camera used for taking pictures to add to records as attachments.</string>
 	<key>UIUserInterfaceStyle</key> <!-- For light mode only -->
 	<string>Light</string>
+	
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+	    <key>UIApplicationSupportsMultipleScenes</key>
+	    <false/>
+	    <key>UISceneConfigurations</key>
+	    <dict>
+	        <key>UIWindowSceneSessionRoleApplication</key>
+	        <array>
+	            <dict>
+	                <key>UISceneConfigurationName</key>
+	                <string>__MAUI_DEFAULT_SCENE_CONFIGURATION__</string>
+	                <key>UISceneDelegateClassName</key>
+	                <string>SceneDelegate</string>
+	            </dict>
+	        </array>
+	    </dict>
+	</dict>
 </dict>
 </plist>

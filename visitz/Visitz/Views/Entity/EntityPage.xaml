@@ -11,8 +11,10 @@
     x:Class="Visitz.Views.Entity.EntityPage"
     x:DataType="entity:EntityPageViewModel"
     x:TypeArguments="entity:EntityPage,entity:EntityPageViewModel"
+    BackgroundColor="{StaticResource BuildBarBackgroundColor}"
+    SafeAreaEdges="Container"
 >
-    <Grid RowDefinitions="Auto,*">
+    <Grid BackgroundColor="White" RowDefinitions="Auto,*">
         <controls:TopAppBar
             Grid.Row="0"
             RowDefinitions="*, *"
