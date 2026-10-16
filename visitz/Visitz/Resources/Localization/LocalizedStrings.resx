@@ -790,15 +790,15 @@ Any drafts for this record are still saved—but won't be accessible until the r
     <value>Child/youth visits</value>
   </data>
   <data name="NextVisitDueBy" xml:space="preserve">
-    <value>Next in-person visit due by {0}.</value>
+    <value>Next private in-person visit due by {0}.</value>
     <comment>0 = Date in format "Month Day, Year"</comment>
   </data>
   <data name="OverdueVisitOn" xml:space="preserve">
-    <value>In-person visit was due on {0}.</value>
+    <value>Private in-person visit was due on {0}.</value>
     <comment>0 = Date in format "Month Day, Year"</comment>
   </data>
   <data name="VisitDueBy" xml:space="preserve">
-    <value>In-person visit due by {0}.</value>
+    <value>Private in-person visit due by {0}.</value>
     <comment>0 = Date in format "Month Day, Year"</comment>
   </data>
   <data name="CreatedBy" xml:space="preserve">
@@ -1091,10 +1091,10 @@ Do you want to download information for this record?</value>
     <value>Due:</value>
   </data>
   <data name="UpcomingVisit" xml:space="preserve">
-    <value>Upcoming child/youth visit</value>
+    <value>Upcoming private child/youth visit</value>
   </data>
   <data name="OverdueVisit" xml:space="preserve">
-    <value>Overdue child/youth visit</value>
+    <value>Overdue private child/youth visit</value>
   </data>
   <data name="RefreshCaseload" xml:space="preserve">
     <value>Refresh caseload</value>
@@ -1231,5 +1231,8 @@ It is unlikely that the file can be recovered.</value>
   </data>
   <data name="OtherLanguage" xml:space="preserve">
     <value>Other language</value>
+  </data>
+  <data name="NoPrivateVisitsYet" xml:space="preserve">
+    <value>A private visit has not been recorded yet.</value>
   </data>
 </root>

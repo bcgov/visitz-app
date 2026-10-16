@@ -42,6 +42,12 @@ public partial class InfoBanner : ContentView
 
         switch (newLevel)
         {
+            case AlertLevel.Success:
+                banner.BackgroundColor = VisitzColors.AlertBannerSuccessBackground;
+                banner.IconLabel.Text = MaterialIcons.Check_circle;
+                banner.IconLabel.TextColor = VisitzColors.AlertBannerSuccessPrimary;
+                banner.Border.Stroke = VisitzColors.AlertBannerSuccessPrimary;
+                break;
             case AlertLevel.Info:
                 banner.BackgroundColor = VisitzColors.AlertBannerInfoBackground;
                 banner.IconLabel.Text = MaterialIcons.Info;
@@ -50,7 +56,7 @@ public partial class InfoBanner : ContentView
                 break;
             case AlertLevel.Warning:
                 banner.BackgroundColor = VisitzColors.AlertBannerWarningBackground;
-                banner.IconLabel.Text = MaterialIcons.Error;
+                banner.IconLabel.Text = MaterialIcons.Warning;
                 banner.IconLabel.TextColor = VisitzColors.AlertBannerWarningPrimary;
                 banner.Border.Stroke = VisitzColors.AlertBannerWarningPrimary;
                 break;
@@ -62,12 +68,11 @@ public partial class InfoBanner : ContentView
                 break;
             case AlertLevel.Critical:
                 banner.BackgroundColor = VisitzColors.AlertBannerCriticalBackground;
-                banner.IconLabel.Text = MaterialIcons.Error;
+                banner.IconLabel.Text = MaterialIcons.Report;
                 banner.IconLabel.TextColor = VisitzColors.AlertBannerCriticalPrimary;
                 banner.Border.Stroke = VisitzColors.AlertBannerCriticalPrimary;
                 break;
             case AlertLevel.Unknown:
-            case AlertLevel.Success:
             default:
                 throw new NotImplementedException(newLevel.ToString());
         }

@@ -165,7 +165,7 @@ public partial class NavRailViewModel : VisitzViewModel
             (sender, changes) =>
             {
                 int updatedCount = PersonVisit
-                    .GetLatestVisitsPerParentRecord(_icmDataRealm)
+                    .GetLatestPolicyVisitsPerParentRecord(_icmDataRealm)
                     .Count(PersonVisit.IsUpcomingVisit);
                 StrongReferenceMessenger.Default.Send(new TodoBadgeCountMessage(updatedCount));
 

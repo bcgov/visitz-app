@@ -38,7 +38,7 @@ public partial class TodoListViewModel : VisitzViewModel
         DataRealm = await VisitzRealms.GetIcmDataRealmAsync();
 
         _queryMap.ItemsChanged += QueryMap_ItemsChanged;
-        _queryMap.Subscribe(DataRealm, PersonVisit.GetLatestVisitsPerParentRecord(DataRealm));
+        _queryMap.Subscribe(DataRealm, PersonVisit.GetLatestPolicyVisitsPerParentRecord(DataRealm));
     }
 
     bool disposed;

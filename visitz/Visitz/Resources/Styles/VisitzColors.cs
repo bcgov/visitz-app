@@ -106,6 +106,8 @@ public static class VisitzColors
     public static readonly Color LightGrayBackground = TryGetColor(nameof(LightGrayBackground));
     public static readonly Color SkyBlueText = TryGetColor(nameof(SkyBlueText));
 
+    public static readonly Color AlertBannerSuccessPrimary = TryGetColor(nameof(AlertBannerSuccessPrimary));
+    public static readonly Color AlertBannerSuccessBackground = TryGetColor(nameof(AlertBannerSuccessBackground));
     public static readonly Color AlertBannerInfoPrimary = TryGetColor(nameof(AlertBannerInfoPrimary));
     public static readonly Color AlertBannerInfoBackground = TryGetColor(nameof(AlertBannerInfoBackground));
     public static readonly Color AlertBannerWarningPrimary = TryGetColor(nameof(AlertBannerWarningPrimary));
