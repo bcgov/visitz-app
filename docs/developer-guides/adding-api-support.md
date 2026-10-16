@@ -28,7 +28,7 @@ Once API support is available at both levels above we can finally implement supp
 
 Communication with Visitz API is handled by the [VisitzApi csproject](../../visitz/VisitzApi).
 
-It uses `internal` [`VisitzBaseEndpoint`](../../visitz/VisitzApi/Endpoints)s to set up how to connect to specific APIs. Each HTTP verb gets its own endpoint class, even if they use the same URL route (e.g. `GetAttachmentsEndpoint` & `SubmitAttachmentEndpoint`).
+It uses `internal` [`VisitzBaseEndpoint`](../../visitz/VisitzApi/Endpoints)s to set up how to connect to specific APIs. Each HTTP verb gets its own endpoint class, even if they use the same URL route (e.g. `GetAttachmentsEndpoint` & `PostAttachmentEndpoint`).
 
 Use [Pagination](../../visitz/VisitzApi/Requests/Pagination.cs) to facilitate request pagination.
 
