@@ -22,11 +22,11 @@ Any ICM API that is available must be added as a VPI endpoint to be used in Visi
 
 ## Visitz app internal backend support
 
-Once API support is available at both levels above we can finally implement support for it in the app itself.
+Once external API support is available at both levels above we can finally implement support for it in the app itself.
 
 ### Connect to Visitz API backend
 
-Communication with Visitz API is handled by the [VisitzApi csproject](../../visitz/VisitzApi).
+Communication with Visitz API is handled by the [VisitzApi csproject](../../visitz/VisitzApi). The code in this csproject is Visitz' side of interacting with the API, it does not contain the actual TypeScript API code (see [Visitz API external backend support](#visitz-api-external-backend-support)).
 
 It uses `internal` [`VisitzBaseEndpoint`](../../visitz/VisitzApi/Endpoints)s to set up how to connect to specific APIs. Each HTTP verb gets its own endpoint class, even if they use the same URL route (e.g. `GetAttachmentsEndpoint` & `PostAttachmentEndpoint`).
 
@@ -47,10 +47,12 @@ JSON models for parsing responses and creating requests are in [VisitzApi.Models
 ### Storing data on device
 
 Data is stored encrypted using [MongoDB Dotnet Realm](https://www.mongodb.com/docs/atlas/device-sdks/sdk/dotnet) ([GitHub repo](https://github.com/realm/realm-dotnet)).
+---
+
 
 Database models are in [VisitzModel.Models](../../visitz/VisitzModel/Models).  You will most likely need to create new models for your use-case. It's recommended to use the same database model for storing both ICM data and user drafts.
 
-When creating a new model (a class that implements `IRealmObject`), be sure to annotate the class declaration so binding properties can be automatically generated (see the example later in this doc). We use the generated properties to bind models to the UI without causing errors.
+When creating a new model (a class that implements `IRealmObject`), be sure to annotate the class declaration so binding properties can be automatically generated (see [Example](#example) later in this doc). We use the generated properties to bind models to the UI without causing errors.
 
 #### ICM data
 
@@ -63,6 +65,8 @@ User-generated data, like drafts, goes into the `UserData` Realm.
 Historically, each draft type would get its own Realm to reduce the blast radius in case a Realm got corrupted, but there have been no reports of this happening in the wild. The added complexity to support this is not worth it, so when feasible, we want to migrate user drafts into `UserData`.
 
 ### Services to drive API requests and processing
+
+---
 
 Visitz app uses `VisitzService`s (and derived types) to drive all of its API calls + processing, background work, and any long-running task:
 
