@@ -24,6 +24,58 @@ Any ICM API that is available must be added as a VPI endpoint to be used in Visi
 
 Once external API support is available at both levels above we can finally implement support for it in the app itself.
 
+### Visual overview
+
+```mermaid
+flowchart TD
+    start([Start])
+    exApi[External API]
+    vpi[VPI]
+    models[DB Models]
+    ui[User interface]
+    svcs[API Services]
+    db[(Local database)]
+
+    subgraph visitz[Visitz C# project]
+        style visitz fill:#004400
+        ui
+        svcs
+    end
+
+    subgraph visitzApi[VisitzApi C# project]
+        style visitzApi fill:#004F52
+       vpi
+    end
+
+    subgraph visitzModel[VisitzModel C# project]
+        style visitzModel fill:#00025C
+        models
+    end
+
+    subgraph local[Local device]
+        db
+        visitz
+        visitzApi
+        visitzModel
+    end
+
+    subgraph internet[Internet]
+        exApi
+    end
+
+    start -->|Initiate API call| ui
+
+    ui --> |Subscribe to database changes| models
+    ui --> |Invoke serivce| svcs
+
+    svcs <--> |1. Get data #40;in parallel#41;| vpi
+    svcs --> |2. Store data #40;serially#41;| models
+
+    vpi <--> |Make network call| exApi
+
+    models <--> |Synchronize existing data| db
+    models --> |Notify subscribers of changed data| ui
+```
 ### Connect to Visitz API backend
 
 Communication with Visitz API is handled by the [VisitzApi csproject](../../visitz/VisitzApi). The code in this csproject is Visitz' side of interacting with the API, it does not contain the actual TypeScript API code (see [Visitz API external backend support](#visitz-api-external-backend-support)).
