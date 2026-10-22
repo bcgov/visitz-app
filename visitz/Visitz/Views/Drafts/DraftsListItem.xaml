@@ -43,7 +43,6 @@
                 </Grid.Resources>
 
                 <Label
-                    x:Name="Icon"
                     Grid.Column="0"
                     Grid.RowSpan="3"
                     VerticalOptions="Center"
@@ -51,6 +50,7 @@
                     FontAutoScalingEnabled="False"
                     FontFamily="MaterialIconsRoundedUnfilled"
                     FontSize="24"
+                    Text="{Binding IconGlyph}"
                 />
 
                 <Label
