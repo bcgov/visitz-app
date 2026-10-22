@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:converters="clr-namespace:Visitz.Converters"
-    xmlns:draftsModels="clr-namespace:VisitzModel.Models.Drafts;assembly=VisitzModel"
     xmlns:drafts="clr-namespace:Visitz.Views.Drafts"
     xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
@@ -12,14 +11,14 @@
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:tagViews="clr-namespace:Visitz.Views.TagViews"
     x:Class="Visitz.Views.Drafts.DraftsListItem"
-    x:DataType="draftsModels:IDraftItem"
+    x:DataType="drafts:DraftListItemViewModel"
 >
     <ContentView.GestureRecognizers>
         <TapGestureRecognizer
             Command="{Binding Source={RelativeSource
                     AncestorType={x:Type drafts:DraftsListViewModel}},
                     Path=DraftItemSelectedCommand}"
-            CommandParameter="{Binding .}"
+            CommandParameter="{Binding Draft}"
         />
     </ContentView.GestureRecognizers>
 
@@ -59,14 +58,14 @@
                     Grid.Row="0"
                     VerticalOptions="Center"
                     FontFamily="BCSansBold"
-                    Text="{Binding DraftLocation}"
+                    Text="{Binding Draft.DraftLocation}"
                 />
 
                 <Label
                     Grid.Column="1"
                     Grid.Row="1"
                     VerticalOptions="Center"
-                    Text="{Binding Preview}"
+                    Text="{Binding Draft.Preview}"
                     MaxLines="1"
                     LineBreakMode="TailTruncation"
                 />
@@ -83,14 +82,13 @@
                     />
 
                     <Label
-                        Text="{Binding LastUpdated.LocalDateTime,
+                        Text="{Binding Draft.LastUpdated.LocalDateTime,
                                 Converter={StaticResource ShortTimestampConverter}}"
                         TextColor="{StaticResource BC_TextColor_Lighter}"
                     />
                 </HorizontalStackLayout>
 
                 <Label
-                    x:DataType="interfaces:IRecordInfo"
                     Style="{StaticResource Indicator}"
                     FontSize="20"
                     FontFamily="MaterialIconsRoundedUnfilled"
@@ -100,7 +98,6 @@
                 />
 
                 <Label
-                    x:DataType="interfaces:IRecordInfo"
                     Style="{StaticResource Indicator}"
                     FontSize="20"
                     BackgroundColor="White"
@@ -119,16 +116,14 @@
                 />
 
                 <tagViews:EntityTypeBadge
-                    x:DataType="interfaces:IRecordInfo"
                     Grid.Column="3"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
-                    EntityType="{Binding RelatedEntityType}"
-                    EntitySubtype="{Binding RelatedEntitySubtype}"
+                    EntityType="{Binding Draft.RelatedEntityType}"
+                    EntitySubtype="{Binding Draft.RelatedEntitySubtype}"
                 />
 
                 <ContentView
-                    x:DataType="interfaces:IRecordInfo"
                     Grid.Column="0"
                     Grid.ColumnSpan="4"
                     Grid.Row="0"
