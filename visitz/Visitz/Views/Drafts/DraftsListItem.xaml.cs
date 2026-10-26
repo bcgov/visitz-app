@@ -1,15 +1,9 @@
-using Microsoft.Extensions.Logging;
-using Visitz.FontIcons;
 using Visitz.Services.Base;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
-using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
-using VisitzModel.Models.InPersonVisits;
-using VisitzModel.Models.Notes;
-using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Drafts;
 
@@ -28,35 +22,18 @@ public partial class DraftsListItem : BaseContentView
     {
         base.OnBindingContextChanged();
 
-        if (BindingContext is IDraftItem item)
+        if (BindingContext is DraftListItemViewModel item)
         {
-            Icon.Text = GetIconGlyph(item);
-
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-            if (item.GetRelatedBusinessObjectFrom(realm) is IBusinessObject record)
+            if (item.Draft.GetRelatedBusinessObjectFrom(realm) is IBusinessObject record)
                 _activityListener.RegisterForMessages(record);
         }
         else
         {
-            Icon.Text = string.Empty;
             _activityListener.UnregisterFromMessages();
         }
 
         UpdateDownloadActivityIndicator();
-    }
-
-    static string GetIconGlyph(IDraftItem item)
-    {
-        if (item is PersonVisitDraft)
-            return MaterialIcons.Person_pin_circle;
-        else if (item is NoteDraft)
-            return MaterialIcons.Edit_document;
-        else if (item is AssessmentDraft)
-            return MaterialIcons.Assignment;
-        else if (item is AttachmentDraft)
-            return MaterialIcons.Attachment;
-        else
-            return MaterialIcons.Unknown_document;
     }
 
     void ActivityListener_Started(object? sender, EventArgs e)
