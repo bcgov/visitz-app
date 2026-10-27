@@ -27,6 +27,8 @@ internal static class VisitzRealms
     public static async Task<PersonVisitDrafts> GetPersonVisitDraftsAsync() =>
         new PersonVisitDrafts(await GetKey(PersonVisitDrafts.Name));
 
+    public static async Task<UserData> GetUserDataAsync() => new UserData(await GetKey(UserData.Name));
+
     public static async Task<Realm> GetNoteDraftsRealmAsync() =>
         await (await GetNoteDraftsAsync()).GetAsync(ServiceProvider.GetService<ILogger<NoteDrafts>>());
 
@@ -46,6 +48,9 @@ internal static class VisitzRealms
 
     public static async Task<Realm> GetPersonVisitDraftsRealmAsync() =>
         await (await GetPersonVisitDraftsAsync()).GetAsync(ServiceProvider.GetService<ILogger<PersonVisitDrafts>>());
+
+    public static async Task<Realm> GetUserDataRealmAsync() =>
+        await (await GetUserDataAsync()).GetAsync(ServiceProvider.GetService<ILogger<UserData>>());
 
     public static Task EnqueueIcmDataActionAsync(Func<Realm, Task> task)
     {
