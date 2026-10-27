@@ -1,0 +1,43 @@
+using RealmBindings;
+using Realms;
+using VisitzModel.Models.Drafts;
+using VisitzModel.Models.EntityTypes;
+
+namespace VisitzModel.Models.People;
+
+[GenerateRealmBindings]
+public partial class ContactLanguageDraft : IRealmObject, IDraftItem
+{
+    [PrimaryKey]
+    public string DraftEntityId { get; set; } = Guid.NewGuid().ToString();
+
+    public ContactLanguage? ContactLanguage { get; set; } = new();
+
+    public DateTimeOffset DraftCreated { get; set; } = DateTimeOffset.Now;
+
+    public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
+
+    public DateTimeOffset LastUpdatedBinding { get; set; }
+
+    public string Preview => ContactLanguage?.LanguageNameBinding ?? string.Empty;
+
+    public string DraftLocation { get; set; } = string.Empty;
+
+    public string RelatedEntityId { get; set; } = string.Empty;
+
+    internal int RelatedEntityTypeInt { get; set; } = (int)EntityType.Case;
+
+    public EntityType RelatedEntityType
+    {
+        get => (EntityType)RelatedEntityTypeInt;
+        set => RelatedEntityTypeInt = (int)value;
+    }
+
+    internal int RelatedEntitySubtypeInt { get; set; } = (int)EntitySubtype.ChildServices;
+
+    public EntitySubtype RelatedEntitySubtype
+    {
+        get => (EntitySubtype)RelatedEntitySubtypeInt;
+        set => RelatedEntitySubtypeInt = (int)value;
+    }
+}
