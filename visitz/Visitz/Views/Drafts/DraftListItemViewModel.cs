@@ -8,6 +8,7 @@ using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Notes;
+using VisitzModel.Models.People;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Drafts;
@@ -78,6 +79,12 @@ public partial class DraftListItemViewModel(IDraftItem draft) : VisitzViewModel,
             return MaterialIcons.Assignment;
         else if (item is AttachmentDraft)
             return MaterialIcons.Attachment;
+        else if (item is ContactEducationDraft)
+            return MaterialIcons.School;
+        else if (item is ContactLanguageDraft)
+            return MaterialIcons.Globe;
+        else if (item is ContactMedicalBehavioralDraft)
+            return MaterialIcons.Monitor_heart;
         else
             return MaterialIcons.Unknown_document;
     }

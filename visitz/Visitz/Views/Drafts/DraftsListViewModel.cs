@@ -19,6 +19,7 @@ using VisitzModel.Models.Drafts;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.Notes;
+using VisitzModel.Models.People;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Drafts;
@@ -37,6 +38,12 @@ public partial class DraftsListViewModel : VisitzViewModel
     ObservableQuery<NoteDraft, DraftListItemViewModel>? _noteDrafts;
 
     ObservableQuery<PersonVisitDraft, DraftListItemViewModel>? _visitDrafts;
+
+    ObservableQuery<ContactEducationDraft, DraftListItemViewModel>? _contactEducationDrafts;
+
+    ObservableQuery<ContactLanguageDraft, DraftListItemViewModel>? _contactLanguageDrafts;
+
+    ObservableQuery<ContactMedicalBehavioralDraft, DraftListItemViewModel>? _contactMedicalBehavioralDrafts;
 
     [ObservableProperty]
     public partial ObservableCollection<DraftListItemViewModel> AllDraftItems { get; set; } = [];
@@ -70,44 +77,21 @@ public partial class DraftsListViewModel : VisitzViewModel
         Task<Realm> attachmentsTask = VisitzRealms.GetAttachmentDraftsRealmAsync();
         Task<Realm> notesTask = VisitzRealms.GetNoteDraftsRealmAsync();
         Task<Realm> visitsTask = VisitzRealms.GetPersonVisitDraftsRealmAsync();
+        Task<Realm> userDataTask = VisitzRealms.GetUserDataRealmAsync();
 
         Realm assessmentsRealm = await assessmentsTask;
         Realm attachmentsRealm = await attachmentsTask;
         Realm notesRealm = await notesTask;
         Realm visitsRealm = await visitsTask;
+        Realm userDataRealm = await userDataTask;
 
-        _assessmentDrafts = new(
-            assessmentsRealm,
-            assessmentsRealm.All<AssessmentDraft>(),
-            AllDraftItems,
-            AddDraftItem,
-            RemoveDraftItem,
-            ItemsChanged
-        );
-        _attachmentDrafts = new(
-            attachmentsRealm,
-            attachmentsRealm.All<AttachmentDraft>(),
-            AllDraftItems,
-            AddDraftItem,
-            RemoveDraftItem,
-            ItemsChanged
-        );
-        _noteDrafts = new(
-            notesRealm,
-            notesRealm.All<NoteDraft>(),
-            AllDraftItems,
-            AddDraftItem,
-            RemoveDraftItem,
-            ItemsChanged
-        );
-        _visitDrafts = new(
-            visitsRealm,
-            visitsRealm.All<PersonVisitDraft>(),
-            AllDraftItems,
-            AddDraftItem,
-            RemoveDraftItem,
-            ItemsChanged
-        );
+        _assessmentDrafts = MakeQuery(assessmentsRealm, assessmentsRealm.All<AssessmentDraft>());
+        _attachmentDrafts = MakeQuery(attachmentsRealm, attachmentsRealm.All<AttachmentDraft>());
+        _noteDrafts = MakeQuery(notesRealm, notesRealm.All<NoteDraft>());
+        _visitDrafts = MakeQuery(visitsRealm, visitsRealm.All<PersonVisitDraft>());
+        _contactEducationDrafts = MakeQuery(userDataRealm, userDataRealm.All<ContactEducationDraft>());
+        _contactLanguageDrafts = MakeQuery(userDataRealm, userDataRealm.All<ContactLanguageDraft>());
+        _contactMedicalBehavioralDrafts = MakeQuery(userDataRealm, userDataRealm.All<ContactMedicalBehavioralDraft>());
     }
 
     protected override void Dispose(bool disposing)
@@ -120,11 +104,30 @@ public partial class DraftsListViewModel : VisitzViewModel
             _attachmentDrafts?.Dispose();
             _noteDrafts?.Dispose();
             _visitDrafts?.Dispose();
+            _contactEducationDrafts?.Dispose();
+            _contactLanguageDrafts?.Dispose();
+            _contactMedicalBehavioralDrafts?.Dispose();
 
             _disposed = true;
         }
 
         base.Dispose(disposing);
+    }
+
+    ObservableQuery<TQueryObject, DraftListItemViewModel> MakeQuery<TQueryObject>(
+        Realm realm,
+        IQueryable<TQueryObject> query
+    )
+        where TQueryObject : IDraftItem
+    {
+        return new ObservableQuery<TQueryObject, DraftListItemViewModel>(
+            realm,
+            query,
+            AllDraftItems,
+            addItem: static (item, target) => AddDraftItem(item, target),
+            removeItem: static (item, target) => RemoveDraftItem(item, target),
+            ItemsChanged
+        );
     }
 
     static void AddDraftItem(IDraftItem item, ObservableCollection<DraftListItemViewModel> drafts)
@@ -186,6 +189,12 @@ public partial class DraftsListViewModel : VisitzViewModel
             SectionToOpen = EntitySection.Attachments;
         else if (type == typeof(PersonVisitDraft))
             SectionToOpen = EntitySection.ChildYouthVisitsEntry;
+        else if (type == typeof(ContactEducationDraft))
+            SectionToOpen = EntitySection.ContactEducation;
+        else if (type == typeof(ContactLanguageDraft))
+            SectionToOpen = EntitySection.ContactLanguages;
+        else if (type == typeof(ContactMedicalBehavioralDraft))
+            SectionToOpen = EntitySection.ContactMedicalBehavioral;
 
         if (draftItem.GetRelatedBusinessObjectFrom(DataRealm) is IBusinessObject bobj)
             await MarkForDownloadAndTryOpen(bobj, draftItem);
