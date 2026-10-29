@@ -33,4 +33,6 @@ internal static class VisitzDimensions
     public static readonly double DefaultMargin = TryGetDimension(nameof(DefaultMargin));
 
     public static readonly double DefaultMarginDouble = TryGetDimension(nameof(DefaultMarginDouble));
+
+    public static readonly double ButtonFontImageSourceSize = TryGetDimension(nameof(ButtonFontImageSourceSize));
 }
