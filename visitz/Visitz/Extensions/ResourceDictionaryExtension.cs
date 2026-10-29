@@ -22,4 +22,15 @@ public static class ResourceDictionaryExtension
         resources.TryGetValue(key, out var shadow);
         return shadow as Shadow ?? fallback ?? throw new ArgumentNullException(nameof(fallback));
     }
+
+    public static TResourceType? TryGetResource<TResourceType>(
+        this ResourceDictionary resources,
+        string key,
+        TResourceType? fallback = null
+    )
+        where TResourceType : class
+    {
+        resources.TryGetValue(key, out object value);
+        return value as TResourceType ?? fallback;
+    }
 }
