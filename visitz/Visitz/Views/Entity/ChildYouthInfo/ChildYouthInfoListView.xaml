@@ -2,6 +2,7 @@
 <base:IcmRecordContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:actionButton="clr-namespace:Visitz.Controls.ActionButton"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:childYouthInfo="clr-namespace:Visitz.Views.Entity.ChildYouthInfo"
     xmlns:controls="clr-namespace:Visitz.Controls"
@@ -13,16 +14,15 @@
     x:DataType="childYouthInfo:ChildYouthInfoListViewModel"
     x:TypeArguments="childYouthInfo:ChildYouthInfoListViewModel"
 >
-    <AbsoluteLayout>
+    <Grid RowDefinitions="*,0.5,Auto">
         <ActivityIndicator
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            AbsoluteLayout.LayoutBounds="0.5,0.5"
+            Grid.Row="0"
             HorizontalOptions="Center"
             VerticalOptions="Center"
             IsRunning="{Binding IsLoading}"
         />
 
-        <ScrollView AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+        <ScrollView Grid.Row="0">
             <VerticalStackLayout>
                 <ContentView x:Name="DummyItemForSpacing" />
 
@@ -124,5 +124,24 @@
                 </childYouthInfo:ExpandableSection>
             </VerticalStackLayout>
         </ScrollView>
-    </AbsoluteLayout>
+
+        <BoxView Grid.Row="1" Color="{StaticResource SeparatorColor}" />
+
+        <Grid Grid.Row="2" Padding="{StaticResource DefaultPadding}">
+            <actionButton:ActionButton
+                Grid.Column="2"
+                Text="{local:Localize Add}"
+                HorizontalOptions="End"
+                MenuOptions="{Binding FabOptions}"
+            >
+                <actionButton:ActionButton.ImageSource>
+                    <FontImageSource
+                        Glyph="{Static fontIcons:MaterialIcons.Add}"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        Size="20"
+                    />
+                </actionButton:ActionButton.ImageSource>
+            </actionButton:ActionButton>
+        </Grid>
+    </Grid>
 </base:IcmRecordContentView>
