@@ -3,6 +3,37 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Visitz.Controls"
-    xmlns:fab="clr-namespace:Visitz.Controls.FloatingActionButton"
+    xmlns:actionButton="clr-namespace:Visitz.Controls.ActionButton"
 >
+    <DataTemplate x:Key="ActionButtonMenuDataTemplate">
+        <VerticalStackLayout
+            BindableLayout.ItemsSource="{Binding MenuOptions}"
+            HorizontalOptions="End"
+            Spacing="{StaticResource DefaultSpacing}"
+        >
+            <VerticalStackLayout.Margin>
+                <Thickness
+                    Left="{StaticResource DefaultMargin}"
+                    Right="{StaticResource DefaultMargin}"
+                />
+            </VerticalStackLayout.Margin>
+            <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="actionButton:ActionButtonOption">
+                    <Border
+                        Background="White"
+                        StrokeShape="RoundRectangle 8"
+                        HorizontalOptions="End"
+                        StrokeThickness="0"
+                    >
+                        <Button
+                            Command="{Binding Command}"
+                            ImageSource="{Binding Icon}"
+                            Style="{StaticResource SecondaryButtonLight}"
+                            Text="{Binding Text}"
+                        />
+                    </Border>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </VerticalStackLayout>
+    </DataTemplate>
 </ResourceDictionary>
