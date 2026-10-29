@@ -152,7 +152,11 @@
         BasedOn="{StaticResource PrimaryButtonLight}"
     />
 
-    <Style TargetType="Button" BasedOn="{StaticResource PrimaryButton}" />
+    <Style
+        TargetType="Button"
+        BasedOn="{StaticResource PrimaryButton}"
+        ApplyToDerivedTypes="True"
+    />
 
     <Style
         TargetType="Button"
