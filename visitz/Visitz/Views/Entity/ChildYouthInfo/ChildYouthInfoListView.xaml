@@ -130,17 +130,17 @@
         <Grid Grid.Row="2" Padding="{StaticResource DefaultPadding}">
             <actionButton:ActionButton
                 Grid.Column="2"
-                Text="{local:Localize Add}"
+                RequestedText="{local:Localize Add}"
                 HorizontalOptions="End"
                 MenuOptions="{Binding FabOptions}"
             >
-                <actionButton:ActionButton.ImageSource>
+                <actionButton:ActionButton.RequestedImageSource>
                     <FontImageSource
                         Glyph="{Static fontIcons:MaterialIcons.Add}"
                         FontFamily="MaterialIconsRoundedUnfilled"
                         Size="20"
                     />
-                </actionButton:ActionButton.ImageSource>
+                </actionButton:ActionButton.RequestedImageSource>
             </actionButton:ActionButton>
         </Grid>
     </Grid>
