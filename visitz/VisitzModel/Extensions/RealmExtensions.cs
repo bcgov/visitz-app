@@ -90,6 +90,9 @@ public static class RealmExtensions
         if (currentItems.Count == 0 && !incomingItems.Any())
             return;
 
+        if (updateMapper != null || updateComparer != null)
+            currentItems.Sort(updateComparer);
+
         List<TSource> deleteItems = currentItems.Except(incomingItems, equalityComparer).ToList();
         List<TSource> insertItems = incomingItems.Except(currentItems, equalityComparer).ToList();
         List<TSource> updateItems = incomingItems.Intersect(currentItems, equalityComparer).ToList();
