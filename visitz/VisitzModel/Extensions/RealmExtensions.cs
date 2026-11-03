@@ -75,7 +75,7 @@ public static class RealmExtensions
     public static async Task SynchronizeByQueryAsync<TSource>(
         this Realm realm,
         IEnumerable<TSource> incomingItems,
-        IQueryable<TSource> existingQuery,
+        IEnumerable<TSource> existingQuery,
         IEqualityComparer<TSource>? equalityComparer = null,
         Action<TSource>? beforeDelete = null,
         UpdateMapper<TSource>? updateMapper = null,
