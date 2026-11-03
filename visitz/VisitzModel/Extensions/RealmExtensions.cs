@@ -52,25 +52,39 @@ public static class RealmExtensions
     public delegate void UpdateMapper<TSource>(TSource existing, TSource incoming);
 
     /// <summary>
-    /// <para>Takes in an IEnumerable of new items to synchronize a database with—based on a
-    /// current-state query from the database.</para>
-    /// <para>"Synchronizing" in this context means deleting existing items not present in the
-    /// incoming data, updating common items, and adding new items that don't currently exist in
-    /// the query.</para>
+    /// <para>
+    /// Synchronizes a new (incoming) collection of items with a scoped query of existing items from a local Realm
+    /// database.
+    /// </para>
+    ///
+    /// <para>
+    /// "Synchronizing" in this context means deleting existing items not present in the
+    /// incoming data, updating common items with new info, and adding new items that don't currently exist in
+    /// the query.
+    /// </para>
+    ///
+    /// <para>
+    /// "Scoped" specifically means <b>existingQuery</b> should be intentionally limited to a specific range of items
+    /// that are relevant to <b>incomingItems</b>. Scope is typically all items for a single parent record, like all
+    /// Notes for a given Case, but is not required to be so.
+    /// </para>
     /// </summary>
     /// <typeparam name="TSource"></typeparam>
     /// <param name="realm">The database to synchronize.</param>
-    /// <param name="existingQuery">The current TSource objects in the database used for synchronization
-    /// operations.</param>
-    /// <param name="incomingItems">New TSource items to be synchronized into the database.</param>
-    /// <param name="equalityComparer">Used to specify equality for incoming/existing set
-    /// operations. Uses default if null.</param>
+    /// <param name="incomingItems">New TSource items to be synchronized into the database in relation to
+    /// <b>existingQuery</b>.</param>
+    /// <param name="existingQuery">A scoped range of already-existing TSource objects in the local database that
+    /// <b>incomingItems</b> uses for set operations.</param>
+    /// <param name="equalityComparer">Used to specify equality for set operations between <b>incomingItems</b> and
+    /// <b>existingQuery</b>. Remember to provide an implementation that also implements GetHashCode. Uses default if
+    /// null.</param>
     /// <param name="beforeDelete">Used for running operations on a TSource object before it's
-    /// deleted.</param>
-    /// <param name="updateMapper">Used to explicitly map TSource properties from new ➡️ current.
+    /// removed from the provided realm.</param>
+    /// <param name="updateMapper">Used to explicitly map TSource properties from incoming ➡️ existing.
     /// If null, TSource is upserted instead.</param>
-    /// <param name="updateComparer">Used to find existing objects to update
-    /// only if updateMapper is not null. TSource's default comparer is used if null.</param>
+    /// <param name="updateComparer">Used for sorting and binary searching <b>existingQuery</b>'s results to run
+    /// <b>updateMapper</b> against. TSource's default comparer is used if null. Only used if <b>updateMapper</b> is
+    /// not null.</param>
     /// <returns></returns>
     public static async Task SynchronizeByQueryAsync<TSource>(
         this Realm realm,
