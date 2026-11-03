@@ -123,7 +123,7 @@ public class CaseRecordTests
         Assert.DoesNotContain(name, @case.Assignees);
     }
 
-    static async Task<IEnumerable<CaseRecord>> GetByAssignee(string name, bool isPersonalCaseload)
+    static async Task<IEnumerable<CaseRecord>> SynchronizeAndGetByAssignee(string name, bool isPersonalCaseload)
     {
         var realm = await TestingUtilities.MakeRealm<CaseRecordTests>();
         List<CaseRecord> cases = [new CaseRecord(CaseJson), new() { Id = "23456" }];
@@ -141,7 +141,7 @@ public class CaseRecordTests
     [InlineData(SecondaryName)]
     public async Task PersonalCaseloadSearchableByAssignee(string name)
     {
-        var cases = await GetByAssignee(name, isPersonalCaseload: true);
+        var cases = await SynchronizeAndGetByAssignee(name, isPersonalCaseload: true);
         foreach (var @case in cases)
             Assert.Contains(name, @case.Assignees);
     }
@@ -151,7 +151,7 @@ public class CaseRecordTests
     [InlineData(SecondaryName)]
     public async Task OfficeCaseloadMissingRecordsWithAssignee(string name)
     {
-        var cases = await GetByAssignee(name, isPersonalCaseload: false);
+        var cases = await SynchronizeAndGetByAssignee(name, isPersonalCaseload: false);
         foreach (var @case in cases)
             Assert.DoesNotContain(name, @case.Assignees);
     }
