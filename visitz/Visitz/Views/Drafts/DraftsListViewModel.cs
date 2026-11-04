@@ -17,7 +17,6 @@ using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.InPersonVisits;
-using VisitzModel.Models.Interfaces;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.Notes;
 using VisitzModel.Models.SafetyAssess;
@@ -31,21 +30,19 @@ public partial class DraftsListViewModel : VisitzViewModel
     [ObservableProperty]
     public partial bool ShowEmptyView { get; set; }
 
-    [ObservableProperty]
-    public partial ObservableCollection<IDraftItem> FilteredItems { get; set; } = [];
+    ObservableQuery<AssessmentDraft, DraftListItemViewModel>? _assessmentDrafts;
+
+    ObservableQuery<AttachmentDraft, DraftListItemViewModel>? _attachmentDrafts;
+
+    ObservableQuery<NoteDraft, DraftListItemViewModel>? _noteDrafts;
+
+    ObservableQuery<PersonVisitDraft, DraftListItemViewModel>? _visitDrafts;
 
     [ObservableProperty]
-    public partial ObservableCollection<IDraftItem> AllDraftItems { get; set; } = [];
+    public partial ObservableCollection<DraftListItemViewModel> AllDraftItems { get; set; } = [];
 
-    ObservableCollection<AssessmentDraft> AssessmentDrafts { get; set; } = [];
-
-    ObservableCollection<AttachmentDraft> AttachmentDrafts { get; set; } = [];
-
-    ObservableCollection<NoteDraft> NoteDrafts { get; set; } = [];
-
-    ObservableCollection<PersonVisitDraft> VisitDrafts { get; set; } = [];
-
-    readonly ObservableRealmQueryMap queryMap = new();
+    [ObservableProperty]
+    public partial ObservableCollection<DraftListItemViewModel> FilteredItems { get; set; } = [];
 
     Realm? DataRealm { get; set; }
 
@@ -62,7 +59,6 @@ public partial class DraftsListViewModel : VisitzViewModel
 
         DataRealm = await VisitzRealms.GetIcmDataRealmAsync();
 
-        queryMap.ItemsChanged += QueryMap_ItemsChanged;
         await SubscribeForDrafts();
     }
 
@@ -80,17 +76,38 @@ public partial class DraftsListViewModel : VisitzViewModel
         Realm notesRealm = await notesTask;
         Realm visitsRealm = await visitsTask;
 
-        queryMap.Subscribe(assessmentsRealm, assessmentsRealm.All<AssessmentDraft>());
-        AssessmentDrafts.CollectionChanged += SupportingLists_CollectionChanged;
-
-        queryMap.Subscribe(attachmentsRealm, attachmentsRealm.All<AttachmentDraft>());
-        AttachmentDrafts.CollectionChanged += SupportingLists_CollectionChanged;
-
-        queryMap.Subscribe(notesRealm, notesRealm.All<NoteDraft>());
-        NoteDrafts.CollectionChanged += SupportingLists_CollectionChanged;
-
-        queryMap.Subscribe(visitsRealm, visitsRealm.All<PersonVisitDraft>());
-        VisitDrafts.CollectionChanged += SupportingLists_CollectionChanged;
+        _assessmentDrafts = new(
+            assessmentsRealm,
+            assessmentsRealm.All<AssessmentDraft>(),
+            AllDraftItems,
+            AddDraftItem,
+            RemoveDraftItem,
+            ItemsChanged
+        );
+        _attachmentDrafts = new(
+            attachmentsRealm,
+            attachmentsRealm.All<AttachmentDraft>(),
+            AllDraftItems,
+            AddDraftItem,
+            RemoveDraftItem,
+            ItemsChanged
+        );
+        _noteDrafts = new(
+            notesRealm,
+            notesRealm.All<NoteDraft>(),
+            AllDraftItems,
+            AddDraftItem,
+            RemoveDraftItem,
+            ItemsChanged
+        );
+        _visitDrafts = new(
+            visitsRealm,
+            visitsRealm.All<PersonVisitDraft>(),
+            AllDraftItems,
+            AddDraftItem,
+            RemoveDraftItem,
+            ItemsChanged
+        );
     }
 
     protected override void Dispose(bool disposing)
@@ -99,8 +116,10 @@ public partial class DraftsListViewModel : VisitzViewModel
         {
             StrongReferenceMessenger.Default.UnregisterAll(this);
 
-            queryMap.ItemsChanged -= QueryMap_ItemsChanged;
-            queryMap.Dispose();
+            _assessmentDrafts?.Dispose();
+            _attachmentDrafts?.Dispose();
+            _noteDrafts?.Dispose();
+            _visitDrafts?.Dispose();
 
             _disposed = true;
         }
@@ -108,89 +127,45 @@ public partial class DraftsListViewModel : VisitzViewModel
         base.Dispose(disposing);
     }
 
-    private void QueryMap_ItemsChanged(object? _, (Type, IRealmCollection<IRealmObject> Items, ChangeSet? Changes) e)
+    static void AddDraftItem(IDraftItem item, ObservableCollection<DraftListItemViewModel> drafts)
     {
-        Type type = e.Item1;
-
-        if (type == typeof(NoteDraft))
-            UpdateSupportingList(e.Items, e.Changes, NoteDrafts);
-        else if (type == typeof(AssessmentDraft))
-            UpdateSupportingList(e.Items, e.Changes, AssessmentDrafts);
-        else if (type == typeof(AttachmentDraft))
-            UpdateSupportingList(e.Items, e.Changes, AttachmentDrafts);
-        else if (type == typeof(PersonVisitDraft))
-            UpdateSupportingList(e.Items, e.Changes, VisitDrafts);
-        else
-            throw new InvalidOperationException($"Type {type} not supported in Drafts view.");
-
-        ShowEmptyView = !AllDraftItems.Any();
+        DraftListItemViewModel vm = new(item);
+        vm.StartInitAsync();
+        drafts.Add(vm);
     }
 
-    void UpdateSupportingList<T>(
-        IRealmCollection<IRealmObject> items,
-        ChangeSet? changes,
-        ObservableCollection<T> draftsList
-    )
-        where T : IDraftItem
+    static void RemoveDraftItem(IDraftItem item, ObservableCollection<DraftListItemViewModel> drafts)
     {
-        if (changes == null)
+        if (drafts.FirstOrDefault(draftVm => draftVm.Draft == item) is DraftListItemViewModel foundVm)
         {
-            draftsList.AddAll(items.Cast<T>());
-        }
-        else
-        {
-            foreach (int deleteIndex in changes.DeletedIndices.Reverse())
-                draftsList.RemoveAt(deleteIndex);
-
-            foreach (int insertIndex in changes.InsertedIndices)
-                draftsList.Add((T)items.ElementAt(insertIndex));
-
-            if (changes.NewModifiedIndices.Length > 0)
-                FilteredItems.Sort(ascending: false);
+            drafts.Remove(foundVm);
+            foundVm.Dispose();
         }
     }
 
-    private void SupportingLists_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    void ItemsChanged(ObservableCollection<DraftListItemViewModel> _, bool hasModifications)
     {
-        if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
-        {
-            foreach (var draft in e.NewItems.Cast<IDraftItem>())
-            {
-                draft.SubscribeRelatedState(DataRealm);
-                AllDraftItems.Add(draft);
-            }
-        }
-        else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
-        {
-            foreach (var draft in e.OldItems.Cast<IDraftItem>())
-            {
-                draft.RelatedEntitySubscriptionToken?.Dispose();
-                AllDraftItems.Remove(draft);
-            }
-        }
+        if (hasModifications)
+            FilteredItems.Sort(ascending: false);
     }
 
     private void AllDraftItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
         {
-            foreach (var draft in e.NewItems.Cast<IDraftItem>())
+            foreach (var draft in e.NewItems.Cast<DraftListItemViewModel>())
             {
-                if (SelectedFilter.WherePredicate(draft))
-                {
-                    draft.SubscribeRelatedState(DataRealm);
+                if (SelectedFilter.WherePredicate(draft.Draft))
                     FilteredItems.InsertSorted(draft, ascending: false);
-                }
             }
         }
         else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
         {
-            foreach (var draft in e.OldItems.Cast<IDraftItem>())
-            {
-                draft.RelatedEntitySubscriptionToken?.Dispose();
+            foreach (var draft in e.OldItems.Cast<DraftListItemViewModel>())
                 FilteredItems.Remove(draft);
-            }
         }
+
+        ShowEmptyView = !AllDraftItems.Any();
     }
 
     [RelayCommand]
@@ -280,6 +255,6 @@ public partial class DraftsListViewModel : VisitzViewModel
 
     partial void OnSelectedFilterChanged(FilterOption<IDraftItem> value)
     {
-        FilteredItems = new(AllDraftItems.Where(value.WherePredicate).OrderDescending());
+        FilteredItems = new(AllDraftItems.Where(draftVm => value.WherePredicate(draftVm.Draft)).OrderDescending());
     }
 }

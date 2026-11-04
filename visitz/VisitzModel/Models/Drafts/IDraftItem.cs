@@ -16,6 +16,14 @@ public interface IDraftItem : IRealmObject, IRecordInfo, IComparable<IDraftItem>
     string Preview { get; }
 
     string DraftLocation { get; set; }
+
+    int IComparable<IDraftItem>.CompareTo(IDraftItem? other)
+    {
+        if (other == null)
+            return 1;
+
+        return LastUpdatedBinding.CompareTo(other.LastUpdatedBinding);
+    }
 }
 
 public static class IDraftItemExtensions
@@ -42,18 +50,5 @@ public static class IDraftItemExtensions
             EntityType.ServiceRequest => ServiceRequestRecord.GetByDraftItem(realm, item),
             _ => throw new NotImplementedException(),
         };
-    }
-
-    public static int CompareDraftItem(this IDraftItem? x, IDraftItem? y)
-    {
-        if (x == null)
-            return y == null ? 0 : -1;
-        else
-        {
-            if (y == null)
-                return 1;
-
-            return x.LastUpdatedBinding.CompareTo(y.LastUpdatedBinding);
-        }
     }
 }

@@ -42,6 +42,10 @@ public partial class ObservableQuery<TQueryObject, TListItem> : ObservableObject
 
     public ItemMapperDelegate RemoveItemMapper { get; }
 
+    public delegate void ItemsChangedDelegate(ObservableCollection<TListItem> items, bool hasModifications);
+
+    public ItemsChangedDelegate? ItemsChanged { get; set; }
+
     [ObservableProperty]
     public partial bool HasAnyItems { get; private set; }
 
@@ -49,16 +53,18 @@ public partial class ObservableQuery<TQueryObject, TListItem> : ObservableObject
         Realm realm,
         IQueryable<TQueryObject> query,
         ItemMapperDelegate addItem,
-        ItemMapperDelegate removeItem
+        ItemMapperDelegate removeItem,
+        ItemsChangedDelegate? itemsChanged = null
     )
-        : this(realm, query, [], addItem, removeItem) { }
+        : this(realm, query, [], addItem, removeItem, itemsChanged) { }
 
     public ObservableQuery(
         Realm realm,
         IQueryable<TQueryObject> query,
         ObservableCollection<TListItem> targetList,
         ItemMapperDelegate addItem,
-        ItemMapperDelegate removeItem
+        ItemMapperDelegate removeItem,
+        ItemsChangedDelegate? itemsChanged = null
     )
     {
         Realm = realm;
@@ -66,6 +72,7 @@ public partial class ObservableQuery<TQueryObject, TListItem> : ObservableObject
         Items = targetList;
         AddItemMapper = addItem;
         RemoveItemMapper = removeItem;
+        ItemsChanged = itemsChanged;
 
         QueryItems.CollectionChanged += QueryItems_CollectionChanged;
         QueryToken = query.SubscribeForNotifications(Query_ItemsChanged);
@@ -80,6 +87,7 @@ public partial class ObservableQuery<TQueryObject, TListItem> : ObservableObject
                 QueryToken.Dispose();
                 RealmQuery = Enumerable.Empty<TQueryObject>().AsQueryable();
 
+                ItemsChanged = null;
                 QueryItems.CollectionChanged -= QueryItems_CollectionChanged;
                 QueryItems.Clear();
                 Items.Clear();
@@ -100,6 +108,8 @@ public partial class ObservableQuery<TQueryObject, TListItem> : ObservableObject
 
     void Query_ItemsChanged(IRealmCollection<TQueryObject> queriedItems, ChangeSet? changes)
     {
+        bool hasModifications = false;
+
         if (changes == null)
         {
             try
@@ -128,7 +138,12 @@ public partial class ObservableQuery<TQueryObject, TListItem> : ObservableObject
 
             foreach (int insertedIndex in changes.InsertedIndices)
                 QueryItems.Add(queriedItems[insertedIndex]);
+
+            hasModifications = changes?.ModifiedIndices.Length > 0;
         }
+
+        // Notify changes for any change event
+        ItemsChanged?.Invoke(Items, hasModifications);
     }
 
     void QueryItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -162,7 +177,8 @@ public partial class ObservableQuery<TQueryObject> : ObservableQuery<TQueryObjec
     public ObservableQuery(
         Realm realm,
         IQueryable<TQueryObject> query,
-        ObservableCollection<TQueryObject>? targetList = null
+        ObservableCollection<TQueryObject>? targetList = null,
+        ItemsChangedDelegate? itemsChanged = null
     )
         : base(
             realm,
@@ -175,7 +191,8 @@ public partial class ObservableQuery<TQueryObject> : ObservableQuery<TQueryObjec
                 else
                     targetList.Add(addItem);
             },
-            (removeItem, targetList) => targetList.Remove(removeItem)
+            (removeItem, targetList) => targetList.Remove(removeItem),
+            itemsChanged
         ) { }
 
     public ObservableQuery(
@@ -183,7 +200,8 @@ public partial class ObservableQuery<TQueryObject> : ObservableQuery<TQueryObjec
         IQueryable<TQueryObject> query,
         ObservableCollection<TQueryObject> targetList,
         ItemMapperDelegate addItem,
-        ItemMapperDelegate removeItem
+        ItemMapperDelegate removeItem,
+        ItemsChangedDelegate? itemsChanged = null
     )
-        : base(realm, query, targetList, addItem, removeItem) { }
+        : base(realm, query, targetList, addItem, removeItem, itemsChanged) { }
 }

@@ -145,10 +145,7 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
         else
         {
             foreach (int deleted in changes.DeletedIndices.Reverse())
-            {
-                listToUpdate.ElementAt(deleted).Dispose();
                 listToUpdate.RemoveAt(deleted);
-            }
 
             foreach (int inserted in changes.InsertedIndices)
                 listToUpdate.Insert(inserted, (Attachment)items[inserted]);
