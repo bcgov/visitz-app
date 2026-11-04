@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Realms;
 using Visitz.Resources.Localization;
+using Visitz.Services.Activities;
 using Visitz.Services.AppLogs;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
@@ -148,7 +149,8 @@ public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler,
             GetAllSafetyAssessments(incidents, exceptions),
             GetAllIncidentConcerns(incidents, exceptions),
             GetCallInformation(memosIncidentsSrs, exceptions),
-            GetAllAdditionalInformation(memosIncidentsSrs, exceptions)
+            GetAllAdditionalInformation(memosIncidentsSrs, exceptions),
+            GetAllActivities(all, exceptions)
         );
 
         // Get attachment files AFTER other dependent info so we
@@ -402,6 +404,19 @@ public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler,
         catch (Exception ex)
         {
             exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactEducation, ex));
+        }
+    }
+
+    private async Task GetAllActivities(IEnumerable<RecordServiceInfo> all, List<Exception> exceptions)
+    {
+        try
+        {
+            var startMessage = GetActivitiesByRangeService.MakeStartMessage(all);
+            await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.Activity, ex));
         }
     }
 }

@@ -1,5 +1,6 @@
 using Realms;
 using Visitz.Resources.Localization;
+using Visitz.Services.Activities;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
 using Visitz.Services.CallDetails;
@@ -64,7 +65,8 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             GetSafetyAssessments(exceptions),
             GetIncidentConcerns(exceptions),
             GetCallInformation(exceptions),
-            GetAdditionalInformation(exceptions)
+            GetAdditionalInformation(exceptions),
+            GetActivities(exceptions)
         );
 
         //Get Contact related info AFTER fetching all contacts from DBs
@@ -325,6 +327,20 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
         catch (Exception ex)
         {
             exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactEducation, ex));
+            return Result.Error;
+        }
+    }
+
+    async Task<Result> GetActivities(List<Exception> exceptions)
+    {
+        try
+        {
+            var startMessage = GetActivitiesByRangeService.MakeStartMessage([new(BusinessObject)]);
+            return await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.Activity, ex));
             return Result.Error;
         }
     }

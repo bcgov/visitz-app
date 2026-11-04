@@ -4,6 +4,7 @@ using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
+using VisitzModel.Models.Activities;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.CallDetails;
 using VisitzModel.Models.Drafts;
@@ -202,6 +203,7 @@ public partial class ServiceRequestRecord
         Attachment.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id, userIgnoredPrefs);
         CallInformation.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
         AdditionalInformation.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
+        Activity.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
 
         if (deleteLocalState && LocalState != null)
             fromRealm.Remove(LocalState);
