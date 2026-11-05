@@ -16,7 +16,7 @@ public abstract partial class DraftEditViewModel<TDraftItem> : IcmRecordViewMode
 {
     readonly DraftSaveStateHandler _saveStateHandler = new();
 
-    Realm? _userDataRealm;
+    Realm? _draftRealm;
 
     [ObservableProperty]
     public partial TDraftItem? Draft { get; set; }
@@ -43,7 +43,7 @@ public abstract partial class DraftEditViewModel<TDraftItem> : IcmRecordViewMode
     {
         await base.InitAsync();
 
-        _userDataRealm = await VisitzRealms.GetUserDataRealmAsync();
+        _draftRealm = await MakeRealm();
         _saveStateHandler.SaveStateChanged += SaveStateHandler_SaveStateChanged;
 
         SetupDraft(Draft ?? InitNewDraft());
@@ -60,12 +60,17 @@ public abstract partial class DraftEditViewModel<TDraftItem> : IcmRecordViewMode
 
             SetupDraft(default);
 
-            _userDataRealm?.Dispose();
-            _userDataRealm = null;
+            _draftRealm?.Dispose();
+            _draftRealm = null;
 
             _disposed = true;
         }
         base.Dispose(disposing);
+    }
+
+    protected virtual async Task<Realm> MakeRealm()
+    {
+        return await VisitzRealms.GetUserDataRealmAsync();
     }
 
     TDraftItem InitNewDraft()
@@ -113,7 +118,7 @@ public abstract partial class DraftEditViewModel<TDraftItem> : IcmRecordViewMode
     private void ChangesToObserve_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (
-            _userDataRealm == null
+            _draftRealm == null
             || Draft == null
             || e.PropertyName
                 is nameof(Draft.LastUpdatedBinding)
@@ -123,7 +128,7 @@ public abstract partial class DraftEditViewModel<TDraftItem> : IcmRecordViewMode
             return;
 
         if (!Draft.IsManaged)
-            _userDataRealm.Commit(() => _userDataRealm.Add(Draft));
+            _draftRealm.Commit(() => _draftRealm.Add(Draft));
 
         UpdateCanDiscard();
         UpdateAllowPublish();
@@ -149,14 +154,14 @@ public abstract partial class DraftEditViewModel<TDraftItem> : IcmRecordViewMode
     [RelayCommand]
     public async Task DiscardDraftAsync()
     {
-        if (!CanDiscard || _userDataRealm == null || Draft == null || !await PromptShouldDiscard(DiscardWarningMessage))
+        if (!CanDiscard || _draftRealm == null || Draft == null || !await PromptShouldDiscard(DiscardWarningMessage))
             return;
 
         TDraftItem draft = Draft;
 
         SetupDraft(default);
 
-        await _userDataRealm.CommitAsync(() => _userDataRealm.Remove(draft));
+        await _draftRealm.CommitAsync(() => _draftRealm.Remove(draft));
 
         _saveStateHandler.Clear();
 
