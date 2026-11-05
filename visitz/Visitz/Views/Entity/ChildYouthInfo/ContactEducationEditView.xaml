@@ -5,6 +5,7 @@
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:childYouthInfo="clr-namespace:Visitz.Views.Entity.ChildYouthInfo"
     xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
+    xmlns:local="clr-namespace:Visitz.Localization"
     x:Class="Visitz.Views.Entity.ChildYouthInfo.ContactEducationEditView"
     x:DataType="childYouthInfo:ContactEducationEditViewModel"
     x:TypeArguments="childYouthInfo:ContactEducationEditViewModel"
@@ -27,8 +28,44 @@
             />
 
             <ScrollView Grid.Row="1">
-                <VerticalStackLayout>
-                    <formControls:FormEntry Text="{Binding Draft.ContactEducation.CommentsBinding}" />
+                <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
+                    <formControls:FormEntry
+                        FieldName="{local:Localize SchoolName}"
+                        Text="{Binding Draft.ContactEducation.SchoolNameBinding}"
+                    />
+
+                    <ContentView>
+                        <VerticalStackLayout>
+                            <Label Text="{local:Localize StartDate}" />
+
+                            <DatePicker Date="{Binding Draft.ContactEducation.StartDateBinding}" />
+                        </VerticalStackLayout>
+                    </ContentView>
+
+                    <formControls:FormEntry
+                        FieldName="{local:Localize LastGradeCompleted}"
+                        Text="{Binding Draft.ContactEducation.DegreeBinding}"
+                    />
+
+                    <formControls:FormEntry
+                        FieldName="{local:Localize ContactPerson}"
+                        Text="{Binding Draft.ContactEducation.ContactPersonBinding}"
+                    />
+
+                    <formControls:FormEntry
+                        FieldName="{local:Localize ContactPersonRole}"
+                        Text="{Binding Draft.ContactEducation.ContactPersonRoleBinding}"
+                    />
+
+                    <formControls:FormEntry
+                        FieldName="{local:Localize Phone}"
+                        Text="{Binding Draft.ContactEducation.PhoneNumBinding}"
+                    />
+
+                    <formControls:FormEntry
+                        FieldName="{local:Localize Address}"
+                        Text="{Binding Draft.ContactEducation.AddressBinding}"
+                    />
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>
