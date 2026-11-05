@@ -1235,4 +1235,7 @@ It is unlikely that the file can be recovered.</value>
   <data name="NoPrivateVisitsYet" xml:space="preserve">
     <value>A private visit has not been recorded yet.</value>
   </data>
+  <data name="Activity" xml:space="preserve">
+	<value>Activity</value>
+  </data>
 </root>

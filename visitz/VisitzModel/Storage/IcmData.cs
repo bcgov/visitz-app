@@ -1,5 +1,6 @@
 using Realms;
 using Realms.Schema;
+using VisitzModel.Models.Activities;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.CallDetails;
 using VisitzModel.Models.Caseload;
@@ -44,6 +45,7 @@ public class IcmData(byte[] encryptionKey) : VisitzRealmBase(Name, CurrentVersio
             typeof(ContactLegalAuthority),
             typeof(ContactLanguage),
             typeof(ContactEducation),
+            typeof(Activity),
         };
     }
 

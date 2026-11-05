@@ -3,6 +3,7 @@ using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
+using VisitzModel.Models.Activities;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
@@ -242,6 +243,7 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IBusinessObject, I
         IcmContact.RemoveByParent(fromRealm, EntityType.Case, Id);
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.Case, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.Case, Id, userIgnoredPrefs);
+        Activity.RemoveByParent(fromRealm, EntityType.Case, Id);
 
         if (deleteLocalState && LocalState != null)
             fromRealm.Remove(LocalState);

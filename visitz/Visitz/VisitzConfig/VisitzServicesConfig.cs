@@ -1,4 +1,5 @@
 using Visitz.Services;
+using Visitz.Services.Activities;
 using Visitz.Services.AppLogs;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
@@ -64,6 +65,8 @@ public static class VisitzServicesConfig
         builder.Services.AddTransient<SendAppLogsService>();
         builder.Services.AddSingleton<CrashFileStore>();
         builder.Services.AddSingleton<CrashLoggingService>();
+        builder.Services.AddTransient<GetActivitiesService>();
+        builder.Services.AddTransient<GetActivitiesByRangeService>();
         return builder;
     }
 
