@@ -19,6 +19,7 @@ using VisitzModel.Models.Attachments;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.Notes;
+using VisitzModel.Models.People;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Navigation;
@@ -152,6 +153,9 @@ public partial class NavRailViewModel : VisitzViewModel
         realmCount.Subscribe<NoteDraft>(await VisitzRealms.GetNoteDraftsRealmAsync());
         realmCount.Subscribe<AssessmentDraft>(await VisitzRealms.GetSafetyAssessmentDraftRealmAsync());
         realmCount.Subscribe<PersonVisitDraft>(await VisitzRealms.GetPersonVisitDraftsRealmAsync());
+        realmCount.Subscribe<ContactEducationDraft>(await VisitzRealms.GetUserDataRealmAsync());
+        realmCount.Subscribe<ContactLanguageDraft>(await VisitzRealms.GetUserDataRealmAsync());
+        realmCount.Subscribe<ContactMedicalBehavioralDraft>(await VisitzRealms.GetUserDataRealmAsync());
     }
 
     private async Task SubscribeToAllTodoCounts()

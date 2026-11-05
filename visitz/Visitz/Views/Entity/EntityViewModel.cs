@@ -6,6 +6,7 @@ using Visitz.Resources.Styles;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Entity.Attachments;
+using Visitz.Views.Entity.ChildYouthInfo;
 using Visitz.Views.Entity.ChildYouthVisits;
 using Visitz.Views.Entity.Details;
 using Visitz.Views.Entity.Notes;
@@ -16,6 +17,7 @@ using VisitzModel.Models.Drafts;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.Notes;
+using VisitzModel.Models.People;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity;
@@ -106,6 +108,23 @@ public partial class EntityViewModel : IcmRecordViewModel
                 visitsRealm.All<PersonVisitDraft>().Where(draft => draft.RelatedEntityId == RowId)
             );
         }
+
+        if (GetTabByType<ChildYouthInfoListView>() != null)
+        {
+            var userDataRealm = await VisitzRealms.GetUserDataRealmAsync();
+            _queryMap.Subscribe(
+                userDataRealm,
+                userDataRealm.All<ContactEducationDraft>().Where(draft => draft.RelatedEntityId == RowId)
+            );
+            _queryMap.Subscribe(
+                userDataRealm,
+                userDataRealm.All<ContactLanguageDraft>().Where(draft => draft.RelatedEntityId == RowId)
+            );
+            _queryMap.Subscribe(
+                userDataRealm,
+                userDataRealm.All<ContactMedicalBehavioralDraft>().Where(draft => draft.RelatedEntityId == RowId)
+            );
+        }
     }
 
     void RealmQueryMap_ItemsChanged(
@@ -121,6 +140,12 @@ public partial class EntityViewModel : IcmRecordViewModel
             TrySetDraftIndicator<AttachmentsView>(e.Items.Any());
         else if (e.Type == typeof(PersonVisitDraft))
             TrySetDraftIndicator<ChildYouthVisitListView>(e.Items.Any());
+        else if (
+            e.Type == typeof(ContactEducationDraft)
+            || e.Type == typeof(ContactLanguageDraft)
+            || e.Type == typeof(ContactMedicalBehavioralDraft)
+        )
+            TrySetDraftIndicator<ChildYouthInfoListView>(e.Items.Any());
     }
 
     void TrySetDraftIndicator<T>(bool hasDraft)
