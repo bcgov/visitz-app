@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<base:IcmRecordContentView
+<base:DraftEditView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:childYouthInfo="clr-namespace:Visitz.Views.Entity.ChildYouthInfo"
+    xmlns:childYouthInfoModels="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
     xmlns:local="clr-namespace:Visitz.Localization"
     x:Class="Visitz.Views.Entity.ChildYouthInfo.ContactEducationEditView"
     x:DataType="childYouthInfo:ContactEducationEditViewModel"
-    x:TypeArguments="childYouthInfo:ContactEducationEditViewModel"
+    x:TypeArguments="childYouthInfoModels:ContactEducationDraft"
 >
     <Border
         BackgroundColor="White"
@@ -70,4 +71,4 @@
             </ScrollView>
         </Grid>
     </Border>
-</base:IcmRecordContentView>
+</base:DraftEditView>
