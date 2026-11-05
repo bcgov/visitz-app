@@ -1242,6 +1242,6 @@ It is unlikely that the file can be recovered.</value>
     <value>Discarded education draft</value>
   </data>
   <data name="DiscardContactEducationDraftDescription" xml:space="preserve">
-    <value>Are you sure you want to discard this education item? You won't be able to recover it.</value>
+    <value>Are you sure you want to discard this education draft? You won't be able to recover it.</value>
   </data>
 </root>
