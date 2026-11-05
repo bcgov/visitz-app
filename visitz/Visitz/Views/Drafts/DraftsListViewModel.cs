@@ -189,12 +189,12 @@ public partial class DraftsListViewModel : VisitzViewModel
             SectionToOpen = EntitySection.Attachments;
         else if (type == typeof(PersonVisitDraft))
             SectionToOpen = EntitySection.ChildYouthVisitsEntry;
-        else if (type == typeof(ContactEducationDraft))
-            SectionToOpen = EntitySection.ContactEducation;
-        else if (type == typeof(ContactLanguageDraft))
-            SectionToOpen = EntitySection.ContactLanguages;
-        else if (type == typeof(ContactMedicalBehavioralDraft))
-            SectionToOpen = EntitySection.ContactMedicalBehavioral;
+        else if (
+            type == typeof(ContactEducationDraft)
+            || type == typeof(ContactLanguageDraft)
+            || type == typeof(ContactMedicalBehavioralDraft)
+        )
+            SectionToOpen = EntitySection.ChildYouthInfo;
 
         if (draftItem.GetRelatedBusinessObjectFrom(DataRealm) is IBusinessObject bobj)
             await MarkForDownloadAndTryOpen(bobj, draftItem);
