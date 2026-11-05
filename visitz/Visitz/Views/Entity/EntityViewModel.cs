@@ -154,12 +154,8 @@ public partial class EntityViewModel : IcmRecordViewModel
         if (GetTabByType<T>() is not SfTabItem tab)
             return;
 
-#pragma warning disable CS8601 // Possible null reference assignment.
-        // SfTabView.ImageSource is not declared nullable even though documentation suggests it should
-        // TODO: Remove suppression once fixed in library
         tab.ImageSource = hasDraft
             ? MaterialIcons.GetFilledMaterialIcon(MaterialIcons.Draft, VisitzColors.BC_Gold)
             : null;
-#pragma warning restore CS8601 // Possible null reference assignment.
     }
 }
