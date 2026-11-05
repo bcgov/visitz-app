@@ -17,8 +17,6 @@ public partial class ContactLanguageDraft : IRealmObject, IDraftItem
 
     public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
 
-    public DateTimeOffset LastUpdatedBinding { get; set; }
-
     public string Preview => ContactLanguage?.LanguageNameBinding ?? string.Empty;
 
     public string DraftLocation { get; set; } = string.Empty;

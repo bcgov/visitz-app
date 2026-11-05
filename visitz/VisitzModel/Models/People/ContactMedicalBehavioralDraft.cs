@@ -17,8 +17,6 @@ public partial class ContactMedicalBehavioralDraft : IRealmObject, IDraftItem
 
     public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
 
-    public DateTimeOffset LastUpdatedBinding { get; set; }
-
     public string Preview => ContactMedicalBehavioral?.ConditionBinding ?? string.Empty;
 
     public string DraftLocation { get; set; } = string.Empty;
