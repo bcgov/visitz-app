@@ -85,10 +85,9 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel
     public async Task AddEducationDraft()
     {
         ContactEducationEditView view = ServiceProvider.GetService<ContactEducationEditView>();
-        view.Init(RowId, EntityType);
-
         var userData = await VisitzRealms.GetUserDataRealmAsync();
-        view.ViewModel.Draft = userData.All<ContactEducationDraft>().FirstOrDefault();
+
+        view.Init(RowId, EntityType, userData.All<ContactEducationDraft>().FirstOrDefault());
 
         await Navigator.Navigation.PushModalAsync(view.WrapPageForModal());
     }
