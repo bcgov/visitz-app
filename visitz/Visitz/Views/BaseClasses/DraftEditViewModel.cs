@@ -11,6 +11,12 @@ using VisitzModel.Models.Drafts;
 
 namespace Visitz.Views.BaseClasses;
 
+/// <summary>
+/// <para>Base class for view models meant for viewing or editing drafts.</para>
+///
+/// <para>Uses the <see cref="UserData"/> Realm by default, but can be overridden at <seealso cref="MakeRealm"/></para>
+/// </summary>
+/// <typeparam name="TDraftItem"></typeparam>
 public abstract partial class DraftEditViewModel<TDraftItem> : IcmRecordViewModel
     where TDraftItem : IDraftItem, IRealmObject, INotifyPropertyChanged, new()
 {
