@@ -1235,4 +1235,13 @@ It is unlikely that the file can be recovered.</value>
   <data name="NoPrivateVisitsYet" xml:space="preserve">
     <value>A private visit has not been recorded yet.</value>
   </data>
+  <data name="DiscardContactEducationDraft" xml:space="preserve">
+    <value>Discard education item?</value>
+  </data>
+  <data name="DiscardedContactEducationDraft" xml:space="preserve">
+    <value>Discarded education draft</value>
+  </data>
+  <data name="DiscardContactEducationDraftDescription" xml:space="preserve">
+    <value>Are you sure you want to discard this education item? You won't be able to recover it.</value>
+  </data>
 </root>

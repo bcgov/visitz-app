@@ -872,6 +872,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discard education item?.
+        /// </summary>
+        public static string DiscardContactEducationDraft {
+            get {
+                return ResourceManager.GetString("DiscardContactEducationDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to discard this education item? You won&apos;t be able to recover it..
+        /// </summary>
+        public static string DiscardContactEducationDraftDescription {
+            get {
+                return ResourceManager.GetString("DiscardContactEducationDraftDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discard draft.
         /// </summary>
         public static string DiscardDraft {
@@ -886,6 +904,15 @@ namespace Visitz.Resources.Localization {
         public static string DiscardDraftQuestion {
             get {
                 return ResourceManager.GetString("DiscardDraftQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discarded education draft.
+        /// </summary>
+        public static string DiscardedContactEducationDraft {
+            get {
+                return ResourceManager.GetString("DiscardedContactEducationDraft", resourceCulture);
             }
         }
         

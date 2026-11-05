@@ -7,7 +7,6 @@ using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
-using Visitz.Views.Snackbar;
 using VisitzModel.Models;
 using VisitzModel.Models.People;
 
@@ -43,19 +42,19 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel
             new ActionButtonOption()
             {
                 Text = LocalizedStrings.Education,
-                Command = new Command(AddEducationDraft),
+                Command = AddEducationDraftCommand,
                 Icon = MaterialIcons.School.GetUnfilledMaterialIcon(),
             },
             new ActionButtonOption()
             {
                 Text = LocalizedStrings.MedicalBehavioural,
-                Command = new Command(AddMedicalBehavioralDraft),
+                Command = AddMedicalBehavioralDraftCommand,
                 Icon = MaterialIcons.Monitor_heart.GetUnfilledMaterialIcon(),
             },
             new ActionButtonOption()
             {
                 Text = LocalizedStrings.Languages,
-                Command = new Command(AddLanguageDraft),
+                Command = AddLanguageDraftCommand,
                 Icon = MaterialIcons.Globe.GetUnfilledMaterialIcon(),
             },
         ];
@@ -83,21 +82,33 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel
     }
 
     [RelayCommand]
-    public void AddEducationDraft()
+    public async Task AddEducationDraft()
     {
-        SnackbarHandler.ShowText("AddEducationDraft");
+        ContactEducationEditView view = ServiceProvider.GetService<ContactEducationEditView>();
+        view.Init(RowId, EntityType);
+
+        var userData = await VisitzRealms.GetUserDataRealmAsync();
+        view.ViewModel.Draft = userData.All<ContactEducationDraft>().FirstOrDefault();
+
+        await Navigator.Navigation.PushModalAsync(view.WrapPageForModal());
     }
 
     [RelayCommand]
     public void AddMedicalBehavioralDraft()
     {
-        SnackbarHandler.ShowText("AddMedicalBehavioralDraft");
+        //ContactMedicalBehavioralEditView view = ServiceProvider.GetService<ContactMedicalBehavioralEditView>();
+        //view.Init(RowId, EntityType);
+
+        //Navigator.Navigation.PushModalAsync(view.WrapPageForModal());
     }
 
     [RelayCommand]
     public void AddLanguageDraft()
     {
-        SnackbarHandler.ShowText("AddLanguageDraft");
+        //ContactLanguageEditView view = ServiceProvider.GetService<ContactLanguageEditView>();
+        //view.Init(RowId, EntityType);
+
+        //Navigator.Navigation.PushModalAsync(view.WrapPageForModal());
     }
 
     protected override void Dispose(bool disposing)
