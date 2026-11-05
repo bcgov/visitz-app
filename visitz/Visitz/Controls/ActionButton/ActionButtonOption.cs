@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using Visitz.Resources.Styles;
 
 namespace Visitz.Controls.ActionButton;
@@ -9,14 +10,19 @@ public class ActionButtonOption
     {
         get;
         set =>
-            // Wrap with our own command so we can notify when commands are executed
-            field = new Command(
-                () =>
+            // Wrap with our own command to notify when commands are executed
+            field = value
+                is IAsyncRelayCommand asyncCommand
+                ? new Command(async () =>
+                {
+                    await asyncCommand.ExecuteAsync(null);
+                    Selected?.Invoke(this, EventArgs.Empty);
+                })
+                : new Command(() =>
                 {
                     value.Execute(null);
                     Selected?.Invoke(this, EventArgs.Empty);
-                }
-            );
+                });
     }
 
     public ImageSource? Icon
