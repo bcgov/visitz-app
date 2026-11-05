@@ -25,7 +25,7 @@ internal class ActivitiesEndpoint(string baseUrl, ApiRecordType type, string row
     )
     {
         if (response.StatusCode == HttpStatusCode.NoContent)
-            return (-1, []);       
+            return (-1, []);
 
         JsonElement items = JsonDocument.Parse(responseContent).RootElement.GetProperty("items");
 

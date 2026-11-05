@@ -112,7 +112,7 @@ public partial class Activity : IRealmObject, IParentRecord
 
     public Activity(ActivityJson json)
     {
-        LocalId = MakeLocalId(json.Id, json.CaseId, json.IncidentId, json.ActivitySRId);
+        LocalId = MakeLocalId(json.Id, json.CaseId, json.IncidentId, json.ActivitySRId, json.ICMMemoId);
         Id = json.Id;
         AccountLocation = json.AccountLocation;
         AccountName = json.AccountName;

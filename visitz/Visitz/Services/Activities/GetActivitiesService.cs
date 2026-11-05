@@ -6,9 +6,9 @@ using VisitzApi;
 using VisitzApi.Models.Activities;
 using VisitzApi.Requests;
 using VisitzModel.Extensions;
+using VisitzModel.Models.Activities;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
-using VisitzModel.Models.Activities;
 
 namespace Visitz.Services.Activities;
 
