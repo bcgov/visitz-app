@@ -1,5 +1,6 @@
 using RealmBindings;
 using Realms;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 
@@ -37,5 +38,12 @@ public partial class ContactEducationDraft : IRealmObject, IDraftItem
     {
         get => (EntitySubtype)RelatedEntitySubtypeInt;
         set => RelatedEntitySubtypeInt = (int)value;
+    }
+
+    public ContactEducationDraft() { }
+
+    public ContactEducationDraft(IBusinessObject businessObject)
+    {
+        this.InitDraftWith(businessObject);
     }
 }
