@@ -93,21 +93,25 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel
     }
 
     [RelayCommand]
-    public void AddMedicalBehavioralDraft()
+    public async Task AddMedicalBehavioralDraft()
     {
-        //ContactMedicalBehavioralEditView view = ServiceProvider.GetService<ContactMedicalBehavioralEditView>();
-        //view.Init(RowId, EntityType);
+        ContactMedicalBehavioralEditView view = ServiceProvider.GetService<ContactMedicalBehavioralEditView>();
+        var userData = await VisitzRealms.GetUserDataRealmAsync();
 
-        //Navigator.Navigation.PushModalAsync(view.WrapPageForModal());
+        view.Init(RowId, EntityType, userData.All<ContactMedicalBehavioralDraft>().FirstOrDefault());
+
+        await Navigator.Navigation.PushModalAsync(view.WrapPageForModal());
     }
 
     [RelayCommand]
-    public void AddLanguageDraft()
+    public async Task AddLanguageDraft()
     {
-        //ContactLanguageEditView view = ServiceProvider.GetService<ContactLanguageEditView>();
-        //view.Init(RowId, EntityType);
+        ContactLanguageEditView view = ServiceProvider.GetService<ContactLanguageEditView>();
+        var userData = await VisitzRealms.GetUserDataRealmAsync();
 
-        //Navigator.Navigation.PushModalAsync(view.WrapPageForModal());
+        view.Init(RowId, EntityType, userData.All<ContactLanguageDraft>().FirstOrDefault());
+
+        await Navigator.Navigation.PushModalAsync(view.WrapPageForModal());
     }
 
     protected override void Dispose(bool disposing)

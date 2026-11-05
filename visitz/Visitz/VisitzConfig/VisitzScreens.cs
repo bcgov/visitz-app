@@ -148,6 +148,12 @@ public static class VisitzScreens
         builder.Services.AddTransient<ContactEducationEditView>();
         builder.Services.AddTransient<ContactEducationEditViewModel>();
 
+        builder.Services.AddTransient<ContactMedicalBehavioralEditView>();
+        builder.Services.AddTransient<ContactMedicalBehavioralEditViewModel>();
+
+        builder.Services.AddTransient<ContactLanguageEditView>();
+        builder.Services.AddTransient<ContactLanguageEditViewModel>();
+
         return builder;
     }
 }

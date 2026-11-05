@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:DraftEditView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:childYouthInfo="clr-namespace:Visitz.Views.Entity.ChildYouthInfo"
+    xmlns:childYouthInfoModels="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
+    xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
+    x:Class="Visitz.Views.Entity.ChildYouthInfo.ContactLanguageEditView"
+    x:DataType="childYouthInfo:ContactLanguageEditViewModel"
+    x:TypeArguments="childYouthInfoModels:ContactLanguageDraft"
+>
+    <Border
+        BackgroundColor="White"
+        StrokeShape="RoundRectangle 10"
+        StrokeThickness="0"
+        Padding="{StaticResource DefaultPadding}"
+    >
+        <Grid RowDefinitions="Auto, *">
+            <formControls:FormAppBar
+                Grid.Row="0"
+                IsReadOnly="False"
+                AllowDiscard="{Binding CanDiscard}"
+                EnablePublish="{Binding AllowPublish}"
+                DraftSaveState="{Binding DraftSaveState}"
+                DiscardCommand="{Binding DiscardDraftCommand}"
+                PublishCommand="{Binding PublishDraftCommand}"
+            />
+        </Grid>
+    </Border>
+</base:DraftEditView>
