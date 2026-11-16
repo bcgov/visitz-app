@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using RealmBindings;
 using Realms;
 using VisitzApi.Models.Activities;
@@ -10,7 +11,7 @@ using VisitzModel.Utilities;
 namespace VisitzModel.Models.Activities;
 
 [GenerateRealmBindings]
-public partial class Activity : IRealmObject, IParentRecord
+public partial class Activity : IRealmObject
 {
     [PrimaryKey]
     public string LocalId { get; set; } = Guid.NewGuid().ToString();
@@ -100,19 +101,16 @@ public partial class Activity : IRealmObject, IParentRecord
     public DateTimeOffset? Updated { get; set; } = DateTimeOffset.UtcNow;
     public string UpdatedBy { get; set; } = string.Empty;
     public string UpdatedByName { get; set; } = string.Empty;
-    public string ParentId { get; set; } = string.Empty;
-
-    internal int ParentTypeInt { get; set; } = (int)EntityType.Case;
-
-    public EntityType ParentType
-    {
-        get => (EntityType)ParentTypeInt;
-        set => ParentTypeInt = (int)value;
-    }
 
     public Activity(ActivityJson json)
     {
-        LocalId = MakeLocalId(json.Id, json.CaseId, json.IncidentId, json.ActivitySRId, json.ICMMemoId);
+        LocalId = MakeLocalId(
+            activityId: json.Id,
+            caseId: json.CaseId,
+            incidentId: json.IncidentId,
+            activitySRId: json.ActivitySRId,
+            icmMemoId: json.ICMMemoId
+        );
         Id = json.Id;
         AccountLocation = json.AccountLocation;
         AccountName = json.AccountName;
@@ -200,9 +198,20 @@ public partial class Activity : IRealmObject, IParentRecord
         UpdatedByName = json.UpdatedByName;
     }
 
-    public static string MakeLocalId(params string?[] ids)
+    public static string MakeLocalId(
+        string activityId,
+        string? caseId,
+        string? incidentId,
+        string? activitySRId,
+        string? icmMemoId
+    )
     {
-        return string.Join("|", ids.Where(id => !string.IsNullOrWhiteSpace(id)));
+        return string.Join(
+            "|",
+            new[] { activityId, caseId, incidentId, activitySRId, icmMemoId }.Where(id =>
+                !string.IsNullOrWhiteSpace(id)
+            )
+        );
     }
 
     public static List<Activity> FromApiJsonArray(IEnumerable<ActivityJson> jsonArray)
@@ -243,21 +252,22 @@ public partial class Activity : IRealmObject, IParentRecord
 
             EntityType.Memo => query.Where(activity => activity.ICMMemoId == parentId),
 
-            _ => throw new ArgumentOutOfRangeException(nameof(parentType)),
+            _ => throw new InvalidOperationException(nameof(parentType)),
         };
     }
 
-    public static void RemoveByParent(Realm realm, EntityType entityType, string parentId)
+    public static void RemoveByParent(Realm realm, EntityType parentType, string parentId)
     {
-        var removeableActivities = GetActivities(realm, parentId, entityType)
+        //short-circuiting to avoid checking parent type's records, for instance if parentType is the Case then we do not check CaseRecord
+        var removeableActivities = GetActivities(realm, parentId, parentType)
             .AsEnumerable()
             .Where(item =>
-                (entityType == EntityType.Case || RecordDoesNotExist<CaseRecord>(realm, item.CaseId))
-                && (entityType == EntityType.Incident || RecordDoesNotExist<IncidentRecord>(realm, item.IncidentId))
-                && (entityType == EntityType.Memo || RecordDoesNotExist<MemoRecord>(realm, item.ICMMemoId))
+                (parentType == EntityType.Case || (realm.Find<CaseRecord>(item.CaseId) == null))
+                && (parentType == EntityType.Incident || (realm.Find<IncidentRecord>(item.IncidentId) == null))
+                && (parentType == EntityType.Memo || (realm.Find<MemoRecord>(item.ICMMemoId) == null))
                 && (
-                    entityType == EntityType.ServiceRequest
-                    || RecordDoesNotExist<ServiceRequestRecord>(realm, item.ActivitySRId)
+                    parentType == EntityType.ServiceRequest
+                    || (realm.Find<ServiceRequestRecord>(item.ActivitySRId) == null)
                 )
             );
 
@@ -265,11 +275,5 @@ public partial class Activity : IRealmObject, IParentRecord
         {
             realm.Remove(activity);
         }
-    }
-
-    static bool RecordDoesNotExist<T>(Realm realm, string? id)
-        where T : IRealmObject
-    {
-        return string.IsNullOrEmpty(id) || realm.Find<T>(id) == null;
     }
 }

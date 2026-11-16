@@ -3,8 +3,10 @@ using VisitzApi.Models.Base;
 
 namespace VisitzApi.Models.Activities;
 
-public class ActivityJson : AssignableRecordJson
+public class ActivityJson
 {
+    [JsonRequired]
+    public string Id { get; set; } = string.Empty;
     public string AccountLocation { get; set; } = string.Empty;
     public string AccountName { get; set; } = string.Empty;
     public string ActionBy { get; set; } = string.Empty;
@@ -37,6 +39,7 @@ public class ActivityJson : AssignableRecordJson
     public string ContactLastName { get; set; } = string.Empty;
     public string ContactMiddleName { get; set; } = string.Empty;
     public string Created { get; set; } = string.Empty;
+    public string CreatedBy { get; set; } = string.Empty;
     public string CreatedByName { get; set; } = string.Empty;
     public string Delay { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
@@ -114,5 +117,6 @@ public class ActivityJson : AssignableRecordJson
     public string Status { get; set; } = string.Empty;
     public string Type { get; set; } = string.Empty;
     public string Updated { get; set; } = string.Empty;
+    public string UpdatedBy { get; set; } = string.Empty;
     public string UpdatedByName { get; set; } = string.Empty;
 }

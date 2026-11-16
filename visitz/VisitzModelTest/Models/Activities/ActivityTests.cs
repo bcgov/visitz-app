@@ -1,3 +1,4 @@
+using Realms;
 using VisitzApi.Models.Activities;
 using VisitzModel.Models.Activities;
 using VisitzModel.Models.Caseload;
@@ -18,13 +19,13 @@ public class ActivityTests
     private const string ActivityID5 = "ACT5";
     private const string ActivityID6 = "ACT6";
     private const string ActivityID7 = "ACT7";
-    private string localIdForACT1 = Activity.MakeLocalId(ActivityID1, CaseId);
-    private string localIdForACT2 = Activity.MakeLocalId(ActivityID2, IncidentId);
-    private string localIdForACT3 = Activity.MakeLocalId(ActivityID3, CaseId, IncidentId);
-    private string localIdForACT4 = Activity.MakeLocalId(ActivityID4, CaseId, SRId);
-    private string localIdForACT5 = Activity.MakeLocalId(ActivityID5, CaseId, MemoId);
-    private string localIdForACT6 = Activity.MakeLocalId(ActivityID6, MemoId);
-    private string localIdForACT7 = Activity.MakeLocalId(ActivityID7, SRId);
+    private string localIdForACT1 = Activity.MakeLocalId(ActivityID1, CaseId, null, null, null);
+    private string localIdForACT2 = Activity.MakeLocalId(ActivityID2, null, IncidentId, null, null);
+    private string localIdForACT3 = Activity.MakeLocalId(ActivityID3, CaseId, IncidentId, null, null);
+    private string localIdForACT4 = Activity.MakeLocalId(ActivityID4, CaseId, null, SRId, null);
+    private string localIdForACT5 = Activity.MakeLocalId(ActivityID5, CaseId, null, null, MemoId);
+    private string localIdForACT6 = Activity.MakeLocalId(ActivityID6, null, null, null, MemoId);
+    private string localIdForACT7 = Activity.MakeLocalId(ActivityID7, null, null, SRId, null);
 
     CaseRecord @case = new CaseRecord { Id = CaseId };
     IncidentRecord incident = new IncidentRecord { Id = IncidentId };
@@ -92,198 +93,170 @@ public class ActivityTests
             },
         ];
 
-    [Fact]
-    public async Task RemoveByParentWhenCaseIsRemoved()
+    [Theory]
+    // Case removal - Incident remains
+    [InlineData(EntityType.Case, EntityType.Incident, ActivityID1, false)]
+    [InlineData(EntityType.Case, EntityType.Incident, ActivityID2, true)]
+    [InlineData(EntityType.Case, EntityType.Incident, ActivityID3, true)]
+    // Incident removal - Case remains
+    [InlineData(EntityType.Incident, EntityType.Case, ActivityID1, true)]
+    [InlineData(EntityType.Incident, EntityType.Case, ActivityID2, false)]
+    [InlineData(EntityType.Incident, EntityType.Case, ActivityID3, true)]
+    // Case removal - Service Request remains
+    [InlineData(EntityType.Case, EntityType.ServiceRequest, ActivityID1, false)]
+    [InlineData(EntityType.Case, EntityType.ServiceRequest, ActivityID4, true)]
+    // Case removal - Memo remains
+    [InlineData(EntityType.Case, EntityType.Memo, ActivityID1, false)]
+    [InlineData(EntityType.Case, EntityType.Memo, ActivityID5, true)]
+    // Memo removal - Case remains
+    [InlineData(EntityType.Memo, EntityType.Case, ActivityID5, true)]
+    [InlineData(EntityType.Memo, EntityType.Case, ActivityID6, false)]
+    // Service Request removal - Case remains
+    [InlineData(EntityType.ServiceRequest, EntityType.Case, ActivityID4, true)]
+    [InlineData(EntityType.ServiceRequest, EntityType.Case, ActivityID7, false)]
+    public async Task RemoveByParent_ShouldHandleActivities(
+        EntityType parent1_type,
+        EntityType parent2_type,
+        string activityId,
+        bool shouldExist
+    )
     {
-        var realm = await TestingUtilities.MakeRealm<ActivityTests>();
+        var realm = await TestingUtilities.MakeRealm<ActivityTests>(Guid.NewGuid().ToString());
 
-        // Create Case and Incident records.
+        // Create parent records.
         realm.Write(() =>
         {
-            realm.Add(@case);
-            realm.Add(incident);
+            AddParent(realm, parent1_type);
+            AddParent(realm, parent2_type);
         });
 
-        // Populate activities using synchronization.
-        await Activity.SynchronizeAsync(realm, ActivitiesForCase, CaseId, EntityType.Case);
-        await Activity.SynchronizeAsync(realm, ActivitiesForIncident, IncidentId, EntityType.Incident);
+        // Populate activities through synchronization.
+        await SynchronizeActivities(realm, parent1_type, parent2_type);
 
-        //Confirm all 3 activities are in Realm
-        Assert.Equal(3, realm.All<Activity>().Count());
-
-        // Remove the Case , by removing related activities first.
+        // Remove associated activities and then the parent.
         realm.Write(() =>
         {
-            Activity.RemoveByParent(realm, EntityType.Case, CaseId);
-            realm.Remove(@case);
+            Activity.RemoveByParent(realm, parent1_type, GetParentId(parent1_type));
+
+            RemoveParent(realm, parent1_type);
         });
 
-        //Only 2 activities should be left.The one only related to CaseRecord should be removed
-        Assert.Equal(2, realm.All<Activity>().Count());
-        Assert.Null(realm.Find<Activity>(localIdForACT1));
-        Assert.NotNull(realm.Find<Activity>(localIdForACT3));
-        Assert.NotNull(realm.Find<Activity>(localIdForACT2));
+        // Verify the expected activity state.
+        var localId = GetLocalId(activityId);
+
+        Assert.Equal(shouldExist, realm.Find<Activity>(localId) != null);
     }
 
-    [Fact]
-    public async Task RemoveByParentWhenIncidentIsRemoved()
+    private static string GetParentId(EntityType type) =>
+        type switch
+        {
+            EntityType.Case => CaseId,
+            EntityType.Incident => IncidentId,
+            EntityType.ServiceRequest => SRId,
+            EntityType.Memo => MemoId,
+            _ => throw new InvalidOperationException(nameof(type)),
+        };
+
+    private static void AddParent(Realm realm, EntityType type)
     {
-        var realm = await TestingUtilities.MakeRealm<ActivityTests>();
-
-        // Create Case and Incident records.
-        realm.Write(() =>
+        switch (type)
         {
-            realm.Add(@case);
-            realm.Add(incident);
-        });
+            case EntityType.Case:
+                realm.Add(new CaseRecord { Id = CaseId });
+                break;
 
-        // Populate activities using synchronization.
-        await Activity.SynchronizeAsync(realm, ActivitiesForCase, CaseId, EntityType.Case);
-        await Activity.SynchronizeAsync(realm, ActivitiesForIncident, IncidentId, EntityType.Incident);
+            case EntityType.Incident:
+                realm.Add(new IncidentRecord { Id = IncidentId });
+                break;
 
-        Assert.Equal(3, realm.All<Activity>().Count());
+            case EntityType.ServiceRequest:
+                realm.Add(new ServiceRequestRecord { Id = SRId });
+                break;
 
-        // Remove the Case.Also remove activities related
-        realm.Write(() =>
-        {
-            Activity.RemoveByParent(realm, EntityType.Incident, IncidentId);
-            realm.Remove(incident);
-        });
+            case EntityType.Memo:
+                realm.Add(new MemoRecord { Id = MemoId });
+                break;
 
-        //Only 2 activities should be left.The one only related to IncidentRecord should be removed
-        Assert.Equal(2, realm.All<Activity>().Count());
-        Assert.NotNull(realm.Find<Activity>(localIdForACT1));
-        Assert.NotNull(realm.Find<Activity>(localIdForACT3));
-        Assert.Null(realm.Find<Activity>(localIdForACT2));
+            default:
+                throw new InvalidOperationException(nameof(type));
+        }
     }
 
-    [Fact]
-    public async Task RemoveByParentWhenCaseIsRemovedAndSRStays()
+    private static void RemoveParent(Realm realm, EntityType type)
     {
-        var realm = await TestingUtilities.MakeRealm<ActivityTests>();
-
-        // Create Case and SR records.
-        realm.Write(() =>
+        switch (type)
         {
-            realm.Add(@case);
-            realm.Add(sr);
-        });
+            case EntityType.Case:
+                realm.Remove(realm.Find<CaseRecord>(CaseId)!);
+                break;
 
-        // Populate activities using synchronization.
-        await Activity.SynchronizeAsync(realm, ActivitiesForCaseAndSR, CaseId, EntityType.Case);
+            case EntityType.Incident:
+                realm.Remove(realm.Find<IncidentRecord>(IncidentId)!);
+                break;
 
-        //Confirm all 3 activities are in Realm
-        Assert.Equal(2, realm.All<Activity>().Count());
+            case EntityType.ServiceRequest:
+                realm.Remove(realm.Find<ServiceRequestRecord>(SRId)!);
+                break;
 
-        // Remove the Case , by removing related activities first.
-        realm.Write(() =>
-        {
-            Activity.RemoveByParent(realm, EntityType.Case, CaseId);
-            realm.Remove(@case);
-        });
+            case EntityType.Memo:
+                realm.Remove(realm.Find<MemoRecord>(MemoId)!);
+                break;
 
-        //Only 2 activities should be left.The one only related to CaseRecord should be removed
-        Assert.Equal(1, realm.All<Activity>().Count());
-        Assert.Null(realm.Find<Activity>(localIdForACT1));
-        Assert.NotNull(realm.Find<Activity>(localIdForACT4));
+            default:
+                throw new InvalidOperationException(nameof(type));
+        }
     }
 
-    [Fact]
-    public async Task RemoveByParentWhenCaseIsRemovedAndMemoStays()
+    private static async Task SynchronizeActivities(Realm realm, EntityType removeType, EntityType otherType)
     {
-        var realm = await TestingUtilities.MakeRealm<ActivityTests>();
-
-        // Create Case and SR records.
-        realm.Write(() =>
+        // Case + Incident scenario.
+        // Synchronize from both parents to create all 3 activities.
+        if (
+            (removeType == EntityType.Case && otherType == EntityType.Incident)
+            || (removeType == EntityType.Incident && otherType == EntityType.Case)
+        )
         {
-            realm.Add(@case);
-            realm.Add(memo);
-        });
+            await Activity.SynchronizeAsync(realm, ActivitiesForCase, CaseId, EntityType.Case);
 
-        // Populate activities using synchronization.
-        await Activity.SynchronizeAsync(realm, ActivitiesForCaseAndMemo, CaseId, EntityType.Case);
+            await Activity.SynchronizeAsync(realm, ActivitiesForIncident, IncidentId, EntityType.Incident);
 
-        //Confirm all 2 activities are in Realm
-        Assert.Equal(2, realm.All<Activity>().Count());
-        Assert.NotNull(realm.Find<Activity>(localIdForACT1));
-        Assert.NotNull(realm.Find<Activity>(localIdForACT5));
+            return;
+        }
 
-        // Remove the Case , by removing related activities first.
-        realm.Write(() =>
+        // Other parent combinations.
+        List<ActivityJson> activities = (removeType, otherType) switch
         {
-            Activity.RemoveByParent(realm, EntityType.Case, CaseId);
-            realm.Remove(@case);
-        });
+            (EntityType.Case, EntityType.ServiceRequest) => ActivitiesForCaseAndSR,
 
-        //Only 2 activities should be left.The one only related to CaseRecord should be removed
-        Assert.Equal(1, realm.All<Activity>().Count());
-        Assert.Null(realm.Find<Activity>(localIdForACT1));
-        Assert.NotNull(realm.Find<Activity>(localIdForACT5));
+            (EntityType.Case, EntityType.Memo) => ActivitiesForCaseAndMemo,
+
+            (EntityType.Memo, EntityType.Case) => ActivitiesForMemo,
+
+            (EntityType.ServiceRequest, EntityType.Case) => ActivitiesForSR,
+
+            _ => throw new InvalidOperationException(nameof(removeType)),
+        };
+
+        await Activity.SynchronizeAsync(realm, activities, GetParentId(removeType), removeType);
     }
 
-    [Fact]
-    public async Task RemoveByParentWhenMemoIsRemoved()
-    {
-        var realm = await TestingUtilities.MakeRealm<ActivityTests>();
-
-        // Create Case and SR records.
-        realm.Write(() =>
+    private static string GetLocalId(string activityId) =>
+        activityId switch
         {
-            realm.Add(@case);
-            realm.Add(memo);
-        });
+            ActivityID1 => Activity.MakeLocalId(ActivityID1, CaseId, null, null, null),
 
-        // Populate activities using synchronization.
-        await Activity.SynchronizeAsync(realm, ActivitiesForMemo, MemoId, EntityType.Memo);
+            ActivityID2 => Activity.MakeLocalId(ActivityID2, null, IncidentId, null, null),
 
-        //Confirm all 2 activities are in Realm
-        Assert.Equal(2, realm.All<Activity>().Count());
-        Assert.NotNull(realm.Find<Activity>(localIdForACT5));
-        Assert.NotNull(realm.Find<Activity>(localIdForACT6));
+            ActivityID3 => Activity.MakeLocalId(ActivityID3, CaseId, IncidentId, null, null),
 
-        // Remove the Case , by removing related activities first.
-        realm.Write(() =>
-        {
-            Activity.RemoveByParent(realm, EntityType.Memo, MemoId);
-            realm.Remove(memo);
-        });
+            ActivityID4 => Activity.MakeLocalId(ActivityID4, CaseId, null, SRId, null),
 
-        //Only 2 activities should be left.The one only related to CaseRecord should be removed
-        Assert.Equal(1, realm.All<Activity>().Count());
-        Assert.NotNull(realm.Find<Activity>(localIdForACT5));
-        Assert.Null(realm.Find<Activity>(localIdForACT6));
-    }
+            ActivityID5 => Activity.MakeLocalId(ActivityID5, CaseId, null, null, MemoId),
 
-    [Fact]
-    public async Task RemoveByParentWhenSRIsRemoved()
-    {
-        var realm = await TestingUtilities.MakeRealm<ActivityTests>();
+            ActivityID6 => Activity.MakeLocalId(ActivityID6, null, null, null, MemoId),
 
-        // Create Case and SR records.
-        realm.Write(() =>
-        {
-            realm.Add(@case);
-            realm.Add(sr);
-        });
+            ActivityID7 => Activity.MakeLocalId(ActivityID7, null, null, SRId, null),
 
-        // Populate activities using synchronization.
-        await Activity.SynchronizeAsync(realm, ActivitiesForSR, MemoId, EntityType.Memo);
-
-        //Confirm all 2 activities are in Realm
-        Assert.Equal(2, realm.All<Activity>().Count());
-        Assert.NotNull(realm.Find<Activity>(localIdForACT7));
-        Assert.NotNull(realm.Find<Activity>(localIdForACT4));
-
-        // Remove the Case , by removing related activities first.
-        realm.Write(() =>
-        {
-            Activity.RemoveByParent(realm, EntityType.ServiceRequest, SRId);
-            realm.Remove(sr);
-        });
-
-        //Only 2 activities should be left.The one only related to CaseRecord should be removed
-        Assert.Equal(1, realm.All<Activity>().Count());
-        Assert.NotNull(realm.Find<Activity>(localIdForACT4));
-        Assert.Null(realm.Find<Activity>(localIdForACT7));
-    }
+            _ => throw new InvalidOperationException(nameof(activityId)),
+        };
 }

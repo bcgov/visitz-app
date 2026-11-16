@@ -6,7 +6,7 @@ using VisitzModel.Storage;
 namespace Visitz.Services.Activities;
 
 internal class GetActivitiesByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
-    : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler, maxDegreeOfParallelism: 1)
+    : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler)
 {
     public static string MakeId()
     {
