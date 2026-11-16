@@ -1,4 +1,5 @@
 using VisitzApi.Endpoints;
+using VisitzApi.Endpoints.Activities;
 using VisitzApi.Endpoints.AppLogs;
 using VisitzApi.Endpoints.Attachments;
 using VisitzApi.Endpoints.CallDetails;
@@ -8,6 +9,7 @@ using VisitzApi.Endpoints.People;
 using VisitzApi.Endpoints.SafetyAssess;
 using VisitzApi.Endpoints.Visits;
 using VisitzApi.ErrorHandling;
+using VisitzApi.Models.Activities;
 using VisitzApi.Models.AppLogs;
 using VisitzApi.Models.Attachments;
 using VisitzApi.Models.CallDetails;
@@ -252,5 +254,14 @@ public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
     public async Task<HttpResponseMessage> SendAppLogs(IList<AppLogJson> logs)
     {
         return await CallApi(new SendAppLogsEndpoint(BaseVisitzApiUrl, logs));
+    }
+
+    public async Task<(int TotalRecords, IEnumerable<ActivityJson>)> GetActivitiesAsync(
+        ApiRecordType type,
+        string id,
+        Pagination? pagination = null
+    )
+    {
+        return await CallApi(new ActivitiesEndpoint(BaseVisitzApiUrl, type, id, pagination));
     }
 }

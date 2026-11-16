@@ -4,6 +4,7 @@ using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
+using VisitzModel.Models.Activities;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.CallDetails;
 using VisitzModel.Models.Drafts;
@@ -284,6 +285,7 @@ public partial class IncidentRecord
         AdditionalInformation.RemoveByParent(fromRealm, EntityType.Incident, Id);
         IncidentConcerns.RemoveByParent(fromRealm, Id);
         CallInformation.RemoveByParent(fromRealm, EntityType.Incident, Id);
+        Activity.RemoveByParent(fromRealm, EntityType.Incident, Id);
 
         if (deleteLocalState && LocalState != null)
             fromRealm.Remove(LocalState);

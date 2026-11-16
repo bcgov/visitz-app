@@ -4,6 +4,7 @@ using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
+using VisitzModel.Models.Activities;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.CallDetails;
 using VisitzModel.Models.Drafts;
@@ -210,6 +211,7 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, I
         Attachment.RemoveByParent(fromRealm, EntityType.Memo, Id, userIgnoredPrefs);
         CallInformation.RemoveByParent(fromRealm, EntityType.Memo, Id);
         AdditionalInformation.RemoveByParent(fromRealm, EntityType.Memo, Id);
+        Activity.RemoveByParent(fromRealm, EntityType.Memo, Id);
 
         if (deleteLocalState && LocalState != null)
             fromRealm.Remove(LocalState);
