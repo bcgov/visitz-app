@@ -11,6 +11,13 @@ namespace VisitzModel.Models.People;
 [GenerateRealmBindings]
 public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJson>, IComparable<ContactEducation>
 {
+    public static readonly int AddressMaxLength = 255;
+    public static readonly int CommentsMaxLength = 100;
+    public static readonly int ContactPersonMaxLength = 150;
+    public static readonly int ContactPersonRoleMaxLength = 50;
+    public static readonly int PhoneNumMaxLength = 40;
+    public static readonly int SchoolNameMaxLength = 255;
+
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
     public string LearningAssistant { get; set; } = string.Empty;

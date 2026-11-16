@@ -14,6 +14,10 @@ public partial class ContactMedicalBehavioral
         IApiJson<ContactMedicalBehavioralJson>,
         IComparable<ContactMedicalBehavioral>
 {
+    public static readonly int CommentsMaxLength = 200;
+    public static readonly int DiagnosedByMaxLength = 100;
+    public static readonly int TreatmentPlanMaxLength = 100;
+
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
     public string ContactFirstName { get; set; } = string.Empty;

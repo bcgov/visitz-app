@@ -10,6 +10,9 @@ namespace VisitzModel.Models.People;
 [GenerateRealmBindings]
 public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJson>, IComparable<ContactLanguage>
 {
+    public static readonly int CommentsMaxLength = 255;
+    public static readonly int OtherLanguageMaxLength = 30;
+
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
     public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;

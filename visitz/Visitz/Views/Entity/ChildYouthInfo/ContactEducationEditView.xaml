@@ -33,39 +33,41 @@
                     <formControls:FormEntry
                         FieldName="{local:Localize SchoolName}"
                         Text="{Binding Draft.ContactEducation.SchoolNameBinding}"
+                        MaxLength="{Static childYouthInfoModels:ContactEducation.SchoolNameMaxLength}"
                     />
 
-                    <ContentView>
-                        <VerticalStackLayout>
-                            <Label Text="{local:Localize StartDate}" />
+                    <formControls:FormDatePicker
+                        FieldName="{local:Localize StartDate}"
+                        Date="{Binding Draft.ContactEducation.StartDateBinding}"
+                    />
 
-                            <DatePicker Date="{Binding Draft.ContactEducation.StartDateBinding}" />
-                        </VerticalStackLayout>
-                    </ContentView>
-
-                    <formControls:FormEntry
+                    <formControls:FormPicker
                         FieldName="{local:Localize LastGradeCompleted}"
-                        Text="{Binding Draft.ContactEducation.DegreeBinding}"
+                        SelectedItem="{Binding Draft.ContactEducation.DegreeBinding}"
                     />
 
                     <formControls:FormEntry
                         FieldName="{local:Localize ContactPerson}"
                         Text="{Binding Draft.ContactEducation.ContactPersonBinding}"
+                        MaxLength="{Static childYouthInfoModels:ContactEducation.ContactPersonMaxLength}"
                     />
 
                     <formControls:FormEntry
                         FieldName="{local:Localize ContactPersonRole}"
                         Text="{Binding Draft.ContactEducation.ContactPersonRoleBinding}"
+                        MaxLength="{Static childYouthInfoModels:ContactEducation.ContactPersonRoleMaxLength}"
                     />
 
                     <formControls:FormEntry
                         FieldName="{local:Localize Phone}"
                         Text="{Binding Draft.ContactEducation.PhoneNumBinding}"
+                        MaxLength="{Static childYouthInfoModels:ContactEducation.PhoneNumMaxLength}"
                     />
 
                     <formControls:FormEntry
                         FieldName="{local:Localize Address}"
                         Text="{Binding Draft.ContactEducation.AddressBinding}"
+                        MaxLength="{Static childYouthInfoModels:ContactEducation.AddressMaxLength}"
                     />
                 </VerticalStackLayout>
             </ScrollView>

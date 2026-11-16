@@ -6,6 +6,7 @@
     xmlns:childYouthInfo="clr-namespace:Visitz.Views.Entity.ChildYouthInfo"
     xmlns:childYouthInfoModels="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
+    xmlns:local="clr-namespace:Visitz.Localization"
     x:Class="Visitz.Views.Entity.ChildYouthInfo.ContactLanguageEditView"
     x:DataType="childYouthInfo:ContactLanguageEditViewModel"
     x:TypeArguments="childYouthInfoModels:ContactLanguageDraft"
@@ -26,6 +27,42 @@
                 DiscardCommand="{Binding DiscardDraftCommand}"
                 PublishCommand="{Binding PublishDraftCommand}"
             />
+
+            <ScrollView Grid.Row="1">
+                <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
+                    <formControls:FormPicker
+                        FieldName="{local:Localize Language}"
+                        SelectedItem="{Binding Draft.ContactLanguage.LanguageNameBinding}"
+                    />
+
+                    <formControls:FormPicker
+                        FieldName="{local:Localize Type}"
+                        SelectedItem="{Binding Draft.ContactLanguage.TypeBinding}"
+                    />
+
+                    <formControls:FormEntry
+                        FieldName="{local:Localize OtherLanguage}"
+                        Text="{Binding Draft.ContactLanguage.OtherLanguageBinding}"
+                        MaxLength="{Static childYouthInfoModels:ContactLanguage.OtherLanguageMaxLength}"
+                    />
+
+                    <formControls:FormEntry
+                        FieldName="{local:Localize Comments}"
+                        Text="{Binding Draft.ContactLanguage.CommentsBinding}"
+                        MaxLength="{Static childYouthInfoModels:ContactLanguage.CommentsMaxLength}"
+                    />
+
+                    <formControls:FormCheckBox
+                        Text="{local:Localize Preferred}"
+                        IsChecked="{Binding Draft.ContactLanguage.PreferredBinding}"
+                    />
+
+                    <formControls:FormCheckBox
+                        Text="{local:Localize TranslatorInterpreterRequired}"
+                        IsChecked="{Binding Draft.ContactLanguage.TranslatorReqBinding}"
+                    />
+                </VerticalStackLayout>
+            </ScrollView>
         </Grid>
     </Border>
 </base:DraftEditView>
