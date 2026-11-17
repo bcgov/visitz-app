@@ -14,7 +14,8 @@ public partial class FormPicker : ContentView
     [BindableProperty]
     public partial object? SelectedItem { get; set; }
 
-    public Picker Picker => PickerView;
+    [BindableProperty]
+    public partial BindingBase? ItemDisplayBinding { get; set; }
 
     public FormPicker()
     {

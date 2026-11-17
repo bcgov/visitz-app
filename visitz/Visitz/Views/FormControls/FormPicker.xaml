@@ -13,7 +13,8 @@
         <Picker
             x:Name="PickerView"
             ItemsSource="{Binding ItemsSource}"
-            SelectedItem="{Binding SelectedItem}"
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+            ItemDisplayBinding="{Binding ItemDisplayBinding}"
         />
     </VerticalStackLayout>
 </ContentView>
