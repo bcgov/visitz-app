@@ -4,6 +4,7 @@ using VisitzModel.Models.Attachments;
 using VisitzModel.Models.CallDetails;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.InPersonVisits;
+using VisitzModel.Models.ListOfValues;
 using VisitzModel.Models.Notes;
 using VisitzModel.Models.People;
 using VisitzModel.Models.SafetyAssess;
@@ -20,6 +21,7 @@ public class IcmData(byte[] encryptionKey) : VisitzRealmBase(Name, CurrentVersio
     {
         return new[]
         {
+            typeof(ListedValue),
             typeof(CaseRecord),
             typeof(IncidentRecord),
             typeof(MemoRecord),

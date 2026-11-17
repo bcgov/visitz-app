@@ -625,11 +625,29 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contact education - &quot;last grade completed&quot; values.
+        /// </summary>
+        public static string ContactEducationLastGradeCompletedLovLabel {
+            get {
+                return ResourceManager.GetString("ContactEducationLastGradeCompletedLovLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ContactLanguages.
         /// </summary>
         public static string ContactLanguages {
             get {
                 return ResourceManager.GetString("ContactLanguages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact languages - &quot;language name&quot; values.
+        /// </summary>
+        public static string ContactLanguagesLanguageNameLovLabel {
+            get {
+                return ResourceManager.GetString("ContactLanguagesLanguageNameLovLabel", resourceCulture);
             }
         }
         
@@ -648,6 +666,15 @@ namespace Visitz.Resources.Localization {
         public static string ContactMedicalBehavioral {
             get {
                 return ResourceManager.GetString("ContactMedicalBehavioral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact medical/behavioural - &quot;condition&quot; values.
+        /// </summary>
+        public static string ContactMedicalBehavioralConditionLovLabel {
+            get {
+                return ResourceManager.GetString("ContactMedicalBehavioralConditionLovLabel", resourceCulture);
             }
         }
         

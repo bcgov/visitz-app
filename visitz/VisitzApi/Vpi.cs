@@ -12,6 +12,7 @@ using VisitzApi.Models.AppLogs;
 using VisitzApi.Models.Attachments;
 using VisitzApi.Models.CallDetails;
 using VisitzApi.Models.Caseload;
+using VisitzApi.Models.ListOfValues;
 using VisitzApi.Models.Notes;
 using VisitzApi.Models.People;
 using VisitzApi.Models.SafetyAssess;
@@ -252,5 +253,13 @@ public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
     public async Task<HttpResponseMessage> SendAppLogs(IList<AppLogJson> logs)
     {
         return await CallApi(new SendAppLogsEndpoint(BaseVisitzApiUrl, logs));
+    }
+
+    public async Task<(int TotalRecords, IEnumerable<ListedValueJson>)> GetListOfValuesAsync(
+        string type,
+        Pagination? pagination = null
+    )
+    {
+        return await CallApi(new GetListOfValuesEndpoint(BaseVisitzApiUrl, type, pagination));
     }
 }

@@ -1244,4 +1244,13 @@ It is unlikely that the file can be recovered.</value>
   <data name="DiscardContactEducationDraftDescription" xml:space="preserve">
     <value>Are you sure you want to discard this education draft? You won't be able to recover it.</value>
   </data>
+  <data name="ContactEducationLastGradeCompletedLovLabel" xml:space="preserve">
+    <value>Contact education - "last grade completed" values</value>
+  </data>
+  <data name="ContactMedicalBehavioralConditionLovLabel" xml:space="preserve">
+    <value>Contact medical/behavioural - "condition" values</value>
+  </data>
+  <data name="ContactLanguagesLanguageNameLovLabel" xml:space="preserve">
+    <value>Contact languages - "language name" values</value>
+  </data>
 </root>
