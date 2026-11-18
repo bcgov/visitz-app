@@ -42,12 +42,12 @@
 
                     <formControls:FormDatePicker
                         FieldName="{local:Localize StartDate}"
-                        Date="{Binding Draft.ContactMedicalBehavioral.StartDateBinding}"
+                        Date="{Binding Draft.ContactMedicalBehavioral.StartDateBinding, Mode=TwoWay}"
                     />
 
                     <formControls:FormDatePicker
                         FieldName="{local:Localize EndDate}"
-                        Date="{Binding Draft.ContactMedicalBehavioral.EndDateBinding}"
+                        Date="{Binding Draft.ContactMedicalBehavioral.EndDateBinding, Mode=TwoWay}"
                     />
 
                     <formControls:FormEntry
@@ -64,7 +64,7 @@
 
                     <formControls:FormDatePicker
                         FieldName="{local:Localize DiagnosedDate}"
-                        Date="{Binding Draft.ContactMedicalBehavioral.DiagnosisDateBinding}"
+                        Date="{Binding Draft.ContactMedicalBehavioral.DiagnosisDateBinding, Mode=TwoWay}"
                     />
 
                     <formControls:FormEntry
