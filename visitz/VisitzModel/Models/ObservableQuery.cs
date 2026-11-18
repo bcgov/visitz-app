@@ -201,8 +201,7 @@ public partial class ObservableQuery<TQueryObject> : ObservableQuery<TQueryObjec
             addItemToTargetList ?? AddItem,
             removeItemFromTargetList ?? RemoveItem,
             itemsChanged
-        )
-    { }
+        ) { }
 
     static void AddItem(TQueryObject itemToAdd, IList<TQueryObject> targetList)
     {
