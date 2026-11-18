@@ -5,6 +5,7 @@ using Visitz.Services.AppLogs;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
 using Visitz.Services.CallDetails;
+using Visitz.Services.ListOfValues;
 using Visitz.Services.Messages;
 using Visitz.Services.Notes;
 using Visitz.Services.People;
@@ -91,7 +92,7 @@ public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler,
 
             try
             {
-                await DoGetAllDataAsync(exceptions);
+                await Task.WhenAll(GetAllLookupDataAsync(exceptions), GetAllCaseloadDataAsync(exceptions));
             }
             catch (Exception ex)
             {
@@ -121,7 +122,33 @@ public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler,
         }
     }
 
-    async Task DoGetAllDataAsync(List<Exception> exceptions)
+    async Task GetAllLookupDataAsync(List<Exception> exceptions)
+    {
+        async Task GetLookup(string lookupKeyName, string lookupValuesLabel)
+        {
+            try
+            {
+                await ServiceHandler.TryRunServiceAsync(GetLookupValuesService.MakeStartMessage(lookupKeyName));
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(lookupValuesLabel, ex));
+            }
+        }
+
+        List<(string LookupKey, string LookupLabel)> lovServiceInfo =
+        [
+            (ContactEducation.DegreeLookupLovKey, LocalizedStrings.ContactEducationLastGradeCompletedLovLabel),
+            (ContactLanguage.LanguageNamesLovKey, LocalizedStrings.ContactLanguagesLanguageNameLovLabel),
+            (ContactLanguage.TypeLovKey, LocalizedStrings.ContactLanguagesTypeLovLabel),
+            (ContactMedicalBehavioral.CategoriesLovKey, LocalizedStrings.ContactMedicalBehavioralCategoriesLovLabel),
+            (ContactMedicalBehavioral.ConditionNamesLovKey, LocalizedStrings.ContactMedicalBehavioralConditionLovLabel),
+        ];
+
+        await Task.WhenAll(lovServiceInfo.Select(info => GetLookup(info.LookupKey, info.LookupLabel)));
+    }
+
+    async Task GetAllCaseloadDataAsync(List<Exception> exceptions)
     {
         // Synchronize both caseloads BEFORE getting any dependent info.
         // We don't want to start downloading dependent info before
