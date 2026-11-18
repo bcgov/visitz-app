@@ -5,16 +5,10 @@
     xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
     x:Class="Visitz.Views.FormControls.FormPicker"
     x:DataType="formControls:FormPicker"
-    x:Name="self"
 >
-    <VerticalStackLayout BindingContext="{Reference self}">
-        <Label Text="{Binding FieldName}" VerticalOptions="Center" HorizontalOptions="Start" />
+    <VerticalStackLayout x:DataType="formControls:FormPicker">
+        <Label x:Name="FieldLabel" VerticalOptions="Center" HorizontalOptions="Start" />
 
-        <Picker
-            x:Name="PickerView"
-            ItemsSource="{Binding ItemsSource}"
-            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-            ItemDisplayBinding="{Binding ItemDisplayBinding}"
-        />
+        <Picker x:Name="PickerView" />
     </VerticalStackLayout>
 </ContentView>
