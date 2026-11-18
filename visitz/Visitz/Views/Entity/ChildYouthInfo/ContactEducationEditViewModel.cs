@@ -40,9 +40,7 @@ public partial class ContactEducationEditViewModel : DraftEditViewModel<ContactE
         DegreeQuery = new(DataRealm, ListedValue.GetAllByType(DataRealm, ContactEducation.DegreeLookupLovKey));
 
         await DegreeQuery.Loaded;
-
-        if (Draft?.ContactEducation?.Degree is string degreeValue)
-            SelectedDegree = DegreeQuery.Items.FirstOrDefault(item => item.Value == degreeValue);
+        SelectedDegree = DegreeQuery.Items.GetListedValue(Draft?.ContactEducation?.Degree);
     }
 
     protected override void Dispose(bool disposing)
@@ -69,12 +67,7 @@ public partial class ContactEducationEditViewModel : DraftEditViewModel<ContactE
 
     partial void OnSelectedDegreeChanged(ListedValue? value)
     {
-        bool degreesLoaded = DegreeQuery?.Loaded.IsCompleted ?? false;
-        bool isInitialized = InitTask?.IsCompleted ?? false;
-        if (!degreesLoaded || !isInitialized)
-            return;
-
-        if (value?.Value is string degree)
+        if (IsInitialized && value?.Value is string degree)
             Draft?.ContactEducation?.DegreeBinding = degree;
     }
 }

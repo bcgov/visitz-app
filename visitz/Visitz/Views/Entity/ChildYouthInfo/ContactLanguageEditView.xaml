@@ -7,6 +7,7 @@
     xmlns:childYouthInfoModels="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
     xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:lovModels="clr-namespace:VisitzModel.Models.ListOfValues;assembly=VisitzModel"
     x:Class="Visitz.Views.Entity.ChildYouthInfo.ContactLanguageEditView"
     x:DataType="childYouthInfo:ContactLanguageEditViewModel"
     x:TypeArguments="childYouthInfoModels:ContactLanguageDraft"
@@ -32,12 +33,16 @@
                 <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
                     <formControls:FormPicker
                         FieldName="{local:Localize Language}"
-                        SelectedItem="{Binding Draft.ContactLanguage.LanguageNameBinding}"
+                        SelectedItem="{Binding SelectedLanguageName, Mode=TwoWay}"
+                        ItemsSource="{Binding LanguageNamesQuery.Items}"
+                        ItemDisplayBinding="{Binding Name, x:DataType=lovModels:ListedValue}"
                     />
 
                     <formControls:FormPicker
                         FieldName="{local:Localize Type}"
-                        SelectedItem="{Binding Draft.ContactLanguage.TypeBinding}"
+                        SelectedItem="{Binding SelectedType, Mode=TwoWay}"
+                        ItemsSource="{Binding TypesQuery.Items}"
+                        ItemDisplayBinding="{Binding Name, x:DataType=lovModels:ListedValue}"
                     />
 
                     <formControls:FormEntry

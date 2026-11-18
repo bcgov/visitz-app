@@ -16,6 +16,8 @@ public partial class VisitzViewModel : ObservableObject, IDisposable, IAsyncInit
 
     public Task? InitTask { get; private set; }
 
+    public bool IsInitialized => InitTask?.IsCompleted ?? false;
+
     public VisitzViewModel()
     {
         Logger = ServiceProvider.GetService<ILoggerFactory>().CreateLogger(GetType());

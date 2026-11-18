@@ -66,3 +66,17 @@ public partial class ListedValue : IRealmObject, IComparable<ListedValue>
         return string.Compare(Name, other.Name, StringComparison.Ordinal);
     }
 }
+
+public static class ListedValueExtensions
+{
+    extension(IList<ListedValue> list)
+    {
+        /// <summary>
+        /// A convenience shorthand extension for finding a <seealso cref="ListedValue"/> from a list.
+        /// </summary>
+        /// <param name="valueText"></param>
+        /// <returns></returns>
+        public ListedValue? GetListedValue(string? valueText) =>
+            valueText == null ? null : list.FirstOrDefault(val => val.Value == valueText);
+    }
+}

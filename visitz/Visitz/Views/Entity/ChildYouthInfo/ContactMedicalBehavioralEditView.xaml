@@ -7,6 +7,7 @@
     xmlns:childYouthInfoModels="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
     xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:lovModels="clr-namespace:VisitzModel.Models.ListOfValues;assembly=VisitzModel"
     x:Class="Visitz.Views.Entity.ChildYouthInfo.ContactMedicalBehavioralEditView"
     x:DataType="childYouthInfo:ContactMedicalBehavioralEditViewModel"
     x:TypeArguments="childYouthInfoModels:ContactMedicalBehavioralDraft"
@@ -32,12 +33,16 @@
                 <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
                     <formControls:FormPicker
                         FieldName="{local:Localize Category}"
-                        SelectedItem="{Binding Draft.ContactMedicalBehavioral.CategoryBinding}"
+                        SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
+                        ItemsSource="{Binding CategoriesQuery.Items}"
+                        ItemDisplayBinding="{Binding Name, x:DataType=lovModels:ListedValue}"
                     />
 
                     <formControls:FormPicker
                         FieldName="{local:Localize Condition}"
-                        SelectedItem="{Binding Draft.ContactMedicalBehavioral.ConditionBinding}"
+                        SelectedItem="{Binding SelectedCondition, Mode=TwoWay}"
+                        ItemsSource="{Binding ConditionsQuery.Items}"
+                        ItemDisplayBinding="{Binding Name, x:DataType=lovModels:ListedValue}"
                     />
 
                     <formControls:FormDatePicker
