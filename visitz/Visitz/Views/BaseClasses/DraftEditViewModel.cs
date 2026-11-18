@@ -130,6 +130,8 @@ public abstract partial class DraftEditViewModel<TDraftItem> : IcmRecordViewMode
                 is nameof(Draft.LastUpdatedBinding)
                     or nameof(Draft.LastUpdated)
                     or nameof(Draft.IsManaged)
+                    or nameof(Draft.IsValid)
+                    or nameof(Draft.IsFrozen)
         )
             return;
 
