@@ -8,6 +8,8 @@ public class ListedValueJson
 
     public string Name { get; set; } = string.Empty;
 
+    public string OrderBy { get; set; } = string.Empty;
+
     public string Parent { get; set; } = string.Empty;
 
     public string Type { get; set; } = string.Empty;

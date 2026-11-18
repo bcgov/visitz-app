@@ -31,6 +31,7 @@ public partial class ListedValue : IRealmObject, IComparable<ListedValue>
         Active = json.Active.ParseWordTruthiness();
         Id = json.Id;
         Name = json.Name;
+        OrderBy = int.TryParse(json.OrderBy, out int result) ? result : null;
         Parent = json.Parent;
         Type = json.Type;
         Value = json.Value;
