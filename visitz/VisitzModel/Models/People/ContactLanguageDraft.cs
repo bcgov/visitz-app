@@ -3,6 +3,7 @@ using Realms;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Resources.Localization;
 
 namespace VisitzModel.Models.People;
 
@@ -18,7 +19,7 @@ public partial class ContactLanguageDraft : IRealmObject, IDraftItem
 
     public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
 
-    public string Preview => ContactLanguage?.LanguageNameBinding ?? string.Empty;
+    public string Preview => GeneralStrings.LanguageInfo;
 
     public string DraftLocation { get; set; } = string.Empty;
 

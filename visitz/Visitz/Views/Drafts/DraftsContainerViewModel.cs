@@ -13,6 +13,7 @@ using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Notes;
 using VisitzModel.Models.People;
 using VisitzModel.Models.SafetyAssess;
+using VisitzModel.Resources.Localization;
 
 namespace Visitz.Views.Drafts;
 
@@ -38,17 +39,17 @@ public partial class DraftsContainerViewModel : VisitzViewModel
     );
 
     readonly FilterOption<IDraftItem> _contactEducationFilter = new(
-        LocalizedStrings.ContactEducation,
+        GeneralStrings.EducationInfo,
         draft => draft is ContactEducationDraft
     );
 
     readonly FilterOption<IDraftItem> _contactLanguageFilter = new(
-        LocalizedStrings.ContactLanguages,
+        GeneralStrings.LanguageInfo,
         draft => draft is ContactLanguageDraft
     );
 
     readonly FilterOption<IDraftItem> _contactMedicalBehavioralFilter = new(
-        LocalizedStrings.ContactMedicalBehavioral,
+        GeneralStrings.MedicalBehavioralInfo,
         draft => draft is ContactMedicalBehavioralDraft
     );
 

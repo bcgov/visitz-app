@@ -22,7 +22,7 @@ namespace VisitzModel.Resources.Localization {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class GeneralStrings {
+    public class GeneralStrings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace VisitzModel.Resources.Localization {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VisitzModel.Resources.Localization.GeneralStrings", typeof(GeneralStrings).Assembly);
@@ -51,7 +51,7 @@ namespace VisitzModel.Resources.Localization {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,25 +63,52 @@ namespace VisitzModel.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Attachment.
         /// </summary>
-        internal static string Attachment {
+        public static string Attachment {
             get {
                 return ResourceManager.GetString("Attachment", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Education info.
+        /// </summary>
+        public static string EducationInfo {
+            get {
+                return ResourceManager.GetString("EducationInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File too large ({0} MB).
         /// </summary>
-        internal static string FileTooLarge {
+        public static string FileTooLarge {
             get {
                 return ResourceManager.GetString("FileTooLarge", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language info.
+        /// </summary>
+        public static string LanguageInfo {
+            get {
+                return ResourceManager.GetString("LanguageInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medical/behavioural info.
+        /// </summary>
+        public static string MedicalBehavioralInfo {
+            get {
+                return ResourceManager.GetString("MedicalBehavioralInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Note.
         /// </summary>
-        internal static string Note {
+        public static string Note {
             get {
                 return ResourceManager.GetString("Note", resourceCulture);
             }
@@ -90,7 +117,7 @@ namespace VisitzModel.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Preferred.
         /// </summary>
-        internal static string Preferred {
+        public static string Preferred {
             get {
                 return ResourceManager.GetString("Preferred", resourceCulture);
             }
@@ -99,7 +126,7 @@ namespace VisitzModel.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Safety assessment.
         /// </summary>
-        internal static string SafetyAssessment {
+        public static string SafetyAssessment {
             get {
                 return ResourceManager.GetString("SafetyAssessment", resourceCulture);
             }
@@ -108,7 +135,7 @@ namespace VisitzModel.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Secondary.
         /// </summary>
-        internal static string Secondary {
+        public static string Secondary {
             get {
                 return ResourceManager.GetString("Secondary", resourceCulture);
             }
@@ -117,7 +144,7 @@ namespace VisitzModel.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Child/youth visit.
         /// </summary>
-        internal static string Visit {
+        public static string Visit {
             get {
                 return ResourceManager.GetString("Visit", resourceCulture);
             }
@@ -126,7 +153,7 @@ namespace VisitzModel.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Visit date: {0}.
         /// </summary>
-        internal static string VisitDate {
+        public static string VisitDate {
             get {
                 return ResourceManager.GetString("VisitDate", resourceCulture);
             }
