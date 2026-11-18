@@ -1067,7 +1067,7 @@ Do you want to download information for this record?</value>
     <value>Contact legal authority</value>
   </data>
   <data name="ContactLanguages" xml:space="preserve">
-    <value>ContactLanguages</value>
+    <value>Contact languages</value>
   </data>
   <data name="ContactEducation" xml:space="preserve">
     <value>Contact education</value>

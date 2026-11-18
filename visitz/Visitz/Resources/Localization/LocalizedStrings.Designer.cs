@@ -634,7 +634,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ContactLanguages.
+        ///   Looks up a localized string similar to Contact languages.
         /// </summary>
         public static string ContactLanguages {
             get {
