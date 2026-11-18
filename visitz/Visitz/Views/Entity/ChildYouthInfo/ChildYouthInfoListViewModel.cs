@@ -42,19 +42,19 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel
             new ActionButtonOption()
             {
                 Text = LocalizedStrings.Education,
-                Command = AddEducationDraftCommand,
+                Command = OpenEducationDraftCommand,
                 Icon = MaterialIcons.School.GetUnfilledMaterialIcon(),
             },
             new ActionButtonOption()
             {
                 Text = LocalizedStrings.MedicalBehavioural,
-                Command = AddMedicalBehavioralDraftCommand,
+                Command = OpenMedicalBehavioralDraftCommand,
                 Icon = MaterialIcons.Monitor_heart.GetUnfilledMaterialIcon(),
             },
             new ActionButtonOption()
             {
                 Text = LocalizedStrings.Languages,
-                Command = AddLanguageDraftCommand,
+                Command = OpenLanguageDraftCommand,
                 Icon = MaterialIcons.Globe.GetUnfilledMaterialIcon(),
             },
         ];
@@ -82,34 +82,28 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel
     }
 
     [RelayCommand]
-    public async Task AddEducationDraft()
+    public async Task OpenEducationDraft(ContactEducationDraft? draft)
     {
         ContactEducationEditView view = ServiceProvider.GetService<ContactEducationEditView>();
-        var userData = await VisitzRealms.GetUserDataRealmAsync();
-
-        view.Init(RowId, EntityType, userData.All<ContactEducationDraft>().FirstOrDefault());
+        view.Init(RowId, EntityType, draft);
 
         await Navigator.Navigation.PushModalAsync(view.WrapPageForModal());
     }
 
     [RelayCommand]
-    public async Task AddMedicalBehavioralDraft()
+    public async Task OpenMedicalBehavioralDraft(ContactMedicalBehavioralDraft? draft)
     {
         ContactMedicalBehavioralEditView view = ServiceProvider.GetService<ContactMedicalBehavioralEditView>();
-        var userData = await VisitzRealms.GetUserDataRealmAsync();
-
-        view.Init(RowId, EntityType, userData.All<ContactMedicalBehavioralDraft>().FirstOrDefault());
+        view.Init(RowId, EntityType, draft);
 
         await Navigator.Navigation.PushModalAsync(view.WrapPageForModal());
     }
 
     [RelayCommand]
-    public async Task AddLanguageDraft()
+    public async Task OpenLanguageDraft(ContactLanguageDraft? draft)
     {
         ContactLanguageEditView view = ServiceProvider.GetService<ContactLanguageEditView>();
-        var userData = await VisitzRealms.GetUserDataRealmAsync();
-
-        view.Init(RowId, EntityType, userData.All<ContactLanguageDraft>().FirstOrDefault());
+        view.Init(RowId, EntityType, draft);
 
         await Navigator.Navigation.PushModalAsync(view.WrapPageForModal());
     }
