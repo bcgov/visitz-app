@@ -165,6 +165,18 @@ public partial class ObservableQuery<TQueryObject, TListItem> : ObservableObject
 
         HasAnyItems = Items.Any();
     }
+
+    /// <summary>
+    /// Clears the target list and runs <seealso cref="AddItemMapper"/> for every <seealso cref="TQueryObject"/>, in
+    /// case filtering or other display logic was changed outside ObservableQuery and requires the target list to be
+    /// updated.
+    /// </summary>
+    public void RefreshList()
+    {
+        Items.Clear();
+        foreach (TQueryObject newItem in QueryItems)
+            AddItemMapper(newItem, Items);
+    }
 }
 
 /// <summary>
