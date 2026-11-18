@@ -9,9 +9,18 @@ public partial class ContactMedicalBehavioralEditViewModel : DraftEditViewModel<
     public override Func<ContactMedicalBehavioralDraft, INotifyPropertyChanged?> ObjectToObserveChanges =>
         static draft => draft.ContactMedicalBehavioral;
 
-    public override string DiscardWarningMessage => throw new NotImplementedException();
+    public override string DiscardWarningMessage =>
+        string.Format(
+            LocalizedStrings.DiscardThisDraftDescription,
+            LocalizedStrings.ContactMedicalBehavioral.ToLowerInvariant()
+        );
 
-    public override string DiscardedMessage => throw new NotImplementedException();
+    public override string DiscardedMessage =>
+        string.Format(
+            LocalizedStrings.DiscardedThisDraft,
+            LocalizedStrings.ContactMedicalBehavioral.ToLowerInvariant()
+        );
+
 
     protected override Task DoPublishDraftAsync()
     {

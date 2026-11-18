@@ -15,9 +15,14 @@ public partial class ContactEducationEditViewModel : DraftEditViewModel<ContactE
     public override Func<ContactEducationDraft, INotifyPropertyChanged?> ObjectToObserveChanges =>
         static draft => draft.ContactEducation;
 
-    public override string DiscardWarningMessage => LocalizedStrings.DiscardContactEducationDraftDescription;
+    public override string DiscardWarningMessage =>
+        string.Format(
+            LocalizedStrings.DiscardThisDraftDescription,
+            LocalizedStrings.ContactEducation.ToLowerInvariant()
+        );
 
-    public override string DiscardedMessage => LocalizedStrings.DiscardedContactEducationDraft;
+    public override string DiscardedMessage =>
+        string.Format(LocalizedStrings.DiscardedThisDraft, LocalizedStrings.ContactEducation.ToLowerInvariant());
 
     [ObservableProperty]
     public partial ObservableQuery<ListedValue>? DegreeQuery { get; set; }
