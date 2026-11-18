@@ -1259,4 +1259,12 @@ It is unlikely that the file can be recovered.</value>
   <data name="ContactLanguagesTypeLovLabel" xml:space="preserve">
     <value>Contact languages - "type" values</value>
   </data>
+  <data name="DiscardThisDraftDescription" xml:space="preserve">
+    <value>Are you sure you want to discard this {0} draft? You won't be able to recover it.</value>
+    <comment>0 = name of the type of draft</comment>
+  </data>
+  <data name="DiscardedThisDraft" xml:space="preserve">
+    <value>Discarded {0} draft</value>
+    <comment>0 = name of the type of draft</comment>
+  </data>
 </root>

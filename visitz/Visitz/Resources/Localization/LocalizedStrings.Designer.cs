@@ -971,6 +971,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discarded {0} draft.
+        /// </summary>
+        public static string DiscardedThisDraft {
+            get {
+                return ResourceManager.GetString("DiscardedThisDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discarded visit draft.
         /// </summary>
         public static string DiscardedVisitDraft {
@@ -1003,6 +1012,15 @@ namespace Visitz.Resources.Localization {
         public static string DiscardSafetyAssessmentDraftDescription {
             get {
                 return ResourceManager.GetString("DiscardSafetyAssessmentDraftDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to discard this {0} draft? You won&apos;t be able to recover it..
+        /// </summary>
+        public static string DiscardThisDraftDescription {
+            get {
+                return ResourceManager.GetString("DiscardThisDraftDescription", resourceCulture);
             }
         }
         
