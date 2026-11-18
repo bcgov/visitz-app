@@ -18,6 +18,9 @@ public partial class ContactMedicalBehavioral
     public static readonly int DiagnosedByMaxLength = 100;
     public static readonly int TreatmentPlanMaxLength = 100;
 
+    public static readonly string ConditionNamesLovKey = "ICM_CON_MED_COND";
+    public static readonly string CategoriesLovKey = "ICM_CON_MED_CATEGORY";
+
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
     public string ContactFirstName { get; set; } = string.Empty;

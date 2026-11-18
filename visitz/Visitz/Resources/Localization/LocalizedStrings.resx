@@ -1253,4 +1253,10 @@ It is unlikely that the file can be recovered.</value>
   <data name="ContactLanguagesLanguageNameLovLabel" xml:space="preserve">
     <value>Contact languages - "language name" values</value>
   </data>
+  <data name="ContactMedicalBehavioralCategoriesLovLabel" xml:space="preserve">
+    <value>Contact medical/behavioural - "category" values</value>
+  </data>
+  <data name="ContactLanguagesTypeLovLabel" xml:space="preserve">
+    <value>Contact languages - "type" values</value>
+  </data>
 </root>

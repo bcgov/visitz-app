@@ -13,6 +13,9 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
     public static readonly int CommentsMaxLength = 255;
     public static readonly int OtherLanguageMaxLength = 30;
 
+    public static readonly string LanguageNamesLovKey = "ICM_CON_LANG";
+    public static readonly string TypeLovKey = "ICM_LANG_TYPE";
+
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
     public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;

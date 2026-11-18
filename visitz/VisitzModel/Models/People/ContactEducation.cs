@@ -18,6 +18,8 @@ public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJ
     public static readonly int PhoneNumMaxLength = 40;
     public static readonly int SchoolNameMaxLength = 255;
 
+    public static readonly string DegreeLookupLovKey = "FINCORP_CONTACT_EDUCATION";
+
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
     public string LearningAssistant { get; set; } = string.Empty;

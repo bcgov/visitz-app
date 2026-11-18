@@ -652,6 +652,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contact languages - &quot;type&quot; values.
+        /// </summary>
+        public static string ContactLanguagesTypeLovLabel {
+            get {
+                return ResourceManager.GetString("ContactLanguagesTypeLovLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contact legal authority.
         /// </summary>
         public static string ContactLegalAuthority {
@@ -666,6 +675,15 @@ namespace Visitz.Resources.Localization {
         public static string ContactMedicalBehavioral {
             get {
                 return ResourceManager.GetString("ContactMedicalBehavioral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact medical/behavioural - &quot;category&quot; values.
+        /// </summary>
+        public static string ContactMedicalBehavioralCategoriesLovLabel {
+            get {
+                return ResourceManager.GetString("ContactMedicalBehavioralCategoriesLovLabel", resourceCulture);
             }
         }
         
