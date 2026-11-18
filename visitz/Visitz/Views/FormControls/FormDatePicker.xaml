@@ -5,11 +5,10 @@
     xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
     x:Class="Visitz.Views.FormControls.FormDatePicker"
     x:DataType="formControls:FormDatePicker"
-    x:Name="self"
 >
-    <VerticalStackLayout BindingContext="{Reference self}">
-        <Label Text="{Binding FieldName}" VerticalOptions="Center" HorizontalOptions="Start" />
+    <VerticalStackLayout>
+        <Label x:Name="FieldNameLabel" VerticalOptions="Center" HorizontalOptions="Start" />
 
-        <DatePicker x:Name="DatePickerView" Date="{Binding Date}" />
+        <DatePicker x:Name="DatePickerView" />
     </VerticalStackLayout>
 </ContentView>
