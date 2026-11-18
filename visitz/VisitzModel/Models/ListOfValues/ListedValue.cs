@@ -6,6 +6,10 @@ namespace VisitzModel.Models.ListOfValues;
 
 public partial class ListedValue : IRealmObject, IComparable<ListedValue>
 {
+    public static readonly IComparer<ListedValue> NameOnlyComparer = Comparer<ListedValue>.Create(
+        (l, r) => l.Name.CompareTo(r.Name)
+    );
+
     [PrimaryKey]
     public string CompositePk { get; set; } = Guid.NewGuid().ToString();
 
