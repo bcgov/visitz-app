@@ -38,6 +38,8 @@ public partial class FormEntry : ContentView
     [BindableProperty]
     public partial Keyboard Keyboard { get; set; }
 
+    public IList<Behavior> EditorBehaviors => Editor.Behaviors;
+
     public FormEntry()
     {
         InitializeComponent();
