@@ -35,11 +35,13 @@ public partial class FormEntry : ContentView
     [BindableProperty]
     public partial bool IsReadOnly { get; set; }
 
-    public Editor EditorView => Editor;
+    [BindableProperty]
+    public partial Keyboard Keyboard { get; set; }
 
     public FormEntry()
     {
         InitializeComponent();
+        Keyboard ??= Keyboard.Default;
     }
 
     static void TextProperty_Changed(BindableObject obj, object _, object __) =>
