@@ -1,18 +1,54 @@
 using System.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Models;
+using VisitzModel.Models.ListOfValues;
 using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.ChildYouthInfo;
 
 public partial class ContactEducationEditViewModel : DraftEditViewModel<ContactEducationDraft>
 {
+    bool _disposed;
+
     public override Func<ContactEducationDraft, INotifyPropertyChanged?> ObjectToObserveChanges =>
         static draft => draft.ContactEducation;
 
     public override string DiscardWarningMessage => LocalizedStrings.DiscardContactEducationDraftDescription;
 
     public override string DiscardedMessage => LocalizedStrings.DiscardedContactEducationDraft;
+
+    [ObservableProperty]
+    public partial ObservableQuery<ListedValue>? DegreeQuery { get; set; }
+
+    [ObservableProperty]
+    public partial ListedValue? SelectedDegree { get; set; }
+
+    protected override async Task InitAsync()
+    {
+        await base.InitAsync();
+
+        if (DataRealm == null)
+            return;
+
+        DegreeQuery = new(DataRealm, ListedValue.GetAllByType(DataRealm, ContactEducation.DegreeLookupLovKey));
+
+        await DegreeQuery.Loaded;
+
+        if (Draft?.ContactEducation?.Degree is string degreeValue)
+            SelectedDegree = DegreeQuery.Items.FirstOrDefault(item => item.Value == degreeValue);
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        {
+            DegreeQuery?.Dispose();
+            _disposed = true;
+        }
+        base.Dispose(disposing);
+    }
 
     protected override Task DoPublishDraftAsync()
     {
@@ -24,5 +60,16 @@ public partial class ContactEducationEditViewModel : DraftEditViewModel<ContactE
     {
         // TODO: wire up validation for publishing
         return false;
+    }
+
+    partial void OnSelectedDegreeChanged(ListedValue? value)
+    {
+        bool degreesLoaded = DegreeQuery?.Loaded.IsCompleted ?? false;
+        bool isInitialized = InitTask?.IsCompleted ?? false;
+        if (!degreesLoaded || !isInitialized)
+            return;
+
+        if (value?.Value is string degree)
+            Draft?.ContactEducation?.DegreeBinding = degree;
     }
 }

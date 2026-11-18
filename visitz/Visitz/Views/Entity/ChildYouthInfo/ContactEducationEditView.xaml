@@ -5,8 +5,10 @@
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:childYouthInfo="clr-namespace:Visitz.Views.Entity.ChildYouthInfo"
     xmlns:childYouthInfoModels="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
+    xmlns:behaviors="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
     xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
     xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:lovModels="clr-namespace:VisitzModel.Models.ListOfValues;assembly=VisitzModel"
     x:Class="Visitz.Views.Entity.ChildYouthInfo.ContactEducationEditView"
     x:DataType="childYouthInfo:ContactEducationEditViewModel"
     x:TypeArguments="childYouthInfoModels:ContactEducationDraft"
@@ -38,12 +40,14 @@
 
                     <formControls:FormDatePicker
                         FieldName="{local:Localize StartDate}"
-                        Date="{Binding Draft.ContactEducation.StartDateBinding}"
+                        Date="{Binding Draft.ContactEducation.StartDateBinding, Mode=TwoWay}"
                     />
 
                     <formControls:FormPicker
                         FieldName="{local:Localize LastGradeCompleted}"
-                        SelectedItem="{Binding Draft.ContactEducation.DegreeBinding}"
+                        SelectedItem="{Binding SelectedDegree, Mode=TwoWay}"
+                        ItemsSource="{Binding DegreeQuery.Items}"
+                        ItemDisplayBinding="{Binding Name, x:DataType=lovModels:ListedValue}"
                     />
 
                     <formControls:FormEntry
@@ -62,7 +66,12 @@
                         FieldName="{local:Localize Phone}"
                         Text="{Binding Draft.ContactEducation.PhoneNumBinding}"
                         MaxLength="{Static childYouthInfoModels:ContactEducation.PhoneNumMaxLength}"
-                    />
+                        Keyboard="Telephone"
+                    >
+                        <formControls:FormEntry.EditorBehaviors>
+                            <behaviors:MaskedBehavior Mask="(XXX) XXX XXXX" />
+                        </formControls:FormEntry.EditorBehaviors>
+                    </formControls:FormEntry>
 
                     <formControls:FormEntry
                         FieldName="{local:Localize Address}"
