@@ -67,6 +67,12 @@ public partial class ObservableQuery<TQueryObject, TListItem> : ObservableObject
         ItemsChangedDelegate? itemsChanged = null
     )
     {
+        ArgumentNullException.ThrowIfNull(realm);
+        ArgumentNullException.ThrowIfNull(query);
+        ArgumentNullException.ThrowIfNull(targetList);
+        ArgumentNullException.ThrowIfNull(addItem);
+        ArgumentNullException.ThrowIfNull(removeItem);
+
         Realm = realm;
         RealmQuery = query;
         Items = targetList;
