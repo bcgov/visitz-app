@@ -7,12 +7,14 @@ using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.Drafts;
 using VisitzModel.Models;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.ChildYouthInfo;
 
-public partial class ChildYouthInfoListViewModel : IcmRecordViewModel
+public partial class ChildYouthInfoListViewModel : IcmRecordViewModel, IOpenFocusDraftItem
 {
     bool _disposed;
 
@@ -30,6 +32,8 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel
 
     [ObservableProperty]
     public partial List<ActionButtonOption> FabOptions { get; private set; } = [];
+
+    public IDraftItem? FocusedDraftItem { get; set; }
 
     protected override async Task InitAsync()
     {
@@ -79,6 +83,8 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel
         }
 
         IsLoading = false;
+
+        await OpenDraftAsync();
     }
 
     [RelayCommand]
@@ -118,5 +124,15 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel
             _disposed = true;
         }
         base.Dispose(disposing);
+    }
+
+    public async Task OpenDraftAsync()
+    {
+        if (FocusedDraftItem is ContactEducationDraft education)
+            await OpenEducationDraft(education);
+        else if (FocusedDraftItem is ContactMedicalBehavioralDraft medical)
+            await OpenMedicalBehavioralDraft(medical);
+        else if (FocusedDraftItem is ContactLanguageDraft language)
+            await OpenLanguageDraft(language);
     }
 }

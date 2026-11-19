@@ -22,11 +22,12 @@
             IsRunning="{Binding IsLoading}"
         />
 
-        <ScrollView Grid.Row="0">
+        <ScrollView x:Name="MainScrollView" Grid.Row="0">
             <VerticalStackLayout>
                 <ContentView x:Name="DummyItemForSpacing" />
 
                 <childYouthInfo:ExpandableSection
+                    x:Name="EducationSection"
                     HeaderGlyph="{Static fontIcons:MaterialIcons.School}"
                     HeaderText="{local:Localize Education}"
                     ItemsSource="{Binding Education.Items}"
@@ -55,6 +56,7 @@
                 </childYouthInfo:ExpandableSection>
 
                 <childYouthInfo:ExpandableSection
+                    x:Name="MedicalSection"
                     HeaderGlyph="{Static fontIcons:MaterialIcons.Monitor_heart}"
                     HeaderText="{local:Localize MedicalBehavioural}"
                     ItemsSource="{Binding MedicalBehavioral.Items}"
@@ -96,6 +98,7 @@
                 </childYouthInfo:ExpandableSection>
 
                 <childYouthInfo:ExpandableSection
+                    x:Name="LanguagesSection"
                     HeaderGlyph="{Static fontIcons:MaterialIcons.Globe}"
                     HeaderText="{local:Localize Languages}"
                     ItemsSource="{Binding Languages.Items}"
