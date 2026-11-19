@@ -25,8 +25,7 @@ public static class IListTExtensions
             int length = -1
         )
         {
-            if (list == null)
-                throw new ArgumentException(null, nameof(list));
+            ArgumentNullException.ThrowIfNull(list);
 
             comparer ??= Comparer<T>.Default;
 
