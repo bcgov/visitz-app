@@ -14,12 +14,15 @@ public interface IRecordInfo
 
 public static class IRecordInfoExtensions
 {
-    public static IRecordInfo InitWith(this IRecordInfo item, IBusinessObject businessObject)
+    extension(IRecordInfo item)
     {
-        item.RelatedEntityId = businessObject.Id;
-        item.RelatedEntityType = businessObject.EntityType;
-        item.RelatedEntitySubtype = businessObject.EntitySubtype;
+        public IRecordInfo InitWith(IBusinessObject businessObject)
+        {
+            item.RelatedEntityId = businessObject.Id;
+            item.RelatedEntityType = businessObject.EntityType;
+            item.RelatedEntitySubtype = businessObject.EntitySubtype;
 
-        return item;
+            return item;
+        }
     }
 }
