@@ -106,4 +106,15 @@ public static class IListTExtensions
             Sort(list, Comparer<T>.Create(comparison));
         }
     }
+
+    extension<TWrappedItem, TItem>(IList<TWrappedItem> items)
+    {
+        public bool RemoveWrappedItem(TItem itemToRemove, Func<TWrappedItem, TItem> unwrapper)
+        {
+            if (items.FirstOrDefault(item => unwrapper(item)?.Equals(itemToRemove) ?? default) is TWrappedItem found)
+                return items.Remove(found);
+
+            return false;
+        }
+    }
 }
