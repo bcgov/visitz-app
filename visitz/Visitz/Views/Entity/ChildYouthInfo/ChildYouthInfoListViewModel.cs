@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -8,27 +9,40 @@ using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Drafts;
+using VisitzModel.Extensions;
 using VisitzModel.Models;
 using VisitzModel.Models.Drafts;
+using VisitzModel.Models.Interfaces;
 using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.ChildYouthInfo;
 
 public partial class ChildYouthInfoListViewModel : IcmRecordViewModel, IOpenFocusDraftItem
 {
+    readonly bool _ascending = false;
+
     bool _disposed;
 
     [ObservableProperty]
     public partial bool IsLoading { get; set; }
 
-    [ObservableProperty]
-    public partial ObservableQuery<ContactEducation>? Education { get; private set; }
+    ObservableQuery<ContactEducation, EducationListItemViewModel>? _educationQuery;
+    ObservableQuery<ContactEducationDraft, EducationListItemViewModel>? _educationDraftsQuery;
+
+    ObservableQuery<ContactMedicalBehavioral, MedicalBehavioralListItemViewModel>? _medicalBehavioralQuery;
+    ObservableQuery<ContactMedicalBehavioralDraft, MedicalBehavioralListItemViewModel>? _medicalBehavioralDraftsQuery;
+
+    ObservableQuery<ContactLanguage, LanguagesListItemViewModel>? _languagesQuery;
+    ObservableQuery<ContactLanguageDraft, LanguagesListItemViewModel>? _languagesDraftsQuery;
 
     [ObservableProperty]
-    public partial ObservableQuery<ContactMedicalBehavioral>? MedicalBehavioral { get; private set; }
+    public partial ObservableCollection<EducationListItemViewModel> EducationItems { get; set; } = [];
 
     [ObservableProperty]
-    public partial ObservableQuery<ContactLanguage>? Languages { get; private set; }
+    public partial ObservableCollection<MedicalBehavioralListItemViewModel> MedicalItems { get; set; } = [];
+
+    [ObservableProperty]
+    public partial ObservableCollection<LanguagesListItemViewModel> LanguagesItems { get; set; } = [];
 
     [ObservableProperty]
     public partial List<ActionButtonOption> FabOptions { get; private set; } = [];
@@ -65,15 +79,7 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel, IOpenFocu
 
         if (BusinessObject.GetKeyPlayer() is IcmContact keyPlayer)
         {
-            var dataRealm = await VisitzRealms.GetIcmDataRealmAsync();
-
-            Education = new(dataRealm, query: ContactEducation.GetAllByParent(dataRealm, keyPlayer.Id));
-
-            MedicalBehavioral = new(dataRealm, query: ContactMedicalBehavioral.GetAllByParent(dataRealm, keyPlayer.Id));
-
-            Languages = new(dataRealm, query: ContactLanguage.GetAllByParent(dataRealm, keyPlayer.Id));
-
-            await Task.WhenAll(Education.Loaded, MedicalBehavioral.Loaded, Languages.Loaded);
+            await Task.WhenAll(InitReadQueries(keyPlayer), InitDraftQueries());
         }
         else
         {
@@ -85,6 +91,82 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel, IOpenFocu
         IsLoading = false;
 
         await OpenDraftAsync();
+    }
+
+    async Task InitReadQueries(IcmContact keyPlayer)
+    {
+        if (DataRealm == null)
+            return;
+
+        _educationQuery = new(
+            DataRealm,
+            query: ContactEducation.GetAllByParent(DataRealm, keyPlayer.Id),
+            targetList: EducationItems,
+            addItem: (addItem, targetList) => targetList.InsertSorted(new(default, addItem), ascending: _ascending),
+            removeItem: (removeItem, targetList) =>
+                targetList.RemoveWrappedItem(removeItem, unwrapper => unwrapper.ReadItem)
+        );
+
+        _medicalBehavioralQuery = new(
+            DataRealm,
+            query: ContactMedicalBehavioral.GetAllByParent(DataRealm, keyPlayer.Id),
+            targetList: MedicalItems,
+            addItem: (addItem, targetList) => targetList.InsertSorted(new(default, addItem), ascending: _ascending),
+            removeItem: (removeItem, targetList) =>
+                targetList.RemoveWrappedItem(removeItem, unwrapper => unwrapper.ReadItem)
+        );
+
+        _languagesQuery = new(
+            DataRealm,
+            query: ContactLanguage.GetAllByParent(DataRealm, keyPlayer.Id),
+            targetList: LanguagesItems,
+            addItem: (addItem, targetList) => targetList.InsertSorted(new(default, addItem), ascending: _ascending),
+            removeItem: (removeItem, targetList) =>
+                targetList.RemoveWrappedItem(removeItem, unwrapper => unwrapper.ReadItem)
+        );
+
+        await Task.WhenAll(_educationQuery.Loaded, _medicalBehavioralQuery.Loaded, _languagesQuery.Loaded);
+    }
+
+    async Task InitDraftQueries()
+    {
+        var userDataRealm = await VisitzRealms.GetUserDataRealmAsync();
+
+        _educationDraftsQuery = new(
+            userDataRealm,
+            query: ContactEducationDraft.GetAllByRelated(userDataRealm, EntityType, RowId),
+            targetList: EducationItems,
+            addItem: (addDraft, targetList) =>
+                targetList.InsertSorted(new(addDraft, addDraft.ContactEducation), ascending: _ascending),
+            removeItem: (removeItem, targetList) =>
+                targetList.RemoveWrappedItem(removeItem, unwrapper => unwrapper.DraftItem)
+        );
+
+        _medicalBehavioralDraftsQuery = new(
+            userDataRealm,
+            query: ContactMedicalBehavioralDraft.GetAllByRelated(userDataRealm, EntityType, RowId),
+            MedicalItems,
+            addItem: (addDraft, targetList) =>
+                targetList.InsertSorted(new(addDraft, addDraft.ContactMedicalBehavioral), ascending: _ascending),
+            removeItem: (removeItem, targetList) =>
+                targetList.RemoveWrappedItem(removeItem, unwrapper => unwrapper.DraftItem)
+        );
+
+        _languagesDraftsQuery = new(
+            userDataRealm,
+            query: ContactLanguageDraft.GetAllByRelated(userDataRealm, EntityType, RowId),
+            LanguagesItems,
+            addItem: (addDraft, targetList) =>
+                targetList.InsertSorted(new(addDraft, addDraft.ContactLanguage), ascending: _ascending),
+            removeItem: (removeItem, targetList) =>
+                targetList.RemoveWrappedItem(removeItem, unwrapper => unwrapper.DraftItem)
+        );
+
+        await Task.WhenAll(
+            _educationDraftsQuery.Loaded,
+            _medicalBehavioralDraftsQuery.Loaded,
+            _languagesDraftsQuery.Loaded
+        );
     }
 
     [RelayCommand]
@@ -118,9 +200,12 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel, IOpenFocu
     {
         if (!_disposed && disposing)
         {
-            Education?.Dispose();
-            MedicalBehavioral?.Dispose();
-            Languages?.Dispose();
+            _educationQuery?.Dispose();
+            _educationDraftsQuery?.Dispose();
+            _medicalBehavioralQuery?.Dispose();
+            _medicalBehavioralDraftsQuery?.Dispose();
+            _languagesQuery?.Dispose();
+            _languagesDraftsQuery?.Dispose();
             _disposed = true;
         }
         base.Dispose(disposing);
