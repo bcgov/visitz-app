@@ -50,4 +50,13 @@ public partial class ContactEducationDraft : IRealmObject, IDraftItem, IValidToP
     {
         this.InitDraftWith(businessObject);
     }
+
+    public void CascadeDeleteItem()
+    {
+        if (Realm == null || ContactEducation == null)
+            return;
+
+        if (ContactEducation.Realm == Realm)
+            Realm?.Remove(ContactEducation);
+    }
 }

@@ -50,4 +50,13 @@ public partial class ContactMedicalBehavioralDraft : IRealmObject, IDraftItem, I
     {
         this.InitDraftWith(businessObject);
     }
+
+    public void CascadeDeleteItem()
+    {
+        if (Realm == null || ContactMedicalBehavioral == null)
+            return;
+
+        if (ContactMedicalBehavioral.Realm == Realm)
+            Realm?.Remove(ContactMedicalBehavioral);
+    }
 }

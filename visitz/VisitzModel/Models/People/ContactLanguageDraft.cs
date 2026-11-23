@@ -50,4 +50,13 @@ public partial class ContactLanguageDraft : IRealmObject, IDraftItem, IValidToPu
     {
         this.InitDraftWith(businessObject);
     }
+
+    public void CascadeDeleteItem()
+    {
+        if (Realm == null || ContactLanguage == null)
+            return;
+
+        if (ContactLanguage.Realm == Realm)
+            Realm?.Remove(ContactLanguage);
+    }
 }
