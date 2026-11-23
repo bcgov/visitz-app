@@ -9,7 +9,11 @@ using VisitzModel.Utilities;
 namespace VisitzModel.Models.People;
 
 [GenerateRealmBindings]
-public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJson>, IComparable<ContactEducation>
+public partial class ContactEducation
+    : IRealmObject,
+        IApiJson<ContactEducationJson>,
+        IComparable<ContactEducation>,
+        IValidToPublish
 {
     public static readonly int AddressMaxLength = 255;
     public static readonly int CommentsMaxLength = 100;
@@ -46,6 +50,16 @@ public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJ
     public string? DisplayStartDate => StartDateBinding?.ToString(IcmDateFormats.BasicTimestampShort);
 
     public string? DisplayEndDate => EndDateBinding?.ToString(IcmDateFormats.BasicTimestamp);
+
+    public bool IsValidToPublish =>
+        Address.Length <= AddressMaxLength
+        && Comments.Length <= CommentsMaxLength
+        && ContactPerson.Length <= ContactPersonMaxLength
+        && ContactPersonRole.Length <= ContactPersonRoleMaxLength
+        && PhoneNum.Length <= PhoneNumMaxLength
+        && SchoolName.Length <= SchoolNameMaxLength
+        && Degree.Length > 0
+        && (PhoneNum.Length <= 0 || int.TryParse(PhoneNum, out var _));
 
     public ContactEducation() { }
 

@@ -8,7 +8,11 @@ using VisitzModel.Resources.Localization;
 namespace VisitzModel.Models.People;
 
 [GenerateRealmBindings]
-public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJson>, IComparable<ContactLanguage>
+public partial class ContactLanguage
+    : IRealmObject,
+        IApiJson<ContactLanguageJson>,
+        IComparable<ContactLanguage>,
+        IValidToPublish
 {
     public static readonly int CommentsMaxLength = 255;
     public static readonly int OtherLanguageMaxLength = 30;
@@ -38,6 +42,11 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
 
     public string DisplayPreferred =>
         PreferredBinding.ParseWordTruthiness() ? GeneralStrings.Preferred : GeneralStrings.Secondary;
+
+    public bool IsValidToPublish =>
+        Comments.Length <= CommentsMaxLength
+        && OtherLanguage.Length <= OtherLanguageMaxLength
+        && LanguageName.Length > 0;
 
     public ContactLanguage() { }
 

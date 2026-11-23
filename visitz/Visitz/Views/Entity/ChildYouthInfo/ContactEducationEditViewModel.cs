@@ -59,12 +59,6 @@ public partial class ContactEducationEditViewModel : DraftEditViewModel<ContactE
         return Task.CompletedTask;
     }
 
-    protected override bool EnablePublish(ContactEducationDraft draft)
-    {
-        // TODO: wire up validation for publishing
-        return false;
-    }
-
     partial void OnSelectedDegreeChanged(ListedValue? value)
     {
         if (IsInitialized && value?.Value is string degree)

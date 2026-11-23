@@ -1,5 +1,6 @@
 using RealmBindings;
 using Realms;
+using VisitzModel.Interfaces;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
@@ -8,7 +9,7 @@ using VisitzModel.Resources.Localization;
 namespace VisitzModel.Models.People;
 
 [GenerateRealmBindings]
-public partial class ContactMedicalBehavioralDraft : IRealmObject, IDraftItem
+public partial class ContactMedicalBehavioralDraft : IRealmObject, IDraftItem, IValidToPublish
 {
     [PrimaryKey]
     public string DraftEntityId { get; set; } = Guid.NewGuid().ToString();
@@ -40,6 +41,8 @@ public partial class ContactMedicalBehavioralDraft : IRealmObject, IDraftItem
         get => (EntitySubtype)RelatedEntitySubtypeInt;
         set => RelatedEntitySubtypeInt = (int)value;
     }
+
+    public bool IsValidToPublish => ContactMedicalBehavioral?.IsValidToPublish ?? false;
 
     public ContactMedicalBehavioralDraft() { }
 

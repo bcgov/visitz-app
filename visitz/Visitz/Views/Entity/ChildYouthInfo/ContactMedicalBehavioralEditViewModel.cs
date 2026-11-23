@@ -89,12 +89,6 @@ public partial class ContactMedicalBehavioralEditViewModel : DraftEditViewModel<
         return Task.CompletedTask;
     }
 
-    protected override bool EnablePublish(ContactMedicalBehavioralDraft draft)
-    {
-        // TODO: wire up validation for publishing
-        return false;
-    }
-
     partial void OnSelectedCategoryChanged(ListedValue? value)
     {
         if (IsInitialized && value?.Value is string category)

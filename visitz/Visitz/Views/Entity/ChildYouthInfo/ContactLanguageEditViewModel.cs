@@ -70,12 +70,6 @@ public partial class ContactLanguageEditViewModel : DraftEditViewModel<ContactLa
         return Task.CompletedTask;
     }
 
-    protected override bool EnablePublish(ContactLanguageDraft draft)
-    {
-        // TODO: wire up validation for publishing
-        return false;
-    }
-
     partial void OnSelectedLanguageNameChanged(ListedValue? value)
     {
         if (IsInitialized && value?.Value is string name)

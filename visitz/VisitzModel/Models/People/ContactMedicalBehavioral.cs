@@ -12,7 +12,8 @@ namespace VisitzModel.Models.People;
 public partial class ContactMedicalBehavioral
     : IRealmObject,
         IApiJson<ContactMedicalBehavioralJson>,
-        IComparable<ContactMedicalBehavioral>
+        IComparable<ContactMedicalBehavioral>,
+        IValidToPublish
 {
     public static readonly int CommentsMaxLength = 200;
     public static readonly int DiagnosedByMaxLength = 100;
@@ -51,6 +52,12 @@ public partial class ContactMedicalBehavioral
     public string? DisplayStartDate => StartDateBinding?.ToString(IcmDateFormats.BasicTimestamp);
 
     public string? DisplayEndDate => EndDateBinding?.ToString(IcmDateFormats.BasicTimestamp);
+
+    public bool IsValidToPublish =>
+        Comments.Length <= CommentsMaxLength
+        && DiagnosedBy.Length <= DiagnosedByMaxLength
+        && TreatmentPlan.Length <= TreatmentPlanMaxLength
+        && Category.Length > 0;
 
     public ContactMedicalBehavioral() { }
 

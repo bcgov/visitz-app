@@ -1,12 +1,14 @@
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Oidc.Network;
 using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.Snackbar;
 using VisitzModel.Events;
 using VisitzModel.Extensions;
+using VisitzModel.Interfaces;
 using VisitzModel.Models.Drafts;
 
 namespace Visitz.Views.BaseClasses;
@@ -18,7 +20,7 @@ namespace Visitz.Views.BaseClasses;
 /// </summary>
 /// <typeparam name="TDraftItem"></typeparam>
 public abstract partial class DraftEditViewModel<TDraftItem> : IcmRecordViewModel
-    where TDraftItem : IDraftItem, IRealmObject, INotifyPropertyChanged, new()
+    where TDraftItem : IDraftItem, IValidToPublish, IRealmObject, INotifyPropertyChanged, new()
 {
     readonly DraftSaveStateHandler _saveStateHandler = new();
 
@@ -44,6 +46,8 @@ public abstract partial class DraftEditViewModel<TDraftItem> : IcmRecordViewMode
 
     [ObservableProperty]
     public partial DraftSaveState DraftSaveState { get; set; }
+
+    public virtual bool OtherValidationSuccessful => true;
 
     protected override async Task InitAsync()
     {
@@ -103,17 +107,16 @@ public abstract partial class DraftEditViewModel<TDraftItem> : IcmRecordViewMode
         UpdateAllowPublish();
     }
 
-    protected virtual void UpdateCanDiscard()
+    protected void UpdateCanDiscard()
     {
         CanDiscard = Draft != null && Draft.IsManaged;
     }
 
     void UpdateAllowPublish()
     {
-        AllowPublish = Draft != null && EnablePublish(Draft);
+        AllowPublish =
+            Draft != null && Draft.IsValidToPublish && OtherValidationSuccessful && NetworkHelper.InternetAvailable;
     }
-
-    protected abstract bool EnablePublish(TDraftItem draft);
 
     private void Draft_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
