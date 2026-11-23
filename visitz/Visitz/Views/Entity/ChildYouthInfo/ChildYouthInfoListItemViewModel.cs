@@ -40,17 +40,12 @@ public partial class ChildYouthInfoListItemViewModel<TDraftItem, TReadItem>(TDra
 // concrete ViewModels instead as a workaround.
 
 public partial class EducationListItemViewModel(ContactEducationDraft? draftItem, ContactEducation? readItem)
-    : ChildYouthInfoListItemViewModel<ContactEducationDraft, ContactEducation>(draftItem, readItem)
-{ }
+    : ChildYouthInfoListItemViewModel<ContactEducationDraft, ContactEducation>(draftItem, readItem) { }
 
 public partial class MedicalBehavioralListItemViewModel(
     ContactMedicalBehavioralDraft? draftItem,
     ContactMedicalBehavioral? readItem
-    )
-        : ChildYouthInfoListItemViewModel<ContactMedicalBehavioralDraft, ContactMedicalBehavioral>(draftItem, readItem)
-{
-}
+) : ChildYouthInfoListItemViewModel<ContactMedicalBehavioralDraft, ContactMedicalBehavioral>(draftItem, readItem) { }
 
 public partial class LanguagesListItemViewModel(ContactLanguageDraft? draftItem, ContactLanguage? readItem)
-    : ChildYouthInfoListItemViewModel<ContactLanguageDraft, ContactLanguage>(draftItem, readItem)
-{ }
+    : ChildYouthInfoListItemViewModel<ContactLanguageDraft, ContactLanguage>(draftItem, readItem) { }
