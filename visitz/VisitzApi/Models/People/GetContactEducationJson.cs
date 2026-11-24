@@ -1,6 +1,6 @@
 namespace VisitzApi.Models.People;
 
-public class ContactEducationJson
+public class GetContactEducationJson
 {
     public string LearningAssistant { get; set; } = string.Empty;
     public string ContactPerson { get; set; } = string.Empty;

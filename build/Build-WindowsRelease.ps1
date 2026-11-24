@@ -137,7 +137,7 @@ if (!$CertificateThumbprint) {
 
 $env = $Environment
 
-[xml]$props = Get-Content "..\visitz\Visitz\Visitz.props"
+[xml]$props = Get-Content "..\visitz\Directory.Build.props"
 $version = (Select-Xml -Xml $props -XPath "//PropertyGroup/VisitzVersion").ToString()
 $outputName = "MCFD Mobility-Windows-$env-$Version.$BuildNumber"
 

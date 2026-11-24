@@ -20,6 +20,14 @@ public static class RealmExtensions
             await realmObject.Realm.WriteAsync(action);
     }
 
+    public static void Commit(this Realm realm, Action action)
+    {
+        if (realm.IsInTransaction)
+            action.Invoke();
+        else
+            realm.Write(action);
+    }
+
     public static async Task CommitAsync(this Realm realm, Action action)
     {
         if (realm.IsInTransaction)

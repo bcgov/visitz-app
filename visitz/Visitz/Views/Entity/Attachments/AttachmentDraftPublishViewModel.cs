@@ -127,10 +127,10 @@ internal partial class AttachmentDraftPublishViewModel : PublishViewModel, IReci
         if (message.ServiceId == submitAttachmentsServiceId)
         {
             if (message.Status == VisitzService.State.Running)
-                Publishing(LocalizedStrings.PublishingAttachmentToIcm.Format(AttachmentName));
+                Publishing(LocalizedStrings.PublishingToIcm.Format(AttachmentName));
             else if (message.FinishedSuccess)
             {
-                Published(LocalizedStrings.AttachmentPublishSuccess.Format(AttachmentName));
+                Published(LocalizedStrings.PublishSuccess.Format(AttachmentName));
 
                 relativePath = attachmentDraft?.Attachment?.RelativePath ?? string.Empty;
                 submittedAttachmentId = message.ReturnPayload as string;

@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:peopleModels="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     x:Class="Visitz.Views.Entity.ChildYouthInfo.ContactLanguageListItem"
-    x:DataType="peopleModels:ContactLanguage"
+    x:DataType="childYouthInfo:LanguagesListItemViewModel"
 >
     <ContentView.Resources>
         <Style TargetType="formControls:InfoItemView">
@@ -15,7 +15,11 @@
         </Style>
     </ContentView.Resources>
 
-    <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
+    <VerticalStackLayout
+        x:DataType="peopleModels:ContactLanguage"
+        BindingContext="{Binding ReadItem}"
+        Spacing="{StaticResource DefaultSpacing}"
+    >
         <formControls:InfoItemView
             Label="{local:Localize LanguageName}"
             Value="{Binding LanguageNameBinding}"

@@ -5,7 +5,7 @@ namespace VisitzModelTest.Models.People;
 
 public class ContactMedicalBehavioralTests
 {
-    private static readonly List<ContactMedicalBehavioralJson> medicalBehavioralJsons =
+    private static readonly List<GetContactMedicalBehavioralJson> medicalBehavioralJsons =
     [
         new()
         {
@@ -61,7 +61,7 @@ public class ContactMedicalBehavioralTests
         },
     ];
 
-    private static readonly List<ContactMedicalBehavioralJson> serviceRequestMedicalBehavioralJsons =
+    private static readonly List<GetContactMedicalBehavioralJson> serviceRequestMedicalBehavioralJsons =
     [
         new()
         {
@@ -147,7 +147,7 @@ public class ContactMedicalBehavioralTests
     public async Task SynchronizeAsyncAddContactMedicalBehavioralInfoForCasesToRealm()
     {
         var realm = await TestingUtilities.MakeRealm<ContactMedicalBehavioralTests>();
-        List<ContactMedicalBehavioralJson> contactMedicalBehavioral = medicalBehavioralJsons;
+        List<GetContactMedicalBehavioralJson> contactMedicalBehavioral = medicalBehavioralJsons;
 
         var numberOfCaseContactMedicalBehavioralBeforeInsertion = realm.All<ContactMedicalBehavioral>().Count();
         await ContactMedicalBehavioral.SynchronizeAsync(realm, contactMedicalBehavioral, "10");
@@ -162,7 +162,7 @@ public class ContactMedicalBehavioralTests
     public async Task SynchronizeAsyncDeletesCaseContactMedicalBehavioralDifferenceFromRealm()
     {
         var realm = await TestingUtilities.MakeRealm<ContactMedicalBehavioralTests>();
-        List<ContactMedicalBehavioralJson> contactMedicalBehavioral = [.. medicalBehavioralJsons];
+        List<GetContactMedicalBehavioralJson> contactMedicalBehavioral = [.. medicalBehavioralJsons];
         string parentId = "10";
 
         await ContactMedicalBehavioral.SynchronizeAsync(realm, contactMedicalBehavioral, parentId);
@@ -184,7 +184,7 @@ public class ContactMedicalBehavioralTests
     public async Task SynchronizeAsyncAddContactMedicalBehavioralInfoToRealm()
     {
         var realm = await TestingUtilities.MakeRealm<ContactMedicalBehavioralTests>();
-        List<ContactMedicalBehavioralJson> contactMedicalBehavioral = serviceRequestMedicalBehavioralJsons;
+        List<GetContactMedicalBehavioralJson> contactMedicalBehavioral = serviceRequestMedicalBehavioralJsons;
 
         var numberOfCaseContactMedicalBehavioralBeforeInsertion = realm.All<ContactMedicalBehavioral>().Count();
         await ContactMedicalBehavioral.SynchronizeAsync(realm, contactMedicalBehavioral, "12");
@@ -199,7 +199,7 @@ public class ContactMedicalBehavioralTests
     public async Task SynchronizeAsyncDeletesSrContactMedicalBehavioralDifferenceFromRealm()
     {
         var realm = await TestingUtilities.MakeRealm<ContactMedicalBehavioralTests>();
-        List<ContactMedicalBehavioralJson> contactMedicalBehavioral = [.. serviceRequestMedicalBehavioralJsons];
+        List<GetContactMedicalBehavioralJson> contactMedicalBehavioral = [.. serviceRequestMedicalBehavioralJsons];
         string parentId = "12";
 
         await ContactMedicalBehavioral.SynchronizeAsync(realm, contactMedicalBehavioral, parentId);

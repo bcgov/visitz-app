@@ -8,8 +8,18 @@ using VisitzModel.Resources.Localization;
 namespace VisitzModel.Models.People;
 
 [GenerateRealmBindings]
-public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJson>, IComparable<ContactLanguage>
+public partial class ContactLanguage
+    : IRealmObject,
+        IApiJson<SubmitContactLanguageJson>,
+        IComparable<ContactLanguage>,
+        IValidToPublish
 {
+    public static readonly int CommentsMaxLength = 255;
+    public static readonly int OtherLanguageMaxLength = 30;
+
+    public static readonly string LanguageNamesLovKey = "ICM_CON_LANG";
+    public static readonly string TypeLovKey = "ICM_LANG_TYPE";
+
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
     public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
@@ -33,9 +43,14 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
     public string DisplayPreferred =>
         PreferredBinding.ParseWordTruthiness() ? GeneralStrings.Preferred : GeneralStrings.Secondary;
 
+    public bool IsValidToPublish =>
+        CommentsBinding.Length <= CommentsMaxLength
+        && OtherLanguageBinding.Length <= OtherLanguageMaxLength
+        && LanguageNameBinding.Length > 0;
+
     public ContactLanguage() { }
 
-    public ContactLanguage(ContactLanguageJson json, string parentContactId)
+    public ContactLanguage(GetContactLanguageJson json, string parentContactId)
     {
         Id = json.Id;
         CreatedBy = json.CreatedBy;
@@ -54,30 +69,23 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
         ICMType = json.ICMType;
     }
 
-    public ContactLanguageJson ToApiJson(string dateFormat = "s")
+    public SubmitContactLanguageJson ToApiJson(string dateFormat = "s")
     {
         return new()
         {
-            Id = Id,
-            CreatedBy = CreatedBy,
-            Created = Created.ToString(dateFormat) ?? string.Empty,
-            UpdatedBy = UpdatedBy,
-            Type = Type,
-            SSAPrimaryField = Preferred,
-            Updated = Updated.ToString(dateFormat) ?? string.Empty,
-            TranslatorReq = TranslatorReq,
             Comments = Comments,
-            UpdatedByName = UpdatedByName,
-            ContactId = ParentContactId,
+            ICMType = ICMType,
             LanguageName = LanguageName,
             OtherLanguage = OtherLanguage,
-            CreatedByName = CreatedByName,
-            ICMType = ICMType,
+            // We didn't originally declare Preferred or TranslatorReq as bools, so it's been storing "true" and
+            // "false" as their values. So we double convert to get an actual "Y" or "N" that upstream expects.
+            Preferred = Preferred.ParseWordTruthiness().AsTruthyChar(),
+            TranslatorReq = TranslatorReq.ParseWordTruthiness().AsTruthyChar(),
         };
     }
 
     public static List<ContactLanguage> FromApiJsonArray(
-        IEnumerable<ContactLanguageJson> jsonArray,
+        IEnumerable<GetContactLanguageJson> jsonArray,
         string parentContactId
     )
     {
@@ -92,7 +100,7 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
 
     public static async Task SynchronizeAsync(
         Realm realm,
-        IEnumerable<ContactLanguageJson> newContactLanguages,
+        IEnumerable<GetContactLanguageJson> newContactLanguages,
         string parentContactId
     )
     {

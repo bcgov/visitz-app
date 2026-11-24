@@ -120,9 +120,18 @@
   <data name="Attachment" xml:space="preserve">
     <value>Attachment</value>
   </data>
+  <data name="EducationInfo" xml:space="preserve">
+    <value>Education info</value>
+  </data>
+  <data name="LanguageInfo" xml:space="preserve">
+    <value>Language info</value>
+  </data>
   <data name="FileTooLarge" xml:space="preserve">
     <value>File too large ({0} MB)</value>
     <comment>0 = Size in MB</comment>
+  </data>
+  <data name="MedicalBehavioralInfo" xml:space="preserve">
+    <value>Medical/behavioural info</value>
   </data>
   <data name="Note" xml:space="preserve">
     <value>Note</value>

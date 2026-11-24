@@ -27,4 +27,10 @@ public partial class IcmRecordContentView<TViewModel>(TViewModel viewModel, stri
         get => ViewModel.BusinessObject;
         set => ViewModel.BusinessObject = value;
     }
+
+    public void Init(string rowId, EntityType entityType)
+    {
+        RowId = rowId;
+        EntityType = entityType;
+    }
 }

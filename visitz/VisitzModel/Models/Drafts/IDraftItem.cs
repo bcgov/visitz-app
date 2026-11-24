@@ -1,4 +1,5 @@
 using Realms;
+using VisitzModel.Extensions;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
@@ -24,6 +25,8 @@ public interface IDraftItem : IRealmObject, IRecordInfo, IComparable<IDraftItem>
 
         return LastUpdatedBinding.CompareTo(other.LastUpdatedBinding);
     }
+
+    public void CascadeDeleteItem() { }
 }
 
 public static class IDraftItemExtensions
@@ -50,5 +53,15 @@ public static class IDraftItemExtensions
             EntityType.ServiceRequest => ServiceRequestRecord.GetByDraftItem(realm, item),
             _ => throw new NotImplementedException(),
         };
+    }
+
+    public static void Delete(this IDraftItem item)
+    {
+        Realm? realm = item.Realm;
+        realm?.Commit(() =>
+        {
+            item.CascadeDeleteItem();
+            realm.Remove(item);
+        });
     }
 }

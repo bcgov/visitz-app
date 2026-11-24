@@ -13,7 +13,7 @@ internal class GetContactLegalAuthorityService(Vpi vpi, LastUpdatedPrefs prefs) 
 {
     IcmContact Contact => (IcmContact)Payload;
 
-    List<ContactLegalAuthorityJson> ContactLegalAuthorityData { get; } = [];
+    List<GetContactLegalAuthorityJson> ContactLegalAuthorityData { get; } = [];
 
     public static string MakeId(string parentContactId)
     {

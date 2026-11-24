@@ -91,10 +91,11 @@ internal abstract class VisitzBaseEndpoint<ResponseType>(string baseUrl, string 
         params (string Name, string Value)[] @params
     )
     {
+        bool isFirstPage = pagination?.RowOffset == 0;
         return WithQueryParams(
             pagination?.RowOffset,
             pagination?.PageSize,
-            recordCountNeeded: pagination != null,
+            recordCountNeeded: isFirstPage,
             pagination?.After,
             format,
             excludeEmptyFields,

@@ -30,6 +30,24 @@ public partial class PublishPage : VisitzPage<PublishPage, PublishViewModel>
         base.Dispose(disposing);
     }
 
+    /// <summary>
+    /// Creates a new PublishPage using the provided <see cref="TViewModel"/> and accepts an
+    /// <see cref="Action{TViewModel}"/> to initialize it, if necessary.
+    /// </summary>
+    /// <typeparam name="TViewModel">A derived type of <see cref="PublishViewModel"/></typeparam>
+    /// <param name="viewModelInitializer">Lambda that exposes the new view model so it can be initialized by the caller.</param>
+    /// <returns></returns>
+    public static async Task Make<TViewModel>(Action<TViewModel>? viewModelInitializer = null)
+        where TViewModel : PublishViewModel
+    {
+        var viewModel = ServiceProvider.GetService<TViewModel>();
+        var logger = ServiceProvider.GetService<ILogger<PublishPage>>();
+
+        viewModelInitializer?.Invoke(viewModel);
+
+        await Navigator.Navigation.PushModalAsync(new PublishPage(viewModel, logger));
+    }
+
     protected override async Task OnCreatedAsync()
     {
         await base.OnCreatedAsync();

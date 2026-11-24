@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:DraftEditView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:childYouthInfo="clr-namespace:Visitz.Views.Entity.ChildYouthInfo"
+    xmlns:childYouthInfoModels="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
+    xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:lovModels="clr-namespace:VisitzModel.Models.ListOfValues;assembly=VisitzModel"
+    x:Class="Visitz.Views.Entity.ChildYouthInfo.ContactMedicalBehavioralEditView"
+    x:DataType="childYouthInfo:ContactMedicalBehavioralEditViewModel"
+    x:TypeArguments="childYouthInfoModels:ContactMedicalBehavioralDraft"
+>
+    <Border
+        BackgroundColor="White"
+        StrokeShape="RoundRectangle 10"
+        StrokeThickness="0"
+        Padding="{StaticResource DefaultPadding}"
+    >
+        <Grid RowDefinitions="Auto, *">
+            <formControls:FormAppBar
+                Grid.Row="0"
+                IsReadOnly="False"
+                AllowDiscard="{Binding CanDiscard}"
+                EnablePublish="{Binding AllowPublish}"
+                DraftSaveState="{Binding DraftSaveState}"
+                DiscardCommand="{Binding DiscardDraftCommand}"
+                PublishCommand="{Binding PublishDraftCommand}"
+            />
+
+            <ScrollView Grid.Row="1">
+                <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
+                    <formControls:FormPicker
+                        FieldName="{local:Localize Category}"
+                        SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
+                        ItemsSource="{Binding CategoriesQuery.Items}"
+                        ItemDisplayBinding="{Binding Name, x:DataType=lovModels:ListedValue}"
+                    />
+
+                    <formControls:FormPicker
+                        FieldName="{local:Localize Condition}"
+                        SelectedItem="{Binding SelectedCondition, Mode=TwoWay}"
+                        ItemsSource="{Binding ConditionsQuery.Items}"
+                        ItemDisplayBinding="{Binding Name, x:DataType=lovModels:ListedValue}"
+                    />
+
+                    <formControls:FormDatePicker
+                        FieldName="{local:Localize StartDate}"
+                        Date="{Binding Draft.ContactMedicalBehavioral.StartDateBinding, Mode=TwoWay}"
+                    />
+
+                    <formControls:FormDatePicker
+                        FieldName="{local:Localize EndDate}"
+                        Date="{Binding Draft.ContactMedicalBehavioral.EndDateBinding, Mode=TwoWay}"
+                    />
+
+                    <formControls:FormEntry
+                        FieldName="{local:Localize TreatmentPlan}"
+                        Text="{Binding Draft.ContactMedicalBehavioral.TreatmentPlanBinding}"
+                        MaxLength="{Static childYouthInfoModels:ContactMedicalBehavioral.TreatmentPlanMaxLength}"
+                    />
+
+                    <formControls:FormEntry
+                        FieldName="{local:Localize DiagnosedBy}"
+                        Text="{Binding Draft.ContactMedicalBehavioral.DiagnosedByBinding}"
+                        MaxLength="{Static childYouthInfoModels:ContactMedicalBehavioral.DiagnosedByMaxLength}"
+                    />
+
+                    <formControls:FormDatePicker
+                        FieldName="{local:Localize DiagnosedDate}"
+                        Date="{Binding Draft.ContactMedicalBehavioral.DiagnosisDateBinding, Mode=TwoWay}"
+                    />
+
+                    <formControls:FormEntry
+                        FieldName="{local:Localize Comments}"
+                        Text="{Binding Draft.ContactMedicalBehavioral.CommentsBinding}"
+                        MaxLength="{Static childYouthInfoModels:ContactMedicalBehavioral.CommentsMaxLength}"
+                    />
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Border>
+</base:DraftEditView>

@@ -647,7 +647,7 @@ public sealed class RealmBindingSourceGenerator : IIncrementalGenerator
             indentationLevel + 2);
 
         source.Append("RaisePropertyChanged(nameof(")
-            .Append(property.PropertyName)
+            .Append(property.BindingPropertyName)
             .AppendLine("));");
 
         AppendIndentation(

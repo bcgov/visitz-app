@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:peopleModels="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     x:Class="Visitz.Views.Entity.ChildYouthInfo.ContactEducationListItem"
-    x:DataType="peopleModels:ContactEducation"
+    x:DataType="childYouthInfo:EducationListItemViewModel"
 >
     <ContentView.Resources>
         <Style TargetType="formControls:InfoItemView">
@@ -15,14 +15,18 @@
         </Style>
     </ContentView.Resources>
 
-    <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
+    <VerticalStackLayout
+        x:DataType="peopleModels:ContactEducation"
+        BindingContext="{Binding ReadItem}"
+        Spacing="{StaticResource DefaultSpacing}"
+    >
         <formControls:InfoItemView
             Label="{local:Localize SchoolName}"
             Value="{Binding SchoolNameBinding}"
         />
         <formControls:InfoItemView
             Label="{local:Localize StartDate}"
-            Value="{Binding DisplayStartDate}"
+            Value="{Binding StartDateBinding}"
         />
         <formControls:InfoItemView
             Label="{local:Localize LastGradeCompleted}"

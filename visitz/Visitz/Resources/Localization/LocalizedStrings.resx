@@ -741,16 +741,16 @@ Do you want to discard this unlinked draft permanently?</value>
   <data name="CopiedToClipboard" xml:space="preserve">
     <value>Copied to clipboard</value>
   </data>
-  <data name="AttachmentPublishSuccess" xml:space="preserve">
+  <data name="PublishSuccess" xml:space="preserve">
     <value>'{0}' published successfully.</value>
-    <comment>0 = Attachment filename</comment>
+    <comment>0 = label of item that was published</comment>
   </data>
   <data name="LoginToSubmitAttachment" xml:space="preserve">
     <value>Log in to submit attachment</value>
   </data>
-  <data name="PublishingAttachmentToIcm" xml:space="preserve">
+  <data name="PublishingToIcm" xml:space="preserve">
     <value>Publishing '{0}' to ICM</value>
-    <comment>0 = Attachment filename</comment>
+    <comment>0 = label of item being published</comment>
   </data>
   <data name="CaseloadError" xml:space="preserve">
     <value>Caseload refresh error</value>
@@ -1067,7 +1067,7 @@ Do you want to download information for this record?</value>
     <value>Contact legal authority</value>
   </data>
   <data name="ContactLanguages" xml:space="preserve">
-    <value>ContactLanguages</value>
+    <value>Contact languages</value>
   </data>
   <data name="ContactEducation" xml:space="preserve">
     <value>Contact education</value>
@@ -1234,5 +1234,53 @@ It is unlikely that the file can be recovered.</value>
   </data>
   <data name="NoPrivateVisitsYet" xml:space="preserve">
     <value>A private visit has not been recorded yet.</value>
+  </data>
+  <data name="DiscardContactEducationDraft" xml:space="preserve">
+    <value>Discard education item?</value>
+  </data>
+  <data name="DiscardedContactEducationDraft" xml:space="preserve">
+    <value>Discarded education draft</value>
+  </data>
+  <data name="DiscardContactEducationDraftDescription" xml:space="preserve">
+    <value>Are you sure you want to discard this education draft? You won't be able to recover it.</value>
+  </data>
+  <data name="ContactEducationLastGradeCompletedLovLabel" xml:space="preserve">
+    <value>Contact education - "last grade completed" values</value>
+  </data>
+  <data name="ContactMedicalBehavioralConditionLovLabel" xml:space="preserve">
+    <value>Contact medical/behavioural - "condition" values</value>
+  </data>
+  <data name="ContactLanguagesLanguageNameLovLabel" xml:space="preserve">
+    <value>Contact languages - "language name" values</value>
+  </data>
+  <data name="ContactMedicalBehavioralCategoriesLovLabel" xml:space="preserve">
+    <value>Contact medical/behavioural - "category" values</value>
+  </data>
+  <data name="ContactLanguagesTypeLovLabel" xml:space="preserve">
+    <value>Contact languages - "type" values</value>
+  </data>
+  <data name="DiscardThisDraftDescription" xml:space="preserve">
+    <value>Are you sure you want to discard this {0} draft? You won't be able to recover it.</value>
+    <comment>0 = name of the type of draft</comment>
+  </data>
+  <data name="DiscardedThisDraft" xml:space="preserve">
+    <value>Discarded {0} draft</value>
+    <comment>0 = name of the type of draft</comment>
+  </data>
+  <data name="LoginToPublish" xml:space="preserve">
+    <value>Log in to publish '{0}'</value>
+    <comment>0 = label of item to be published</comment>
+  </data>
+  <data name="RefreshingItems" xml:space="preserve">
+    <value>Refreshing {0}</value>
+    <comment>0 = type of items being refreshed</comment>
+  </data>
+  <data name="RefreshedItems" xml:space="preserve">
+    <value>Refreshed {0} on device</value>
+    <comment>0 = type of items that were refreshed</comment>
+  </data>
+  <data name="FailedToRefreshItems" xml:space="preserve">
+    <value>Refreshing {0} on device failed</value>
+    <comment>0 = type of items that couldn't refresh</comment>
   </data>
 </root>

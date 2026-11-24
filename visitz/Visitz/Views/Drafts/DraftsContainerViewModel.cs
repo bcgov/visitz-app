@@ -11,7 +11,9 @@ using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Notes;
+using VisitzModel.Models.People;
 using VisitzModel.Models.SafetyAssess;
+using VisitzModel.Resources.Localization;
 
 namespace Visitz.Views.Drafts;
 
@@ -36,6 +38,21 @@ public partial class DraftsContainerViewModel : VisitzViewModel
         draft => draft is PersonVisitDraft
     );
 
+    readonly FilterOption<IDraftItem> _contactEducationFilter = new(
+        GeneralStrings.EducationInfo,
+        draft => draft is ContactEducationDraft
+    );
+
+    readonly FilterOption<IDraftItem> _contactLanguageFilter = new(
+        GeneralStrings.LanguageInfo,
+        draft => draft is ContactLanguageDraft
+    );
+
+    readonly FilterOption<IDraftItem> _contactMedicalBehavioralFilter = new(
+        GeneralStrings.MedicalBehavioralInfo,
+        draft => draft is ContactMedicalBehavioralDraft
+    );
+
     readonly ObservableRealmCount _realmCount = new();
 
     public DraftsListViewModel? DraftsListViewModel { get; set; }
@@ -56,6 +73,9 @@ public partial class DraftsContainerViewModel : VisitzViewModel
         _realmCount.Subscribe<NoteDraft>(await VisitzRealms.GetNoteDraftsRealmAsync());
         _realmCount.Subscribe<AssessmentDraft>(await VisitzRealms.GetSafetyAssessmentDraftRealmAsync());
         _realmCount.Subscribe<PersonVisitDraft>(await VisitzRealms.GetPersonVisitDraftsRealmAsync());
+        _realmCount.Subscribe<ContactEducationDraft>(await VisitzRealms.GetUserDataRealmAsync());
+        _realmCount.Subscribe<ContactLanguageDraft>(await VisitzRealms.GetUserDataRealmAsync());
+        _realmCount.Subscribe<ContactMedicalBehavioralDraft>(await VisitzRealms.GetUserDataRealmAsync());
     }
 
     bool _disposed;
@@ -84,6 +104,12 @@ public partial class DraftsContainerViewModel : VisitzViewModel
             UpdateItem(_safetyAssessmentFilter, e.Count);
         else if (e.Kind == typeof(PersonVisitDraft))
             UpdateItem(_visitsFilter, e.Count);
+        else if (e.Kind == typeof(ContactEducationDraft))
+            UpdateItem(_contactEducationFilter, e.Count);
+        else if (e.Kind == typeof(ContactLanguageDraft))
+            UpdateItem(_contactLanguageFilter, e.Count);
+        else if (e.Kind == typeof(ContactMedicalBehavioralDraft))
+            UpdateItem(_contactMedicalBehavioralFilter, e.Count);
     }
 
     void UpdateItem(FilterOption<IDraftItem> filter, int count)

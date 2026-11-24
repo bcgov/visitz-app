@@ -7,26 +7,26 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints.People;
 
-internal class ContactEducationEndpoint(
+internal class GetContactLegalAuthorityEndpoint(
     string baseUrl,
     ApiRecordType type,
     string rowId,
     string contactId,
     Pagination? pagination = null
 )
-    : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<ContactEducationJson>)>(
+    : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<GetContactLegalAuthorityJson>)>(
         baseUrl,
         Vpi.V2,
         MakePath(type, rowId, contactId)
     )
 {
-    static readonly string ContactEducationPath = "/{0}/{1}/contacts/{2}/education";
+    static readonly string ContactLegalAuthorityPath = "/{0}/{1}/contacts/{2}/legal-authorities";
 
     readonly Pagination? Pagination = pagination;
 
     static string MakePath(ApiRecordType recordType, string rowId, string contactId)
     {
-        return string.Format(ContactEducationPath, recordType.ToString().ToLowerInvariant(), rowId, contactId);
+        return string.Format(ContactLegalAuthorityPath, recordType.ToString().ToLowerInvariant(), rowId, contactId);
     }
 
     public override HttpRequestMessage MakeRequest()
@@ -34,7 +34,7 @@ internal class ContactEducationEndpoint(
         return new HttpRequestMessage() { Method = HttpMethod.Get, RequestUri = WithQueryParams(Pagination) };
     }
 
-    public override (int TotalRecords, IEnumerable<ContactEducationJson>) HandleResponse(
+    public override (int TotalRecords, IEnumerable<GetContactLegalAuthorityJson>) HandleResponse(
         HttpResponseMessage response,
         string responseContent
     )
@@ -46,7 +46,7 @@ internal class ContactEducationEndpoint(
 
         return (
             response.GetRecordCount(),
-            items.Deserialize<IEnumerable<ContactEducationJson>>(PayloadOptions.SiebelGet) ?? []
+            items.Deserialize<IEnumerable<GetContactLegalAuthorityJson>>(PayloadOptions.SiebelGet) ?? []
         );
     }
 }

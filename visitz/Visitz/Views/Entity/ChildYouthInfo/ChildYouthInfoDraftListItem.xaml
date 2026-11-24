@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:childYouthInfo="clr-namespace:Visitz.Views.Entity.ChildYouthInfo"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
+    x:Class="Visitz.Views.Entity.ChildYouthInfo.ChildYouthInfoDraftListItem"
+    x:DataType="childYouthInfo:ChildYouthInfoDraftListItem"
+>
+    <Border
+        BackgroundColor="White"
+        Margin="{StaticResource DefaultMargin}"
+        StrokeThickness="0"
+        StrokeShape="RoundRectangle 5"
+        Shadow="{StaticResource RestingLevel2}"
+    >
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer x:Name="BorderTapRecognizer" />
+        </Border.GestureRecognizers>
+
+        <Grid>
+            <BoxView
+                x:Name="DraftIndicator"
+                Grid.Column="0"
+                Grid.RowSpan="2"
+                Margin="-1,-10,0,-10"
+                Color="{StaticResource BC_Gold}"
+                WidthRequest="{StaticResource DraftIndicatorWidth}"
+                HorizontalOptions="Start"
+            />
+
+            <effectsView:SfEffectsView TouchDownEffects="Ripple">
+                <VerticalStackLayout
+                    Spacing="{StaticResource DefaultSpacing}"
+                    Padding="{StaticResource DefaultPadding}"
+                >
+                    <Grid
+                        ColumnSpacing="{StaticResource DefaultSpacing}"
+                        ColumnDefinitions="Auto,*,Auto"
+                        RowDefinitions="Auto,Auto"
+                    >
+                        <controls:LabelIcon
+                            x:Name="IconLabel"
+                            Grid.Column="0"
+                            Grid.RowSpan="2"
+                            VerticalOptions="Center"
+                            FontSize="36"
+                        />
+
+                        <Label
+                            x:Name="TitleLabel"
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            FontFamily="BCSansBold"
+                            VerticalOptions="Center"
+                        />
+
+                        <Label
+                            x:Name="SubtitleLabel"
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            TextColor="{StaticResource Gray500}"
+                        />
+
+                        <controls:FontIconButton
+                            x:Name="PublishButton"
+                            Grid.Column="2"
+                            Grid.RowSpan="2"
+                            Style="{StaticResource PrimaryButton}"
+                            Padding="0"
+                            VerticalOptions="Center"
+                            Text="{Static fonticons:MaterialIcons.Send}"
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                        />
+                    </Grid>
+
+                    <BoxView HeightRequest="0.5" Color="{StaticResource SeparatorColor}" />
+
+                    <HorizontalStackLayout Spacing="{StaticResource DefaultSpacing}">
+                        <Button
+                            x:Name="EditButton"
+                            Style="{StaticResource SecondaryChipLight}"
+                            Text="{local:Localize Edit}"
+                            VerticalOptions="Center"
+                        >
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    Glyph="{Static fonticons:MaterialIcons.Edit}"
+                                    FontFamily="MaterialIconsRoundedUnfilled"
+                                    Color="{StaticResource Primary}"
+                                    Size="18"
+                                />
+                            </Button.ImageSource>
+                        </Button>
+
+                        <Button
+                            x:Name="DiscardButton"
+                            Style="{StaticResource SecondaryChipLight}"
+                            Text="{local:Localize Discard}"
+                            VerticalOptions="Center"
+                        >
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    Glyph="{Static fonticons:MaterialIcons.Delete}"
+                                    FontFamily="MaterialIconsRoundedUnfilled"
+                                    Color="{StaticResource Primary}"
+                                    Size="18"
+                                />
+                            </Button.ImageSource>
+                        </Button>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </effectsView:SfEffectsView>
+        </Grid>
+    </Border>
+</ContentView>

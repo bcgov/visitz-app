@@ -7,26 +7,25 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints.People;
 
-internal class ContactLegalAuthorityEndpoint(
+internal class GetContactLanguagesEndpoint(
     string baseUrl,
     ApiRecordType type,
     string rowId,
     string contactId,
     Pagination? pagination = null
 )
-    : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<ContactLegalAuthorityJson>)>(
+    : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<GetContactLanguageJson>)>(
         baseUrl,
         Vpi.V2,
         MakePath(type, rowId, contactId)
     )
 {
-    static readonly string ContactLegalAuthorityPath = "/{0}/{1}/contacts/{2}/legal-authorities";
-
+    static readonly string ContactsPath = "/{0}/{1}/contacts/{2}/languages";
     readonly Pagination? Pagination = pagination;
 
-    static string MakePath(ApiRecordType recordType, string rowId, string contactId)
+    public static string MakePath(ApiRecordType recordType, string rowId, string contactId)
     {
-        return string.Format(ContactLegalAuthorityPath, recordType.ToString().ToLowerInvariant(), rowId, contactId);
+        return string.Format(ContactsPath, recordType.ToString().ToLowerInvariant(), rowId, contactId);
     }
 
     public override HttpRequestMessage MakeRequest()
@@ -34,7 +33,7 @@ internal class ContactLegalAuthorityEndpoint(
         return new HttpRequestMessage() { Method = HttpMethod.Get, RequestUri = WithQueryParams(Pagination) };
     }
 
-    public override (int TotalRecords, IEnumerable<ContactLegalAuthorityJson>) HandleResponse(
+    public override (int TotalRecords, IEnumerable<GetContactLanguageJson>) HandleResponse(
         HttpResponseMessage response,
         string responseContent
     )
@@ -46,7 +45,7 @@ internal class ContactLegalAuthorityEndpoint(
 
         return (
             response.GetRecordCount(),
-            items.Deserialize<IEnumerable<ContactLegalAuthorityJson>>(PayloadOptions.SiebelGet) ?? []
+            items.Deserialize<IEnumerable<GetContactLanguageJson>>(PayloadOptions.SiebelGet) ?? []
         );
     }
 }

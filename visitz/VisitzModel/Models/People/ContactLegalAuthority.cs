@@ -6,7 +6,7 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.People;
 
-public partial class ContactLegalAuthority : IRealmObject, IApiJson<ContactLegalAuthorityJson>
+public partial class ContactLegalAuthority : IRealmObject, IApiJson<GetContactLegalAuthorityJson>
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -49,7 +49,7 @@ public partial class ContactLegalAuthority : IRealmObject, IApiJson<ContactLegal
 
     public ContactLegalAuthority() { }
 
-    public ContactLegalAuthority(ContactLegalAuthorityJson json, string parentContactId)
+    public ContactLegalAuthority(GetContactLegalAuthorityJson json, string parentContactId)
     {
         Id = json.Id;
         Updated = DateTimeOffset.Parse(json.Updated);
@@ -90,7 +90,7 @@ public partial class ContactLegalAuthority : IRealmObject, IApiJson<ContactLegal
         ReasonforService4 = json.ReasonforService4;
     }
 
-    public ContactLegalAuthorityJson ToApiJson(string dateFormat = "s")
+    public GetContactLegalAuthorityJson ToApiJson(string dateFormat = "s")
     {
         return new()
         {
@@ -135,7 +135,7 @@ public partial class ContactLegalAuthority : IRealmObject, IApiJson<ContactLegal
     }
 
     public static List<ContactLegalAuthority> FromApiJsonArray(
-        IEnumerable<ContactLegalAuthorityJson> jsonArray,
+        IEnumerable<GetContactLegalAuthorityJson> jsonArray,
         string parentContactId
     )
     {
@@ -150,7 +150,7 @@ public partial class ContactLegalAuthority : IRealmObject, IApiJson<ContactLegal
 
     public static async Task SynchronizeAsync(
         Realm realm,
-        IEnumerable<ContactLegalAuthorityJson> contactLegalAuthority,
+        IEnumerable<GetContactLegalAuthorityJson> contactLegalAuthority,
         string parentContactId
     )
     {

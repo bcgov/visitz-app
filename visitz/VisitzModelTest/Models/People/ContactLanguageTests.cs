@@ -5,7 +5,7 @@ namespace VisitzModelTest.Models.People;
 
 public class ContactLanguageTests
 {
-    private static readonly List<ContactLanguageJson> GetContactlanguageInformation =
+    private static readonly List<GetContactLanguageJson> GetContactlanguageInformation =
     [
         new()
         {
@@ -49,7 +49,7 @@ public class ContactLanguageTests
     public async Task SynchronizeAsyncAddcontactlanguageToRealm()
     {
         var realm = await TestingUtilities.MakeRealm<ContactLanguageTests>();
-        List<ContactLanguageJson> contactLanguages = GetContactlanguageInformation;
+        List<GetContactLanguageJson> contactLanguages = GetContactlanguageInformation;
         var numberOfContactLanguagesBeforeInsertion = realm.All<ContactLanguage>().Count();
         await ContactLanguage.SynchronizeAsync(realm, contactLanguages, "123");
         var numberOfContactLanguagesAfterInsertion = realm.All<ContactLanguage>().Count();
@@ -61,7 +61,7 @@ public class ContactLanguageTests
     public async Task SynchronizeAsyncDeletescontactlanguageDifferenceFromRealm()
     {
         var realm = await TestingUtilities.MakeRealm<ContactLanguageTests>();
-        List<ContactLanguageJson> contactLanguages = [.. GetContactlanguageInformation];
+        List<GetContactLanguageJson> contactLanguages = [.. GetContactlanguageInformation];
         await ContactLanguage.SynchronizeAsync(realm, contactLanguages, "123");
         var numberOfContactLanguagesBeforeDeletion = realm.All<ContactLanguage>().Count();
         contactLanguages.RemoveAll(item => item.Id == "11");

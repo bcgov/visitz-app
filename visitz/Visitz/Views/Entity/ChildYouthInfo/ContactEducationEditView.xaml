@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:DraftEditView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:childYouthInfo="clr-namespace:Visitz.Views.Entity.ChildYouthInfo"
+    xmlns:childYouthInfoModels="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
+    xmlns:behaviors="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+    xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:lovModels="clr-namespace:VisitzModel.Models.ListOfValues;assembly=VisitzModel"
+    x:Class="Visitz.Views.Entity.ChildYouthInfo.ContactEducationEditView"
+    x:DataType="childYouthInfo:ContactEducationEditViewModel"
+    x:TypeArguments="childYouthInfoModels:ContactEducationDraft"
+>
+    <Border
+        BackgroundColor="White"
+        StrokeShape="RoundRectangle 10"
+        StrokeThickness="0"
+        Padding="{StaticResource DefaultPadding}"
+    >
+        <Grid RowDefinitions="Auto, *">
+            <formControls:FormAppBar
+                Grid.Row="0"
+                IsReadOnly="False"
+                AllowDiscard="{Binding CanDiscard}"
+                EnablePublish="{Binding AllowPublish}"
+                DraftSaveState="{Binding DraftSaveState}"
+                DiscardCommand="{Binding DiscardDraftCommand}"
+                PublishCommand="{Binding PublishDraftCommand}"
+            />
+
+            <ScrollView Grid.Row="1">
+                <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
+                    <formControls:FormEntry
+                        FieldName="{local:Localize SchoolName}"
+                        Text="{Binding Draft.ContactEducation.SchoolNameBinding}"
+                        MaxLength="{Static childYouthInfoModels:ContactEducation.SchoolNameMaxLength}"
+                    />
+
+                    <formControls:FormDatePicker
+                        FieldName="{local:Localize StartDate}"
+                        Date="{Binding Draft.ContactEducation.StartDateBinding, Mode=TwoWay}"
+                    />
+
+                    <formControls:FormPicker
+                        FieldName="{local:Localize LastGradeCompleted}"
+                        SelectedItem="{Binding SelectedDegree, Mode=TwoWay}"
+                        ItemsSource="{Binding DegreeQuery.Items}"
+                        ItemDisplayBinding="{Binding Name, x:DataType=lovModels:ListedValue}"
+                    />
+
+                    <formControls:FormEntry
+                        FieldName="{local:Localize ContactPerson}"
+                        Text="{Binding Draft.ContactEducation.ContactPersonBinding}"
+                        MaxLength="{Static childYouthInfoModels:ContactEducation.ContactPersonMaxLength}"
+                    />
+
+                    <formControls:FormEntry
+                        FieldName="{local:Localize ContactPersonRole}"
+                        Text="{Binding Draft.ContactEducation.ContactPersonRoleBinding}"
+                        MaxLength="{Static childYouthInfoModels:ContactEducation.ContactPersonRoleMaxLength}"
+                    />
+
+                    <formControls:FormEntry
+                        FieldName="{local:Localize Phone}"
+                        Text="{Binding Draft.ContactEducation.PhoneNumBinding}"
+                        MaxLength="{Static childYouthInfoModels:ContactEducation.PhoneNumMaxLength}"
+                        Keyboard="Telephone"
+                    >
+                        <formControls:FormEntry.EditorBehaviors>
+                            <behaviors:MaskedBehavior Mask="(XXX) XXX XXXX" />
+                        </formControls:FormEntry.EditorBehaviors>
+                    </formControls:FormEntry>
+
+                    <formControls:FormEntry
+                        FieldName="{local:Localize Address}"
+                        Text="{Binding Draft.ContactEducation.AddressBinding}"
+                        MaxLength="{Static childYouthInfoModels:ContactEducation.AddressMaxLength}"
+                    />
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Border>
+</base:DraftEditView>

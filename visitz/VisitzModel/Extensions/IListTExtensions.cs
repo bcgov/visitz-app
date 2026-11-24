@@ -25,8 +25,7 @@ public static class IListTExtensions
             int length = -1
         )
         {
-            if (list == null)
-                throw new ArgumentException(null, nameof(list));
+            ArgumentNullException.ThrowIfNull(list);
 
             comparer ??= Comparer<T>.Default;
 
@@ -104,6 +103,17 @@ public static class IListTExtensions
             Comparison<T> comparison = ascending ? (a, b) => a.CompareTo(b) : (a, b) => a.CompareTo(b) * -1;
 
             Sort(list, Comparer<T>.Create(comparison));
+        }
+    }
+
+    extension<TWrappedItem, TItem>(IList<TWrappedItem> items)
+    {
+        public bool RemoveWrappedItem(TItem itemToRemove, Func<TWrappedItem, TItem> unwrapper)
+        {
+            if (items.FirstOrDefault(item => unwrapper(item)?.Equals(itemToRemove) ?? default) is TWrappedItem found)
+                return items.Remove(found);
+
+            return false;
         }
     }
 }

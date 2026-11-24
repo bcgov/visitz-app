@@ -35,7 +35,9 @@
                 Text="{Binding Text}"
                 TextChanged="Editor_TextChanged"
                 IsReadOnly="{Binding IsReadOnly}"
+                Keyboard="{Binding Keyboard}"
             />
+
             <Label
                 x:Name="EditorError"
                 AbsoluteLayout.LayoutFlags="PositionProportional"

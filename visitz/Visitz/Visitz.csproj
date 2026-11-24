@@ -109,7 +109,7 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.11" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.11" />
 		<PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.11" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.11" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="$(LoggingVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiPackageVersion)" />
 		<PackageReference
 			Include="Microsoft.Maui.Controls.Compatibility"

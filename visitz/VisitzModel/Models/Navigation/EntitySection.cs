@@ -13,4 +13,6 @@ public enum EntitySection
     ChildYouthVisits = 600,
     ChildYouthVisitsEntry = 601,
     SupportNetwork = 700,
+
+    ChildYouthInfo = 800,
 }

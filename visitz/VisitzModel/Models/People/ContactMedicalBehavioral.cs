@@ -11,9 +11,17 @@ namespace VisitzModel.Models.People;
 [GenerateRealmBindings]
 public partial class ContactMedicalBehavioral
     : IRealmObject,
-        IApiJson<ContactMedicalBehavioralJson>,
-        IComparable<ContactMedicalBehavioral>
+        IApiJson<SubmitContactMedicalBehavioralJson>,
+        IComparable<ContactMedicalBehavioral>,
+        IValidToPublish
 {
+    public static readonly int CommentsMaxLength = 200;
+    public static readonly int DiagnosedByMaxLength = 100;
+    public static readonly int TreatmentPlanMaxLength = 100;
+
+    public static readonly string ConditionNamesLovKey = "ICM_CON_MED_COND";
+    public static readonly string CategoriesLovKey = "ICM_CON_MED_CATEGORY";
+
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
     public string ContactFirstName { get; set; } = string.Empty;
@@ -45,9 +53,15 @@ public partial class ContactMedicalBehavioral
 
     public string? DisplayEndDate => EndDateBinding?.ToString(IcmDateFormats.BasicTimestamp);
 
+    public bool IsValidToPublish =>
+        CommentsBinding.Length <= CommentsMaxLength
+        && DiagnosedByBinding.Length <= DiagnosedByMaxLength
+        && TreatmentPlanBinding.Length <= TreatmentPlanMaxLength
+        && CategoryBinding.Length > 0;
+
     public ContactMedicalBehavioral() { }
 
-    public ContactMedicalBehavioral(ContactMedicalBehavioralJson json, string parentContactId)
+    public ContactMedicalBehavioral(GetContactMedicalBehavioralJson json, string parentContactId)
     {
         Id = json.Id;
         ContactFirstName = json.ContactFirstName;
@@ -74,38 +88,23 @@ public partial class ContactMedicalBehavioral
         DiagnosisDate = Timestamp.ParseDateTimeOffsetNullable(json.DiagnosisDate);
     }
 
-    public ContactMedicalBehavioralJson ToApiJson(string dateFormat = "s")
+    public SubmitContactMedicalBehavioralJson ToApiJson(string dateFormat = "s")
     {
-        return new ContactMedicalBehavioralJson()
+        return new()
         {
-            Id = Id,
-            Created = Created.ToString(dateFormat) ?? string.Empty,
-            CreatedBy = CreatedBy,
-            CreatedByName = CreatedByName,
-            Updated = Updated.ToString(dateFormat) ?? string.Empty,
-            UpdatedBy = UpdatedBy,
-            UpdatedByName = UpdatedByName,
-            ContactFirstName = ContactFirstName,
-            ContactId = ParentContactId,
-            ContactLastName = ContactLastName,
-            Comments = Comments,
-            DiagnosedBy = DiagnosedBy,
             Category = Category,
+            Comments = Comments,
             Condition = Condition,
-            ContactMiddleName = ContactMiddleName,
-            ContactRowNum = ContactRowNum,
-            DiagnosisDate = DiagnosisDate?.ToString(dateFormat) ?? string.Empty,
-            EndDate = EndDate?.ToString(dateFormat) ?? string.Empty,
-            Name = Name,
-            ParentCaseNum = ParentCaseNum,
-            StartDate = StartDate?.ToString(dateFormat) ?? string.Empty,
+            DiagnosedBy = DiagnosedBy,
+            DiagnosisDate = DiagnosisDate?.ToString(dateFormat),
+            EndDate = EndDate?.ToString(dateFormat),
+            StartDate = StartDate?.ToString(dateFormat),
             TreatmentPlan = TreatmentPlan,
-            Type = Type,
         };
     }
 
     public static List<ContactMedicalBehavioral> FromApiJsonArray(
-        IEnumerable<ContactMedicalBehavioralJson> jsonArray,
+        IEnumerable<GetContactMedicalBehavioralJson> jsonArray,
         string parentContactId
     )
     {
@@ -120,7 +119,7 @@ public partial class ContactMedicalBehavioral
 
     public static async Task SynchronizeAsync(
         Realm realm,
-        IEnumerable<ContactMedicalBehavioralJson> contactMedicalBehavioral,
+        IEnumerable<GetContactMedicalBehavioralJson> contactMedicalBehavioral,
         string parentContactId
     )
     {

@@ -2,6 +2,7 @@
 <base:IcmRecordContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:actionButton="clr-namespace:Visitz.Controls.ActionButton"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:childYouthInfo="clr-namespace:Visitz.Views.Entity.ChildYouthInfo"
     xmlns:controls="clr-namespace:Visitz.Controls"
@@ -13,116 +14,220 @@
     x:DataType="childYouthInfo:ChildYouthInfoListViewModel"
     x:TypeArguments="childYouthInfo:ChildYouthInfoListViewModel"
 >
-    <AbsoluteLayout>
+    <base:IcmRecordContentView.Resources>
+        <ResourceDictionary>
+            <DataTemplate
+                x:Key="EducationDraftTemplate"
+                x:DataType="childYouthInfo:EducationListItemViewModel"
+            >
+                <childYouthInfo:ChildYouthInfoDraftListItem
+                    Title="{Binding ReadItem.SchoolNameBinding}"
+                    Subtitle="{Binding ReadItem.DisplayStartDate}"
+                    PrimaryCommand="{Binding OpenEducationDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    EditCommand="{Binding OpenEducationDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    DiscardCommand="{Binding DiscardEducationDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    PublishCommand="{Binding PublishDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    CommandParameter="{Binding DraftItem}"
+                    CanPublish="{Binding ReadItem.IsValidToPublish}"
+                />
+            </DataTemplate>
+            <DataTemplate
+                x:Key="EducationDownloadedTemplate"
+                x:DataType="childYouthInfo:EducationListItemViewModel"
+            >
+                <ContentView>
+                    <views:Expander Margin="{StaticResource DefaultMarginHalf}">
+                        <views:Expander.HeaderView>
+                            <VerticalStackLayout>
+                                <Label
+                                    FontFamily="BCSansBold"
+                                    Text="{Binding ReadItem.SchoolNameBinding}"
+                                />
+                                <Label Text="{Binding ReadItem.DisplayStartDate}" />
+                            </VerticalStackLayout>
+                        </views:Expander.HeaderView>
+                        <views:Expander.ExpandedView>
+                            <childYouthInfo:ContactEducationListItem />
+                        </views:Expander.ExpandedView>
+                    </views:Expander>
+                </ContentView>
+            </DataTemplate>
+
+            <childYouthInfo:ChildYouthInfoListItemSelector
+                x:Key="EducationListItemSelector"
+                x:TypeArguments="people:ContactEducationDraft,people:ContactEducation"
+                DraftTemplate="{StaticResource EducationDraftTemplate}"
+                DownloadedDataTemplate="{StaticResource EducationDownloadedTemplate}"
+            />
+
+            <DataTemplate
+                x:Key="MedicalDraftTemplate"
+                x:DataType="childYouthInfo:MedicalBehavioralListItemViewModel"
+            >
+                <childYouthInfo:ChildYouthInfoDraftListItem
+                    Title="{Binding ReadItem.ConditionBinding}"
+                    PrimaryCommand="{Binding OpenMedicalBehavioralDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    EditCommand="{Binding OpenMedicalBehavioralDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    DiscardCommand="{Binding DiscardMedicalBehavioralDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    PublishCommand="{Binding PublishDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    CommandParameter="{Binding DraftItem}"
+                    CanPublish="{Binding ReadItem.IsValidToPublish}"
+                >
+                    <childYouthInfo:ChildYouthInfoDraftListItem.SubtitleFormattedText>
+                        <FormattedString>
+                            <Span Text="{Binding ReadItem.CategoryBinding}" />
+                            <Span Text=": " />
+                            <Span Text="{Binding ReadItem.CommentsBinding}" />
+                        </FormattedString>
+                    </childYouthInfo:ChildYouthInfoDraftListItem.SubtitleFormattedText>
+                </childYouthInfo:ChildYouthInfoDraftListItem>
+            </DataTemplate>
+            <DataTemplate
+                x:Key="MedicalDownloadedTemplate"
+                x:DataType="childYouthInfo:MedicalBehavioralListItemViewModel"
+            >
+                <ContentView>
+                    <views:Expander Margin="{StaticResource DefaultMarginHalf}">
+                        <views:Expander.HeaderView>
+                            <Grid RowDefinitions="Auto,Auto">
+                                <Label
+                                    FontFamily="BCSansBold"
+                                    Text="{Binding ReadItem.ConditionBinding}"
+                                />
+
+                                <Label
+                                    Grid.Row="1"
+                                    LineBreakMode="TailTruncation"
+                                    HorizontalOptions="Fill"
+                                >
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding ReadItem.CategoryBinding}" />
+                                            <Span Text=": " />
+                                            <Span Text="{Binding ReadItem.CommentsBinding}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </Grid>
+                        </views:Expander.HeaderView>
+                        <views:Expander.ExpandedView>
+                            <childYouthInfo:ContactMedicalBehavioralListItem />
+                        </views:Expander.ExpandedView>
+                    </views:Expander>
+                </ContentView>
+            </DataTemplate>
+
+            <childYouthInfo:ChildYouthInfoListItemSelector
+                x:Key="MedicalListItemSelector"
+                x:TypeArguments="people:ContactMedicalBehavioralDraft,people:ContactMedicalBehavioral"
+                DraftTemplate="{StaticResource MedicalDraftTemplate}"
+                DownloadedDataTemplate="{StaticResource MedicalDownloadedTemplate}"
+            />
+
+            <DataTemplate
+                x:Key="LanguagesDraftTemplate"
+                x:DataType="childYouthInfo:LanguagesListItemViewModel"
+            >
+                <childYouthInfo:ChildYouthInfoDraftListItem
+                    Title="{Binding ReadItem.LanguageNameBinding}"
+                    Subtitle="{Binding ReadItem.DisplayPreferred}"
+                    PrimaryCommand="{Binding OpenLanguageDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    EditCommand="{Binding OpenLanguageDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    DiscardCommand="{Binding DiscardLanguageDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    PublishCommand="{Binding PublishDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    CommandParameter="{Binding DraftItem}"
+                    CanPublish="{Binding ReadItem.IsValidToPublish}"
+                />
+            </DataTemplate>
+            <DataTemplate
+                x:Key="LanguagesDownloadedTemplate"
+                x:DataType="childYouthInfo:LanguagesListItemViewModel"
+            >
+                <ContentView>
+                    <views:Expander Margin="{StaticResource DefaultMarginHalf}">
+                        <views:Expander.HeaderView>
+                            <VerticalStackLayout>
+                                <Label
+                                    FontFamily="BCSansBold"
+                                    Text="{Binding ReadItem.LanguageNameBinding}"
+                                />
+                                <Label Text="{Binding ReadItem.DisplayPreferred}" />
+                            </VerticalStackLayout>
+                        </views:Expander.HeaderView>
+                        <views:Expander.ExpandedView>
+                            <childYouthInfo:ContactLanguageListItem />
+                        </views:Expander.ExpandedView>
+                    </views:Expander>
+                </ContentView>
+            </DataTemplate>
+
+            <childYouthInfo:ChildYouthInfoListItemSelector
+                x:Key="LanguagesListItemSelector"
+                x:TypeArguments="people:ContactLanguageDraft,people:ContactLanguage"
+                DraftTemplate="{StaticResource LanguagesDraftTemplate}"
+                DownloadedDataTemplate="{StaticResource LanguagesDownloadedTemplate}"
+            />
+        </ResourceDictionary>
+    </base:IcmRecordContentView.Resources>
+
+    <Grid RowDefinitions="*,0.5,Auto">
         <ActivityIndicator
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            AbsoluteLayout.LayoutBounds="0.5,0.5"
+            Grid.Row="0"
             HorizontalOptions="Center"
             VerticalOptions="Center"
             IsRunning="{Binding IsLoading}"
         />
 
-        <ScrollView AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+        <ScrollView x:Name="MainScrollView" Grid.Row="0">
             <VerticalStackLayout>
                 <ContentView x:Name="DummyItemForSpacing" />
 
                 <childYouthInfo:ExpandableSection
+                    x:Name="EducationSection"
                     HeaderGlyph="{Static fontIcons:MaterialIcons.School}"
                     HeaderText="{local:Localize Education}"
-                    ItemsSource="{Binding Education.Items}"
+                    ItemsSource="{Binding EducationItems}"
                     Margin="{StaticResource DefaultMargin}"
-                >
-                    <childYouthInfo:ExpandableSection.ItemTemplate>
-                        <DataTemplate x:DataType="people:ContactEducation">
-                            <ContentView>
-                                <views:Expander Margin="{StaticResource DefaultMarginHalf}">
-                                    <views:Expander.HeaderView>
-                                        <VerticalStackLayout>
-                                            <Label
-                                                FontFamily="BCSansBold"
-                                                Text="{Binding SchoolNameBinding}"
-                                            />
-                                            <Label Text="{Binding DisplayStartDate}" />
-                                        </VerticalStackLayout>
-                                    </views:Expander.HeaderView>
-                                    <views:Expander.ExpandedView>
-                                        <childYouthInfo:ContactEducationListItem />
-                                    </views:Expander.ExpandedView>
-                                </views:Expander>
-                            </ContentView>
-                        </DataTemplate>
-                    </childYouthInfo:ExpandableSection.ItemTemplate>
-                </childYouthInfo:ExpandableSection>
+                    ItemTemplate="{StaticResource EducationListItemSelector}"
+                />
 
                 <childYouthInfo:ExpandableSection
+                    x:Name="MedicalSection"
                     HeaderGlyph="{Static fontIcons:MaterialIcons.Monitor_heart}"
                     HeaderText="{local:Localize MedicalBehavioural}"
-                    ItemsSource="{Binding MedicalBehavioral.Items}"
+                    ItemsSource="{Binding MedicalItems}"
                     Margin="{StaticResource DefaultMargin}"
-                >
-                    <childYouthInfo:ExpandableSection.ItemTemplate>
-                        <DataTemplate x:DataType="people:ContactMedicalBehavioral">
-                            <ContentView>
-                                <views:Expander Margin="{StaticResource DefaultMarginHalf}">
-                                    <views:Expander.HeaderView>
-                                        <Grid RowDefinitions="Auto,Auto">
-                                            <Label
-                                                FontFamily="BCSansBold"
-                                                Text="{Binding ConditionBinding}"
-                                            />
-
-                                            <Label
-                                                Grid.Row="1"
-                                                LineBreakMode="TailTruncation"
-                                                HorizontalOptions="Fill"
-                                            >
-                                                <Label.FormattedText>
-                                                    <FormattedString>
-                                                        <Span Text="{Binding CategoryBinding}" />
-                                                        <Span Text=": " />
-                                                        <Span Text="{Binding CommentsBinding}" />
-                                                    </FormattedString>
-                                                </Label.FormattedText>
-                                            </Label>
-                                        </Grid>
-                                    </views:Expander.HeaderView>
-                                    <views:Expander.ExpandedView>
-                                        <childYouthInfo:ContactMedicalBehavioralListItem />
-                                    </views:Expander.ExpandedView>
-                                </views:Expander>
-                            </ContentView>
-                        </DataTemplate>
-                    </childYouthInfo:ExpandableSection.ItemTemplate>
-                </childYouthInfo:ExpandableSection>
+                    ItemTemplate="{StaticResource MedicalListItemSelector}"
+                />
 
                 <childYouthInfo:ExpandableSection
+                    x:Name="LanguagesSection"
                     HeaderGlyph="{Static fontIcons:MaterialIcons.Globe}"
                     HeaderText="{local:Localize Languages}"
-                    ItemsSource="{Binding Languages.Items}"
+                    ItemsSource="{Binding LanguagesItems}"
                     Margin="{StaticResource DefaultMargin}"
-                >
-                    <childYouthInfo:ExpandableSection.ItemTemplate>
-                        <DataTemplate x:DataType="people:ContactLanguage">
-                            <ContentView>
-                                <views:Expander Margin="{StaticResource DefaultMarginHalf}">
-                                    <views:Expander.HeaderView>
-                                        <VerticalStackLayout>
-                                            <Label
-                                                FontFamily="BCSansBold"
-                                                Text="{Binding LanguageName}"
-                                            />
-                                            <Label Text="{Binding DisplayPreferred}" />
-                                        </VerticalStackLayout>
-                                    </views:Expander.HeaderView>
-                                    <views:Expander.ExpandedView>
-                                        <childYouthInfo:ContactLanguageListItem />
-                                    </views:Expander.ExpandedView>
-                                </views:Expander>
-                            </ContentView>
-                        </DataTemplate>
-                    </childYouthInfo:ExpandableSection.ItemTemplate>
-                </childYouthInfo:ExpandableSection>
+                    ItemTemplate="{StaticResource LanguagesListItemSelector}"
+                />
             </VerticalStackLayout>
         </ScrollView>
-    </AbsoluteLayout>
+
+        <BoxView Grid.Row="1" Color="{StaticResource SeparatorColor}" />
+
+        <Grid Grid.Row="2" Padding="{StaticResource DefaultPadding}">
+            <actionButton:ActionButton
+                Grid.Column="2"
+                RequestedText="{local:Localize Add}"
+                HorizontalOptions="End"
+                MenuOptions="{Binding FabOptions}"
+            >
+                <actionButton:ActionButton.RequestedImageSource>
+                    <FontImageSource
+                        Glyph="{Static fontIcons:MaterialIcons.Add}"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        Size="20"
+                    />
+                </actionButton:ActionButton.RequestedImageSource>
+            </actionButton:ActionButton>
+        </Grid>
+    </Grid>
 </base:IcmRecordContentView>

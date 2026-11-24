@@ -113,6 +113,7 @@ public partial class EntityViewModel
             EntitySection.ChildYouthVisits or EntitySection.ChildYouthVisitsEntry =>
                 GetTabByType<ChildYouthVisitListView>(),
             EntitySection.SupportNetwork => GetTabByType<SupportNetworkListView>(),
+            EntitySection.ChildYouthInfo => GetTabByType<ChildYouthInfoListView>(),
             _ => GetTabByType<EntityDetailsView>(),
         };
     }

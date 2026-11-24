@@ -44,7 +44,11 @@ public static class StringExtensions
 
     public static bool ParseWordTruthiness(this string text)
     {
-        return text != null && text.Trim().StartsWith("Y", StringComparison.CurrentCultureIgnoreCase);
+        return text != null
+            && (
+                text.Trim().StartsWith("Y", StringComparison.InvariantCultureIgnoreCase)
+                || text.Trim().Equals(true.ToString(), StringComparison.InvariantCultureIgnoreCase)
+            );
     }
 
     public static bool? ParseEmptyWordTruthiness(this string text)

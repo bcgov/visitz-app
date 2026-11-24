@@ -9,8 +9,21 @@ using VisitzModel.Utilities;
 namespace VisitzModel.Models.People;
 
 [GenerateRealmBindings]
-public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJson>, IComparable<ContactEducation>
+public partial class ContactEducation
+    : IRealmObject,
+        IApiJson<SubmitContactEducationJson>,
+        IComparable<ContactEducation>,
+        IValidToPublish
 {
+    public static readonly int AddressMaxLength = 255;
+    public static readonly int CommentsMaxLength = 100;
+    public static readonly int ContactPersonMaxLength = 150;
+    public static readonly int ContactPersonRoleMaxLength = 50;
+    public static readonly int PhoneNumMaxLength = 40;
+    public static readonly int SchoolNameMaxLength = 255;
+
+    public static readonly string DegreeLookupLovKey = "FINCORP_CONTACT_EDUCATION";
+
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
     public string LearningAssistant { get; set; } = string.Empty;
@@ -38,9 +51,19 @@ public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJ
 
     public string? DisplayEndDate => EndDateBinding?.ToString(IcmDateFormats.BasicTimestamp);
 
+    public bool IsValidToPublish =>
+        AddressBinding.Length <= AddressMaxLength
+        && CommentsBinding.Length <= CommentsMaxLength
+        && ContactPersonBinding.Length <= ContactPersonMaxLength
+        && ContactPersonRoleBinding.Length <= ContactPersonRoleMaxLength
+        && SchoolNameBinding.Length <= SchoolNameMaxLength
+        && DegreeBinding.Length > 0
+        && PhoneNumBinding.Length <= PhoneNumMaxLength
+        && (PhoneNumBinding.Length <= 0 || int.TryParse(PhoneNum, out var _));
+
     public ContactEducation() { }
 
-    public ContactEducation(ContactEducationJson json, string parentContactId)
+    public ContactEducation(GetContactEducationJson json, string parentContactId)
     {
         Id = json.Id;
         LearningAssistant = json.LearningAssistant;
@@ -64,35 +87,22 @@ public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJ
         ParentContactId = parentContactId;
     }
 
-    public ContactEducationJson ToApiJson(string dateFormat = "s")
+    public SubmitContactEducationJson ToApiJson(string dateFormat = "s")
     {
         return new()
         {
-            Id = Id,
-            LearningAssistant = LearningAssistant,
-            Address = Address,
-            Comments = Comments,
-            ContactId = ParentContactId,
+            SchoolName = SchoolName,
+            StartDate = DateLastAttended?.ToString(dateFormat),
+            Degree = Degree,
             ContactPerson = ContactPerson,
             ContactPersonRole = ContactPersonRole,
-            CreatedByName = CreatedByName,
-            DateLastAttended = DateLastAttended?.ToString(dateFormat) ?? string.Empty,
-            Degree = Degree,
-            EndDate = EndDate?.ToString(dateFormat) ?? string.Empty,
-            IndividualEducationPlan = IndividualEducationPlan,
-            InstitutionId = InstitutionId,
-            InstitutionName = InstitutionName,
-            PhoneNum = PhoneNum,
-            SchoolName = SchoolName,
-            StartDate = DateLastAttended?.ToString(dateFormat) ?? string.Empty,
-            University = University,
-            UpdatedByName = UpdatedByName,
-            Year = Year?.ToString(dateFormat) ?? string.Empty,
+            Phone = PhoneNum,
+            Address = Address,
         };
     }
 
     public static List<ContactEducation> FromApiJsonArray(
-        IEnumerable<ContactEducationJson> jsonArray,
+        IEnumerable<GetContactEducationJson> jsonArray,
         string parentContactId
     )
     {
@@ -107,7 +117,7 @@ public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJ
 
     public static async Task SynchronizeAsync(
         Realm realm,
-        IEnumerable<ContactEducationJson> contactEducation,
+        IEnumerable<GetContactEducationJson> contactEducation,
         string parentContactId
     )
     {

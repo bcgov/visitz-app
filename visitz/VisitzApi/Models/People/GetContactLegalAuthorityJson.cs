@@ -1,6 +1,6 @@
 namespace VisitzApi.Models.People;
 
-public class ContactLegalAuthorityJson
+public class GetContactLegalAuthorityJson
 {
     public string Updated { get; set; } = string.Empty;
     public string DependantSequenceNumber { get; set; } = string.Empty;

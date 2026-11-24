@@ -13,7 +13,7 @@ internal class GetContactEducationService(Vpi vpi, LastUpdatedPrefs prefs) : Api
 {
     IcmContact Contact => (IcmContact)Payload;
 
-    List<ContactEducationJson> ContactEducationData { get; } = [];
+    List<GetContactEducationJson> ContactEducationData { get; } = [];
 
     public static string MakeId(string parentContactId)
     {

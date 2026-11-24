@@ -106,6 +106,7 @@ public static class VisitzScreens
         builder.Services.AddTransient<SafetyAssessmentPublishViewModel>();
         builder.Services.AddTransient<AttachmentDraftPublishViewModel>();
         builder.Services.AddTransient<ChildYouthVisitPublishViewModel>();
+        builder.Services.AddTransient<ChildYouthInfoPublishViewModel>();
 
         builder.Services.AddTransient<NoteEntryView>();
         builder.Services.AddTransient<NoteEntryViewModel>();
@@ -144,6 +145,15 @@ public static class VisitzScreens
 
         builder.Services.AddTransient<NavDrawerContentView>();
         builder.Services.AddTransient<NavDrawerContentViewModel>();
+
+        builder.Services.AddTransient<ContactEducationEditView>();
+        builder.Services.AddTransient<ContactEducationEditViewModel>();
+
+        builder.Services.AddTransient<ContactMedicalBehavioralEditView>();
+        builder.Services.AddTransient<ContactMedicalBehavioralEditViewModel>();
+
+        builder.Services.AddTransient<ContactLanguageEditView>();
+        builder.Services.AddTransient<ContactLanguageEditViewModel>();
 
         return builder;
     }

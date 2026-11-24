@@ -1,6 +1,6 @@
 namespace VisitzApi.Models.People;
 
-public class ContactLanguageJson
+public class GetContactLanguageJson
 {
     public string Created { get; set; } = string.Empty;
     public string Type { get; set; } = string.Empty;

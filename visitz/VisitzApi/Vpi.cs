@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using VisitzApi.Endpoints;
 using VisitzApi.Endpoints.AppLogs;
 using VisitzApi.Endpoints.Attachments;
@@ -12,6 +13,7 @@ using VisitzApi.Models.AppLogs;
 using VisitzApi.Models.Attachments;
 using VisitzApi.Models.CallDetails;
 using VisitzApi.Models.Caseload;
+using VisitzApi.Models.ListOfValues;
 using VisitzApi.Models.Notes;
 using VisitzApi.Models.People;
 using VisitzApi.Models.SafetyAssess;
@@ -23,7 +25,7 @@ namespace VisitzApi;
 /// <summary>
 /// VPI - Visitz (A)PI - convenience wrapper class for interaction with Visitz' API endpoints.
 /// </summary>
-public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
+public partial class Vpi(HttpClient httpClient, string baseVisitzApiUrl, ILogger<Vpi> logger)
 {
     internal static readonly string EmptyJsonBody = "{}";
     internal static readonly string V1 = "v1";
@@ -45,11 +47,18 @@ public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
     private async Task<T> CallApi<T>(VisitzBaseEndpoint<T> endpoint)
     {
         var request = endpoint.MakeRequest();
+
+        if (logger.IsEnabled(LogLevel.Debug))
+            await DebugLogRequest(endpoint, request);
+
         request.RequestUri ??= endpoint.RequestUri;
         request.VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
 
         var response = await HttpClient.SendAsync(request);
         string content = await response.Content.ReadAsStringAsync();
+
+        if (logger.IsEnabled(LogLevel.Debug))
+            DebugLogResponse(endpoint, request, content);
 
         if (content.Trim().Length <= 0)
             content = EmptyJsonBody;
@@ -63,6 +72,35 @@ public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
 
         return endpoint.HandleResponse(response, content);
     }
+
+    private async Task DebugLogRequest<T>(VisitzBaseEndpoint<T> endpoint, HttpRequestMessage request)
+    {
+        string body = request.Content == null ? "<empty request body>" : await request.Content.ReadAsStringAsync();
+        LogDebug(
+            request.Method,
+            endpoint.GetType().Name,
+            "Request",
+            request.RequestUri?.ToString() ?? "missing URL",
+            body
+        );
+    }
+
+    private void DebugLogResponse<T>(VisitzBaseEndpoint<T> endpoint, HttpRequestMessage request, string responseBody)
+    {
+        if (responseBody.Length <= 0)
+            responseBody = "<empty response body>";
+
+        LogDebug(
+            request.Method,
+            endpoint.GetType().Name,
+            "Response",
+            request.RequestUri?.ToString() ?? "missing URL",
+            responseBody
+        );
+    }
+
+    [LoggerMessage(Level = LogLevel.Debug, Message = "{method} | {endpointName} | {direction} | {url} | Body: {body}")]
+    private partial void LogDebug(HttpMethod method, string endpointName, string direction, string url, string body);
 
     public async Task<(int TotalRecords, CaseloadJson)> GetCaseloadAsync(Pagination pagination)
     {
@@ -205,7 +243,7 @@ public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
         return await CallApi(new AdditionalInformationEndpoint(BaseVisitzApiUrl, type, id, pagination));
     }
 
-    public async Task<(int TotalRecords, IEnumerable<ContactMedicalBehavioralJson>)> GetContactMedicalBehavioral(
+    public async Task<(int TotalRecords, IEnumerable<GetContactMedicalBehavioralJson>)> GetContactMedicalBehavioral(
         ApiRecordType type,
         string recordId,
         string contactId,
@@ -213,21 +251,51 @@ public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
     )
     {
         return await CallApi(
-            new ContactMedicalBehavioralEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination)
+            new GetContactMedicalBehavioralEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination)
         );
     }
 
-    public async Task<(int TotalRecords, IEnumerable<ContactLanguageJson>)> GetContactLanguageAsync(
+    public async Task<bool> SubmitContactMedicalBehavioralAsync(
+        ApiRecordType recordType,
+        string parentRowId,
+        string parentContactId,
+        SubmitContactMedicalBehavioralJson submitJson
+    )
+    {
+        return await CallApi(
+            new SubmitContactMedicalBehavioralEndpoint(
+                BaseVisitzApiUrl,
+                recordType,
+                parentRowId,
+                parentContactId,
+                submitJson
+            )
+        );
+    }
+
+    public async Task<(int TotalRecords, IEnumerable<GetContactLanguageJson>)> GetContactLanguageAsync(
         ApiRecordType type,
         string recordId,
         string contactId,
         Pagination? pagination = null
     )
     {
-        return await CallApi(new ContactLanguagesEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination));
+        return await CallApi(new GetContactLanguagesEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination));
     }
 
-    public async Task<(int TotalRecords, IEnumerable<ContactLegalAuthorityJson>)> GetContactLegalAuthority(
+    public async Task<bool> SubmitContactLanguageAsync(
+        ApiRecordType recordType,
+        string parentRowId,
+        string parentContactId,
+        SubmitContactLanguageJson submitJson
+    )
+    {
+        return await CallApi(
+            new SubmitContactLanguagesEndpoint(BaseVisitzApiUrl, recordType, parentRowId, parentContactId, submitJson)
+        );
+    }
+
+    public async Task<(int TotalRecords, IEnumerable<GetContactLegalAuthorityJson>)> GetContactLegalAuthority(
         ApiRecordType type,
         string recordId,
         string contactId,
@@ -235,22 +303,42 @@ public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
     )
     {
         return await CallApi(
-            new ContactLegalAuthorityEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination)
+            new GetContactLegalAuthorityEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination)
         );
     }
 
-    public async Task<(int TotalRecords, IEnumerable<ContactEducationJson>)> GetContactEducation(
+    public async Task<(int TotalRecords, IEnumerable<GetContactEducationJson>)> GetContactEducation(
         ApiRecordType type,
         string recordId,
         string contactId,
         Pagination? pagination = null
     )
     {
-        return await CallApi(new ContactEducationEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination));
+        return await CallApi(new GetContactEducationEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination));
+    }
+
+    public async Task<bool> SubmitContactEducationAsync(
+        ApiRecordType recordType,
+        string parentRowId,
+        string parentContactId,
+        SubmitContactEducationJson submitJson
+    )
+    {
+        return await CallApi(
+            new SubmitContactEducationEndpoint(BaseVisitzApiUrl, recordType, parentRowId, parentContactId, submitJson)
+        );
     }
 
     public async Task<HttpResponseMessage> SendAppLogs(IList<AppLogJson> logs)
     {
         return await CallApi(new SendAppLogsEndpoint(BaseVisitzApiUrl, logs));
+    }
+
+    public async Task<(int TotalRecords, IEnumerable<ListedValueJson>)> GetListOfValuesAsync(
+        string type,
+        Pagination? pagination = null
+    )
+    {
+        return await CallApi(new GetListOfValuesEndpoint(BaseVisitzApiUrl, type, pagination));
     }
 }

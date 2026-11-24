@@ -241,15 +241,6 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; published successfully..
-        /// </summary>
-        public static string AttachmentPublishSuccess {
-            get {
-                return ResourceManager.GetString("AttachmentPublishSuccess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Attachments.
         /// </summary>
         public static string Attachments {
@@ -625,11 +616,38 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ContactLanguages.
+        ///   Looks up a localized string similar to Contact education - &quot;last grade completed&quot; values.
+        /// </summary>
+        public static string ContactEducationLastGradeCompletedLovLabel {
+            get {
+                return ResourceManager.GetString("ContactEducationLastGradeCompletedLovLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact languages.
         /// </summary>
         public static string ContactLanguages {
             get {
                 return ResourceManager.GetString("ContactLanguages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact languages - &quot;language name&quot; values.
+        /// </summary>
+        public static string ContactLanguagesLanguageNameLovLabel {
+            get {
+                return ResourceManager.GetString("ContactLanguagesLanguageNameLovLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact languages - &quot;type&quot; values.
+        /// </summary>
+        public static string ContactLanguagesTypeLovLabel {
+            get {
+                return ResourceManager.GetString("ContactLanguagesTypeLovLabel", resourceCulture);
             }
         }
         
@@ -648,6 +666,24 @@ namespace Visitz.Resources.Localization {
         public static string ContactMedicalBehavioral {
             get {
                 return ResourceManager.GetString("ContactMedicalBehavioral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact medical/behavioural - &quot;category&quot; values.
+        /// </summary>
+        public static string ContactMedicalBehavioralCategoriesLovLabel {
+            get {
+                return ResourceManager.GetString("ContactMedicalBehavioralCategoriesLovLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact medical/behavioural - &quot;condition&quot; values.
+        /// </summary>
+        public static string ContactMedicalBehavioralConditionLovLabel {
+            get {
+                return ResourceManager.GetString("ContactMedicalBehavioralConditionLovLabel", resourceCulture);
             }
         }
         
@@ -872,6 +908,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discard education item?.
+        /// </summary>
+        public static string DiscardContactEducationDraft {
+            get {
+                return ResourceManager.GetString("DiscardContactEducationDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to discard this education draft? You won&apos;t be able to recover it..
+        /// </summary>
+        public static string DiscardContactEducationDraftDescription {
+            get {
+                return ResourceManager.GetString("DiscardContactEducationDraftDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discard draft.
         /// </summary>
         public static string DiscardDraft {
@@ -890,11 +944,29 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discarded education draft.
+        /// </summary>
+        public static string DiscardedContactEducationDraft {
+            get {
+                return ResourceManager.GetString("DiscardedContactEducationDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discarded safety assessment draft.
         /// </summary>
         public static string DiscardedSafetyAssessmentDraft {
             get {
                 return ResourceManager.GetString("DiscardedSafetyAssessmentDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discarded {0} draft.
+        /// </summary>
+        public static string DiscardedThisDraft {
+            get {
+                return ResourceManager.GetString("DiscardedThisDraft", resourceCulture);
             }
         }
         
@@ -931,6 +1003,15 @@ namespace Visitz.Resources.Localization {
         public static string DiscardSafetyAssessmentDraftDescription {
             get {
                 return ResourceManager.GetString("DiscardSafetyAssessmentDraftDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to discard this {0} draft? You won&apos;t be able to recover it..
+        /// </summary>
+        public static string DiscardThisDraftDescription {
+            get {
+                return ResourceManager.GetString("DiscardThisDraftDescription", resourceCulture);
             }
         }
         
@@ -1162,6 +1243,15 @@ namespace Visitz.Resources.Localization {
         public static string FailedToRefreshAttachments {
             get {
                 return ResourceManager.GetString("FailedToRefreshAttachments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refreshing {0} on device failed.
+        /// </summary>
+        public static string FailedToRefreshItems {
+            get {
+                return ResourceManager.GetString("FailedToRefreshItems", resourceCulture);
             }
         }
         
@@ -1549,6 +1639,15 @@ namespace Visitz.Resources.Localization {
         public static string LoginSuccessButUnauth {
             get {
                 return ResourceManager.GetString("LoginSuccessButUnauth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log in to publish &apos;{0}&apos;.
+        /// </summary>
+        public static string LoginToPublish {
+            get {
+                return ResourceManager.GetString("LoginToPublish", resourceCulture);
             }
         }
         
@@ -2144,15 +2243,6 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Publishing &apos;{0}&apos; to ICM.
-        /// </summary>
-        public static string PublishingAttachmentToIcm {
-            get {
-                return ResourceManager.GetString("PublishingAttachmentToIcm", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Publishing notes to ICM.
         /// </summary>
         public static string PublishingNotesToIcm {
@@ -2171,6 +2261,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Publishing &apos;{0}&apos; to ICM.
+        /// </summary>
+        public static string PublishingToIcm {
+            get {
+                return ResourceManager.GetString("PublishingToIcm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Publishing visit to ICM.
         /// </summary>
         public static string PublishingVisit {
@@ -2185,6 +2284,15 @@ namespace Visitz.Resources.Localization {
         public static string PublishSATitle {
             get {
                 return ResourceManager.GetString("PublishSATitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; published successfully..
+        /// </summary>
+        public static string PublishSuccess {
+            get {
+                return ResourceManager.GetString("PublishSuccess", resourceCulture);
             }
         }
         
@@ -2290,6 +2398,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refreshed {0} on device.
+        /// </summary>
+        public static string RefreshedItems {
+            get {
+                return ResourceManager.GetString("RefreshedItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refreshed notes on device.
         /// </summary>
         public static string RefreshedNotesOnDevice {
@@ -2322,6 +2439,15 @@ namespace Visitz.Resources.Localization {
         public static string RefreshingAttachments {
             get {
                 return ResourceManager.GetString("RefreshingAttachments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refreshing {0}.
+        /// </summary>
+        public static string RefreshingItems {
+            get {
+                return ResourceManager.GetString("RefreshingItems", resourceCulture);
             }
         }
         

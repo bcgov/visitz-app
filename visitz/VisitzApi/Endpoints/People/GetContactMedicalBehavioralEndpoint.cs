@@ -7,25 +7,26 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints.People;
 
-internal class ContactLanguagesEndpoint(
+internal class GetContactMedicalBehavioralEndpoint(
     string baseUrl,
     ApiRecordType type,
     string rowId,
     string contactId,
     Pagination? pagination = null
 )
-    : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<ContactLanguageJson>)>(
+    : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<GetContactMedicalBehavioralJson>)>(
         baseUrl,
         Vpi.V2,
         MakePath(type, rowId, contactId)
     )
 {
-    static readonly string ContactsPath = "/{0}/{1}/contacts/{2}/languages";
+    static readonly string ContactMedicalBehavioralPath = "/{0}/{1}/contacts/{2}/medical-behavioral";
+
     readonly Pagination? Pagination = pagination;
 
-    static string MakePath(ApiRecordType recordType, string rowId, string contactId)
+    public static string MakePath(ApiRecordType recordType, string rowId, string contactId)
     {
-        return string.Format(ContactsPath, recordType.ToString().ToLowerInvariant(), rowId, contactId);
+        return string.Format(ContactMedicalBehavioralPath, recordType.ToString().ToLowerInvariant(), rowId, contactId);
     }
 
     public override HttpRequestMessage MakeRequest()
@@ -33,7 +34,7 @@ internal class ContactLanguagesEndpoint(
         return new HttpRequestMessage() { Method = HttpMethod.Get, RequestUri = WithQueryParams(Pagination) };
     }
 
-    public override (int TotalRecords, IEnumerable<ContactLanguageJson>) HandleResponse(
+    public override (int TotalRecords, IEnumerable<GetContactMedicalBehavioralJson>) HandleResponse(
         HttpResponseMessage response,
         string responseContent
     )
@@ -45,7 +46,7 @@ internal class ContactLanguagesEndpoint(
 
         return (
             response.GetRecordCount(),
-            items.Deserialize<IEnumerable<ContactLanguageJson>>(PayloadOptions.SiebelGet) ?? []
+            items.Deserialize<IEnumerable<GetContactMedicalBehavioralJson>>(PayloadOptions.SiebelGet) ?? []
         );
     }
 }

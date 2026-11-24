@@ -1,6 +1,6 @@
 namespace VisitzApi.Models.People;
 
-public class ContactMedicalBehavioralJson
+public class GetContactMedicalBehavioralJson
 {
     public string ContactFirstName { get; set; } = string.Empty;
     public string ContactRowNum { get; set; } = string.Empty;

@@ -67,6 +67,12 @@ public partial class ObservableQuery<TQueryObject, TListItem> : ObservableObject
         ItemsChangedDelegate? itemsChanged = null
     )
     {
+        ArgumentNullException.ThrowIfNull(realm);
+        ArgumentNullException.ThrowIfNull(query);
+        ArgumentNullException.ThrowIfNull(targetList);
+        ArgumentNullException.ThrowIfNull(addItem);
+        ArgumentNullException.ThrowIfNull(removeItem);
+
         Realm = realm;
         RealmQuery = query;
         Items = targetList;
@@ -165,6 +171,18 @@ public partial class ObservableQuery<TQueryObject, TListItem> : ObservableObject
 
         HasAnyItems = Items.Any();
     }
+
+    /// <summary>
+    /// Clears the target list and runs <seealso cref="AddItemMapper"/> for every <seealso cref="TQueryObject"/>, in
+    /// case filtering or other display logic was changed outside ObservableQuery and requires the target list to be
+    /// updated.
+    /// </summary>
+    public void RefreshList()
+    {
+        Items.Clear();
+        foreach (TQueryObject newItem in QueryItems)
+            AddItemMapper(newItem, Items);
+    }
 }
 
 /// <summary>
@@ -178,30 +196,29 @@ public partial class ObservableQuery<TQueryObject> : ObservableQuery<TQueryObjec
         Realm realm,
         IQueryable<TQueryObject> query,
         ObservableCollection<TQueryObject>? targetList = null,
+        ItemMapperDelegate? addItemToTargetList = null,
+        ItemMapperDelegate? removeItemFromTargetList = null,
         ItemsChangedDelegate? itemsChanged = null
     )
         : base(
             realm,
             query,
             targetList ?? [],
-            (addItem, targetList) =>
-            {
-                if (addItem is IComparable<TQueryObject> comparableItem)
-                    targetList.InsertSorted(addItem, Comparer<TQueryObject>.Default);
-                else
-                    targetList.Add(addItem);
-            },
-            (removeItem, targetList) => targetList.Remove(removeItem),
+            addItemToTargetList ?? AddItem,
+            removeItemFromTargetList ?? RemoveItem,
             itemsChanged
         ) { }
 
-    public ObservableQuery(
-        Realm realm,
-        IQueryable<TQueryObject> query,
-        ObservableCollection<TQueryObject> targetList,
-        ItemMapperDelegate addItem,
-        ItemMapperDelegate removeItem,
-        ItemsChangedDelegate? itemsChanged = null
-    )
-        : base(realm, query, targetList, addItem, removeItem, itemsChanged) { }
+    static void AddItem(TQueryObject itemToAdd, IList<TQueryObject> targetList)
+    {
+        if (itemToAdd is IComparable<TQueryObject>)
+            targetList.InsertSorted(itemToAdd, Comparer<TQueryObject>.Default);
+        else
+            targetList.Add(itemToAdd);
+    }
+
+    static void RemoveItem(TQueryObject itemToRemove, IList<TQueryObject> targetList)
+    {
+        targetList.Remove(itemToRemove);
+    }
 }
