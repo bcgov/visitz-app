@@ -218,6 +218,24 @@ public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
         );
     }
 
+    public async Task<bool> SubmitContactMedicalBehavioralAsync(
+        ApiRecordType recordType,
+        string parentRowId,
+        string parentContactId,
+        SubmitContactMedicalBehavioralJson submitJson
+    )
+    {
+        return await CallApi(
+            new SubmitContactMedicalBehavioralEndpoint(
+                BaseVisitzApiUrl,
+                recordType,
+                parentRowId,
+                parentContactId,
+                submitJson
+            )
+        );
+    }
+
     public async Task<(int TotalRecords, IEnumerable<GetContactLanguageJson>)> GetContactLanguageAsync(
         ApiRecordType type,
         string recordId,
@@ -226,6 +244,18 @@ public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
     )
     {
         return await CallApi(new GetContactLanguagesEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination));
+    }
+
+    public async Task<bool> SubmitContactLanguageAsync(
+        ApiRecordType recordType,
+        string parentRowId,
+        string parentContactId,
+        SubmitContactLanguageJson submitJson
+    )
+    {
+        return await CallApi(
+            new SubmitContactLanguagesEndpoint(BaseVisitzApiUrl, recordType, parentRowId, parentContactId, submitJson)
+        );
     }
 
     public async Task<(int TotalRecords, IEnumerable<GetContactLegalAuthorityJson>)> GetContactLegalAuthority(
@@ -248,6 +278,18 @@ public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
     )
     {
         return await CallApi(new GetContactEducationEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination));
+    }
+
+    public async Task<bool> SubmitContactEducationAsync(
+        ApiRecordType recordType,
+        string parentRowId,
+        string parentContactId,
+        SubmitContactEducationJson submitJson
+    )
+    {
+        return await CallApi(
+            new SubmitContactEducationEndpoint(BaseVisitzApiUrl, recordType, parentRowId, parentContactId, submitJson)
+        );
     }
 
     public async Task<HttpResponseMessage> SendAppLogs(IList<AppLogJson> logs)

@@ -11,7 +11,7 @@ namespace VisitzModel.Models.People;
 [GenerateRealmBindings]
 public partial class ContactEducation
     : IRealmObject,
-        IApiJson<GetContactEducationJson>,
+        IApiJson<SubmitContactEducationJson>,
         IComparable<ContactEducation>,
         IValidToPublish
 {
@@ -87,30 +87,17 @@ public partial class ContactEducation
         ParentContactId = parentContactId;
     }
 
-    public GetContactEducationJson ToApiJson(string dateFormat = "s")
+    public SubmitContactEducationJson ToApiJson(string dateFormat = "s")
     {
         return new()
         {
-            Id = Id,
             LearningAssistant = LearningAssistant,
-            Address = Address,
             Comments = Comments,
-            ContactId = ParentContactId,
-            ContactPerson = ContactPerson,
-            ContactPersonRole = ContactPersonRole,
-            CreatedByName = CreatedByName,
             DateLastAttended = DateLastAttended?.ToString(dateFormat) ?? string.Empty,
             Degree = Degree,
             EndDate = EndDate?.ToString(dateFormat) ?? string.Empty,
             IndividualEducationPlan = IndividualEducationPlan,
-            InstitutionId = InstitutionId,
-            InstitutionName = InstitutionName,
-            PhoneNum = PhoneNum,
-            SchoolName = SchoolName,
             StartDate = DateLastAttended?.ToString(dateFormat) ?? string.Empty,
-            University = University,
-            UpdatedByName = UpdatedByName,
-            Year = Year?.ToString(dateFormat) ?? string.Empty,
         };
     }
 

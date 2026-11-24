@@ -11,7 +11,7 @@ namespace VisitzModel.Models.People;
 [GenerateRealmBindings]
 public partial class ContactMedicalBehavioral
     : IRealmObject,
-        IApiJson<GetContactMedicalBehavioralJson>,
+        IApiJson<SubmitContactMedicalBehavioralJson>,
         IComparable<ContactMedicalBehavioral>,
         IValidToPublish
 {
@@ -88,33 +88,18 @@ public partial class ContactMedicalBehavioral
         DiagnosisDate = Timestamp.ParseDateTimeOffsetNullable(json.DiagnosisDate);
     }
 
-    public GetContactMedicalBehavioralJson ToApiJson(string dateFormat = "s")
+    public SubmitContactMedicalBehavioralJson ToApiJson(string dateFormat = "s")
     {
-        return new GetContactMedicalBehavioralJson()
+        return new()
         {
-            Id = Id,
-            Created = Created.ToString(dateFormat) ?? string.Empty,
-            CreatedBy = CreatedBy,
-            CreatedByName = CreatedByName,
-            Updated = Updated.ToString(dateFormat) ?? string.Empty,
-            UpdatedBy = UpdatedBy,
-            UpdatedByName = UpdatedByName,
-            ContactFirstName = ContactFirstName,
-            ContactId = ParentContactId,
-            ContactLastName = ContactLastName,
             Comments = Comments,
             DiagnosedBy = DiagnosedBy,
             Category = Category,
             Condition = Condition,
-            ContactMiddleName = ContactMiddleName,
-            ContactRowNum = ContactRowNum,
             DiagnosisDate = DiagnosisDate?.ToString(dateFormat) ?? string.Empty,
             EndDate = EndDate?.ToString(dateFormat) ?? string.Empty,
-            Name = Name,
-            ParentCaseNum = ParentCaseNum,
             StartDate = StartDate?.ToString(dateFormat) ?? string.Empty,
             TreatmentPlan = TreatmentPlan,
-            Type = Type,
         };
     }
 

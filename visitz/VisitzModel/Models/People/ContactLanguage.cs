@@ -10,7 +10,7 @@ namespace VisitzModel.Models.People;
 [GenerateRealmBindings]
 public partial class ContactLanguage
     : IRealmObject,
-        IApiJson<GetContactLanguageJson>,
+        IApiJson<SubmitContactLanguageJson>,
         IComparable<ContactLanguage>,
         IValidToPublish
 {
@@ -69,24 +69,14 @@ public partial class ContactLanguage
         ICMType = json.ICMType;
     }
 
-    public GetContactLanguageJson ToApiJson(string dateFormat = "s")
+    public SubmitContactLanguageJson ToApiJson(string dateFormat = "s")
     {
         return new()
         {
-            Id = Id,
-            CreatedBy = CreatedBy,
-            Created = Created.ToString(dateFormat) ?? string.Empty,
-            UpdatedBy = UpdatedBy,
-            Type = Type,
-            SSAPrimaryField = Preferred,
-            Updated = Updated.ToString(dateFormat) ?? string.Empty,
             TranslatorReq = TranslatorReq,
             Comments = Comments,
-            UpdatedByName = UpdatedByName,
-            ContactId = ParentContactId,
             LanguageName = LanguageName,
             OtherLanguage = OtherLanguage,
-            CreatedByName = CreatedByName,
             ICMType = ICMType,
         };
     }
