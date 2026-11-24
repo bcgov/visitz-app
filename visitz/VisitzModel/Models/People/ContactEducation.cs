@@ -11,7 +11,7 @@ namespace VisitzModel.Models.People;
 [GenerateRealmBindings]
 public partial class ContactEducation
     : IRealmObject,
-        IApiJson<ContactEducationJson>,
+        IApiJson<GetContactEducationJson>,
         IComparable<ContactEducation>,
         IValidToPublish
 {
@@ -63,7 +63,7 @@ public partial class ContactEducation
 
     public ContactEducation() { }
 
-    public ContactEducation(ContactEducationJson json, string parentContactId)
+    public ContactEducation(GetContactEducationJson json, string parentContactId)
     {
         Id = json.Id;
         LearningAssistant = json.LearningAssistant;
@@ -87,7 +87,7 @@ public partial class ContactEducation
         ParentContactId = parentContactId;
     }
 
-    public ContactEducationJson ToApiJson(string dateFormat = "s")
+    public GetContactEducationJson ToApiJson(string dateFormat = "s")
     {
         return new()
         {
@@ -115,7 +115,7 @@ public partial class ContactEducation
     }
 
     public static List<ContactEducation> FromApiJsonArray(
-        IEnumerable<ContactEducationJson> jsonArray,
+        IEnumerable<GetContactEducationJson> jsonArray,
         string parentContactId
     )
     {
@@ -130,7 +130,7 @@ public partial class ContactEducation
 
     public static async Task SynchronizeAsync(
         Realm realm,
-        IEnumerable<ContactEducationJson> contactEducation,
+        IEnumerable<GetContactEducationJson> contactEducation,
         string parentContactId
     )
     {

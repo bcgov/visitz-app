@@ -206,7 +206,7 @@ public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
         return await CallApi(new AdditionalInformationEndpoint(BaseVisitzApiUrl, type, id, pagination));
     }
 
-    public async Task<(int TotalRecords, IEnumerable<ContactMedicalBehavioralJson>)> GetContactMedicalBehavioral(
+    public async Task<(int TotalRecords, IEnumerable<GetContactMedicalBehavioralJson>)> GetContactMedicalBehavioral(
         ApiRecordType type,
         string recordId,
         string contactId,
@@ -214,21 +214,21 @@ public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
     )
     {
         return await CallApi(
-            new ContactMedicalBehavioralEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination)
+            new GetContactMedicalBehavioralEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination)
         );
     }
 
-    public async Task<(int TotalRecords, IEnumerable<ContactLanguageJson>)> GetContactLanguageAsync(
+    public async Task<(int TotalRecords, IEnumerable<GetContactLanguageJson>)> GetContactLanguageAsync(
         ApiRecordType type,
         string recordId,
         string contactId,
         Pagination? pagination = null
     )
     {
-        return await CallApi(new ContactLanguagesEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination));
+        return await CallApi(new GetContactLanguagesEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination));
     }
 
-    public async Task<(int TotalRecords, IEnumerable<ContactLegalAuthorityJson>)> GetContactLegalAuthority(
+    public async Task<(int TotalRecords, IEnumerable<GetContactLegalAuthorityJson>)> GetContactLegalAuthority(
         ApiRecordType type,
         string recordId,
         string contactId,
@@ -236,18 +236,18 @@ public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
     )
     {
         return await CallApi(
-            new ContactLegalAuthorityEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination)
+            new GetContactLegalAuthorityEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination)
         );
     }
 
-    public async Task<(int TotalRecords, IEnumerable<ContactEducationJson>)> GetContactEducation(
+    public async Task<(int TotalRecords, IEnumerable<GetContactEducationJson>)> GetContactEducation(
         ApiRecordType type,
         string recordId,
         string contactId,
         Pagination? pagination = null
     )
     {
-        return await CallApi(new ContactEducationEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination));
+        return await CallApi(new GetContactEducationEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination));
     }
 
     public async Task<HttpResponseMessage> SendAppLogs(IList<AppLogJson> logs)

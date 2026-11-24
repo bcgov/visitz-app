@@ -13,7 +13,7 @@ internal class GetContactLanguagesService(Vpi vpi, LastUpdatedPrefs prefs) : Api
 {
     IcmContact Contact => (IcmContact)Payload;
 
-    List<ContactLanguageJson> ContactlanguageRecords { get; } = [];
+    List<GetContactLanguageJson> ContactlanguageRecords { get; } = [];
 
     public static string MakeId(string parentContactId)
     {

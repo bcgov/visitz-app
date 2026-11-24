@@ -5,7 +5,7 @@ namespace VisitzModelTest.Models.People;
 
 public class ContactEducationTests
 {
-    private static readonly List<ContactEducationJson> EducationJsons =
+    private static readonly List<GetContactEducationJson> EducationJsons =
     [
         new()
         {
@@ -59,7 +59,7 @@ public class ContactEducationTests
     public async Task SynchronizeAsyncAddContactEducationInfoForCasesToRealm()
     {
         var realm = await TestingUtilities.MakeRealm<ContactEducationTests>();
-        List<ContactEducationJson> contactEducation = EducationJsons;
+        List<GetContactEducationJson> contactEducation = EducationJsons;
 
         var numberOfCaseContactEducationBeforeInsertion = realm.All<ContactEducation>().Count();
         await ContactEducation.SynchronizeAsync(realm, contactEducation, "10");
@@ -74,7 +74,7 @@ public class ContactEducationTests
     public async Task SynchronizeAsyncDeletesCaseContactEducationDifferenceFromRealm()
     {
         var realm = await TestingUtilities.MakeRealm<ContactEducationTests>();
-        List<ContactEducationJson> contactEducation = [.. EducationJsons];
+        List<GetContactEducationJson> contactEducation = [.. EducationJsons];
         string parentId = "10";
 
         await ContactEducation.SynchronizeAsync(realm, contactEducation, parentId);

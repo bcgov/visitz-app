@@ -5,7 +5,7 @@ namespace VisitzModelTest.Models.People;
 
 public class ContactLegalAuthorityTests
 {
-    private static readonly List<ContactLegalAuthorityJson> legalAuthJson =
+    private static readonly List<GetContactLegalAuthorityJson> legalAuthJson =
     [
         new()
         {
@@ -97,7 +97,7 @@ public class ContactLegalAuthorityTests
     public async Task SynchronizeAsyncAddLegalAuthInformationToRealm()
     {
         var realm = await TestingUtilities.MakeRealm<ContactLegalAuthorityTests>();
-        List<ContactLegalAuthorityJson> legalAuthInfo = legalAuthJson;
+        List<GetContactLegalAuthorityJson> legalAuthInfo = legalAuthJson;
 
         var numberOfLegalAuthorityInformationBeforeInsertion = realm.All<ContactLegalAuthority>().Count();
         await ContactLegalAuthority.SynchronizeAsync(realm, legalAuthInfo, "123");
@@ -112,7 +112,7 @@ public class ContactLegalAuthorityTests
     public async Task SynchronizeAsyncDeletesLegalAuthInfoDifferenceFromRealm()
     {
         var realm = await TestingUtilities.MakeRealm<ContactLegalAuthorityTests>();
-        List<ContactLegalAuthorityJson> legalAuthInfo = [.. legalAuthJson];
+        List<GetContactLegalAuthorityJson> legalAuthInfo = [.. legalAuthJson];
 
         await ContactLegalAuthority.SynchronizeAsync(realm, legalAuthInfo, "123");
         var numberOfLegalAuthorityInfoBeforeDeletion = realm.All<ContactLegalAuthority>().Count();

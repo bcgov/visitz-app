@@ -10,7 +10,7 @@ namespace VisitzModel.Models.People;
 [GenerateRealmBindings]
 public partial class ContactLanguage
     : IRealmObject,
-        IApiJson<ContactLanguageJson>,
+        IApiJson<GetContactLanguageJson>,
         IComparable<ContactLanguage>,
         IValidToPublish
 {
@@ -50,7 +50,7 @@ public partial class ContactLanguage
 
     public ContactLanguage() { }
 
-    public ContactLanguage(ContactLanguageJson json, string parentContactId)
+    public ContactLanguage(GetContactLanguageJson json, string parentContactId)
     {
         Id = json.Id;
         CreatedBy = json.CreatedBy;
@@ -69,7 +69,7 @@ public partial class ContactLanguage
         ICMType = json.ICMType;
     }
 
-    public ContactLanguageJson ToApiJson(string dateFormat = "s")
+    public GetContactLanguageJson ToApiJson(string dateFormat = "s")
     {
         return new()
         {
@@ -92,7 +92,7 @@ public partial class ContactLanguage
     }
 
     public static List<ContactLanguage> FromApiJsonArray(
-        IEnumerable<ContactLanguageJson> jsonArray,
+        IEnumerable<GetContactLanguageJson> jsonArray,
         string parentContactId
     )
     {
@@ -107,7 +107,7 @@ public partial class ContactLanguage
 
     public static async Task SynchronizeAsync(
         Realm realm,
-        IEnumerable<ContactLanguageJson> newContactLanguages,
+        IEnumerable<GetContactLanguageJson> newContactLanguages,
         string parentContactId
     )
     {

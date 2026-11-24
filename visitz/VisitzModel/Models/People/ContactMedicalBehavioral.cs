@@ -11,7 +11,7 @@ namespace VisitzModel.Models.People;
 [GenerateRealmBindings]
 public partial class ContactMedicalBehavioral
     : IRealmObject,
-        IApiJson<ContactMedicalBehavioralJson>,
+        IApiJson<GetContactMedicalBehavioralJson>,
         IComparable<ContactMedicalBehavioral>,
         IValidToPublish
 {
@@ -61,7 +61,7 @@ public partial class ContactMedicalBehavioral
 
     public ContactMedicalBehavioral() { }
 
-    public ContactMedicalBehavioral(ContactMedicalBehavioralJson json, string parentContactId)
+    public ContactMedicalBehavioral(GetContactMedicalBehavioralJson json, string parentContactId)
     {
         Id = json.Id;
         ContactFirstName = json.ContactFirstName;
@@ -88,9 +88,9 @@ public partial class ContactMedicalBehavioral
         DiagnosisDate = Timestamp.ParseDateTimeOffsetNullable(json.DiagnosisDate);
     }
 
-    public ContactMedicalBehavioralJson ToApiJson(string dateFormat = "s")
+    public GetContactMedicalBehavioralJson ToApiJson(string dateFormat = "s")
     {
-        return new ContactMedicalBehavioralJson()
+        return new GetContactMedicalBehavioralJson()
         {
             Id = Id,
             Created = Created.ToString(dateFormat) ?? string.Empty,
@@ -119,7 +119,7 @@ public partial class ContactMedicalBehavioral
     }
 
     public static List<ContactMedicalBehavioral> FromApiJsonArray(
-        IEnumerable<ContactMedicalBehavioralJson> jsonArray,
+        IEnumerable<GetContactMedicalBehavioralJson> jsonArray,
         string parentContactId
     )
     {
@@ -134,7 +134,7 @@ public partial class ContactMedicalBehavioral
 
     public static async Task SynchronizeAsync(
         Realm realm,
-        IEnumerable<ContactMedicalBehavioralJson> contactMedicalBehavioral,
+        IEnumerable<GetContactMedicalBehavioralJson> contactMedicalBehavioral,
         string parentContactId
     )
     {

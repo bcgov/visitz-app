@@ -13,7 +13,7 @@ internal class GetContactMedicalBehavioralService(Vpi vpi, LastUpdatedPrefs pref
 {
     IcmContact Contact => (IcmContact)Payload;
 
-    List<ContactMedicalBehavioralJson> ContactMedicalBehavioralData { get; } = [];
+    List<GetContactMedicalBehavioralJson> ContactMedicalBehavioralData { get; } = [];
 
     public static string MakeId(string parentContactId)
     {
