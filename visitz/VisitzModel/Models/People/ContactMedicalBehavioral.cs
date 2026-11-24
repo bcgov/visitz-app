@@ -92,10 +92,10 @@ public partial class ContactMedicalBehavioral
     {
         return new()
         {
-            Comments = Comments,
-            DiagnosedBy = DiagnosedBy,
             Category = Category,
+            Comments = Comments,
             Condition = Condition,
+            DiagnosedBy = DiagnosedBy,
             DiagnosisDate = DiagnosisDate?.ToString(dateFormat),
             EndDate = EndDate?.ToString(dateFormat),
             StartDate = StartDate?.ToString(dateFormat),

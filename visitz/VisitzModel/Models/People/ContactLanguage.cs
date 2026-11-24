@@ -73,11 +73,14 @@ public partial class ContactLanguage
     {
         return new()
         {
-            TranslatorReq = TranslatorReq,
             Comments = Comments,
+            ICMType = ICMType,
             LanguageName = LanguageName,
             OtherLanguage = OtherLanguage,
-            ICMType = ICMType,
+            // We didn't originally declare Preferred or TranslatorReq as bools, so it's been storing "true" and
+            // "false" as their values. So we double convert to get an actual "Y" or "N" that upstream expects.
+            Preferred = Preferred.ParseWordTruthiness().AsTruthyChar(),
+            TranslatorReq = TranslatorReq.ParseWordTruthiness().AsTruthyChar(),
         };
     }
 

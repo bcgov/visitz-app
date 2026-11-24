@@ -4,15 +4,15 @@ public class SubmitContactEducationJson
 {
     public required string Degree { get; set; }
 
-    public string? Comments { get; set; }
-
-    public string? DateLastAttended { get; set; }
-
-    public string? EndDate { get; set; }
-
-    public string? IndividualEducationPlan { get; set; }
-
-    public string? LearningAssistant { get; set; }
+    public string? SchoolName { get; set; }
 
     public string? StartDate { get; set; }
+
+    public string? ContactPerson { get; set; }
+
+    public string? ContactPersonRole { get; set; }
+
+    public string? Phone { get; set; }
+
+    public string? Address { get; set; }
 }

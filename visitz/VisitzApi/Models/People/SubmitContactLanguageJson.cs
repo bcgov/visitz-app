@@ -11,4 +11,6 @@ public class SubmitContactLanguageJson
     public string? ICMType { get; set; }
 
     public string? Comments { get; set; }
+
+    public string? Preferred { get; set; }
 }

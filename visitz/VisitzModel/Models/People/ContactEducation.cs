@@ -91,13 +91,13 @@ public partial class ContactEducation
     {
         return new()
         {
-            LearningAssistant = LearningAssistant,
-            Comments = Comments,
-            DateLastAttended = DateLastAttended?.ToString(dateFormat),
-            Degree = Degree,
-            EndDate = EndDate?.ToString(dateFormat),
-            IndividualEducationPlan = IndividualEducationPlan,
+            SchoolName = SchoolName,
             StartDate = DateLastAttended?.ToString(dateFormat),
+            Degree = Degree,
+            ContactPerson = ContactPerson,
+            ContactPersonRole = ContactPersonRole,
+            Phone = PhoneNum,
+            Address = Address,
         };
     }
 
