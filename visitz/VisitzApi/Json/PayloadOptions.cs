@@ -12,12 +12,10 @@ public static class PayloadOptions
         PropertyNamingPolicy = new PascalWhitespaceNamingPolicy(),
     };
 
-    static readonly JsonSerializerOptions _middlewarePost = new()
+    public static readonly JsonSerializerOptions MiddlewarePost = new()
     {
         PropertyNamingPolicy = new PascalWhitespaceNamingPolicy(),
     };
-
-    public static JsonSerializerOptions MiddlewarePost => _middlewarePost;
 
     static PayloadOptions()
     {
