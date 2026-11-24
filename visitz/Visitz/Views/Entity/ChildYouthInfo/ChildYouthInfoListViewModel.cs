@@ -196,6 +196,55 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel, IOpenFocu
         await Navigator.Navigation.PushModalAsync(view.WrapPageForModal());
     }
 
+    [RelayCommand]
+    public static async Task DiscardEducationDraft(ContactEducationDraft draft)
+    {
+        string message = string.Format(
+            LocalizedStrings.DiscardThisDraftDescription,
+            LocalizedStrings.ContactEducation.ToLowerInvariant()
+        );
+
+        if (await PromptShouldDiscard(message))
+            draft.Delete();
+    }
+
+    [RelayCommand]
+    public static async Task DiscardMedicalBehavioralDraft(ContactMedicalBehavioralDraft draft)
+    {
+        string message = string.Format(
+            LocalizedStrings.DiscardThisDraftDescription,
+            LocalizedStrings.ContactMedicalBehavioral.ToLowerInvariant()
+        );
+
+        if (await PromptShouldDiscard(message))
+            draft.Delete();
+    }
+
+    [RelayCommand]
+    public static async Task DiscardLanguageDraft(ContactLanguageDraft draft)
+    {
+        string message = string.Format(
+            LocalizedStrings.DiscardThisDraftDescription,
+            LocalizedStrings.ContactLanguages.ToLowerInvariant()
+        );
+
+        if (await PromptShouldDiscard(message))
+            draft.Delete();
+    }
+
+    protected static async Task<bool> PromptShouldDiscard(string discardMessage)
+    {
+        return await Navigator.CurrentOpenPage.DisplayAlertAsync(
+            LocalizedStrings.DiscardDraftQuestion,
+            discardMessage,
+            LocalizedStrings.Discard,
+            LocalizedStrings.Cancel
+        );
+    }
+
+    [RelayCommand]
+    public async Task PublishDraft(IDraftItem draft) { }
+
     protected override void Dispose(bool disposing)
     {
         if (!_disposed && disposing)

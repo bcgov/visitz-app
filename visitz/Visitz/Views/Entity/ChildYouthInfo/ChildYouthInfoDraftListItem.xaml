@@ -17,6 +17,10 @@
         StrokeShape="RoundRectangle 5"
         Shadow="{StaticResource RestingLevel2}"
     >
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer x:Name="BorderTapRecognizer" />
+        </Border.GestureRecognizers>
+
         <Grid>
             <BoxView
                 x:Name="DraftIndicator"
@@ -62,6 +66,7 @@
                         />
 
                         <controls:FontIconButton
+                            x:Name="PublishButton"
                             Grid.Column="2"
                             Grid.RowSpan="2"
                             Style="{StaticResource PrimaryButton}"
@@ -76,8 +81,9 @@
 
                     <HorizontalStackLayout Spacing="{StaticResource DefaultSpacing}">
                         <Button
+                            x:Name="EditButton"
                             Style="{StaticResource SecondaryChipLight}"
-                            Text="{local:Localize Rename}"
+                            Text="{local:Localize Edit}"
                             VerticalOptions="Center"
                         >
                             <Button.ImageSource>
@@ -91,6 +97,7 @@
                         </Button>
 
                         <Button
+                            x:Name="DiscardButton"
                             Style="{StaticResource SecondaryChipLight}"
                             Text="{local:Localize Discard}"
                             VerticalOptions="Center"

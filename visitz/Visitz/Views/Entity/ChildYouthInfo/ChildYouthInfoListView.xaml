@@ -23,6 +23,12 @@
                 <childYouthInfo:ChildYouthInfoDraftListItem
                     Title="{Binding ReadItem.SchoolNameBinding}"
                     Subtitle="{Binding ReadItem.DisplayStartDate}"
+                    PrimaryCommand="{Binding OpenEducationDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    EditCommand="{Binding OpenEducationDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    DiscardCommand="{Binding DiscardEducationDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    PublishCommand="{Binding PublishDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    CommandParameter="{Binding DraftItem}"
+                    CanPublish="{Binding ReadItem.IsValidToPublish}"
                 />
             </DataTemplate>
             <DataTemplate
@@ -58,7 +64,15 @@
                 x:Key="MedicalDraftTemplate"
                 x:DataType="childYouthInfo:MedicalBehavioralListItemViewModel"
             >
-                <childYouthInfo:ChildYouthInfoDraftListItem Title="{Binding ReadItem.ConditionBinding}">
+                <childYouthInfo:ChildYouthInfoDraftListItem
+                    Title="{Binding ReadItem.ConditionBinding}"
+                    PrimaryCommand="{Binding OpenMedicalBehavioralDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    EditCommand="{Binding OpenMedicalBehavioralDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    DiscardCommand="{Binding DiscardMedicalBehavioralDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    PublishCommand="{Binding PublishDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    CommandParameter="{Binding DraftItem}"
+                    CanPublish="{Binding ReadItem.IsValidToPublish}"
+                >
                     <childYouthInfo:ChildYouthInfoDraftListItem.SubtitleFormattedText>
                         <FormattedString>
                             <Span Text="{Binding ReadItem.CategoryBinding}" />
@@ -117,6 +131,12 @@
                 <childYouthInfo:ChildYouthInfoDraftListItem
                     Title="{Binding ReadItem.LanguageNameBinding}"
                     Subtitle="{Binding ReadItem.DisplayPreferred}"
+                    PrimaryCommand="{Binding OpenLanguageDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    EditCommand="{Binding OpenLanguageDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    DiscardCommand="{Binding DiscardLanguageDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    PublishCommand="{Binding PublishDraftCommand, Source={RelativeSource AncestorType={Type childYouthInfo:ChildYouthInfoListViewModel}}}"
+                    CommandParameter="{Binding DraftItem}"
+                    CanPublish="{Binding ReadItem.IsValidToPublish}"
                 />
             </DataTemplate>
             <DataTemplate
