@@ -44,9 +44,9 @@ public partial class ContactLanguage
         PreferredBinding.ParseWordTruthiness() ? GeneralStrings.Preferred : GeneralStrings.Secondary;
 
     public bool IsValidToPublish =>
-        Comments.Length <= CommentsMaxLength
-        && OtherLanguage.Length <= OtherLanguageMaxLength
-        && LanguageName.Length > 0;
+        CommentsBinding.Length <= CommentsMaxLength
+        && OtherLanguageBinding.Length <= OtherLanguageMaxLength
+        && LanguageNameBinding.Length > 0;
 
     public ContactLanguage() { }
 

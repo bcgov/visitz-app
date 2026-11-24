@@ -52,14 +52,14 @@ public partial class ContactEducation
     public string? DisplayEndDate => EndDateBinding?.ToString(IcmDateFormats.BasicTimestamp);
 
     public bool IsValidToPublish =>
-        Address.Length <= AddressMaxLength
-        && Comments.Length <= CommentsMaxLength
-        && ContactPerson.Length <= ContactPersonMaxLength
-        && ContactPersonRole.Length <= ContactPersonRoleMaxLength
-        && PhoneNum.Length <= PhoneNumMaxLength
-        && SchoolName.Length <= SchoolNameMaxLength
-        && Degree.Length > 0
-        && (PhoneNum.Length <= 0 || int.TryParse(PhoneNum, out var _));
+        AddressBinding.Length <= AddressMaxLength
+        && CommentsBinding.Length <= CommentsMaxLength
+        && ContactPersonBinding.Length <= ContactPersonMaxLength
+        && ContactPersonRoleBinding.Length <= ContactPersonRoleMaxLength
+        && SchoolNameBinding.Length <= SchoolNameMaxLength
+        && DegreeBinding.Length > 0
+        && PhoneNumBinding.Length <= PhoneNumMaxLength
+        && (PhoneNumBinding.Length <= 0 || int.TryParse(PhoneNum, out var _));
 
     public ContactEducation() { }
 

@@ -54,10 +54,10 @@ public partial class ContactMedicalBehavioral
     public string? DisplayEndDate => EndDateBinding?.ToString(IcmDateFormats.BasicTimestamp);
 
     public bool IsValidToPublish =>
-        Comments.Length <= CommentsMaxLength
-        && DiagnosedBy.Length <= DiagnosedByMaxLength
-        && TreatmentPlan.Length <= TreatmentPlanMaxLength
-        && Category.Length > 0;
+        CommentsBinding.Length <= CommentsMaxLength
+        && DiagnosedByBinding.Length <= DiagnosedByMaxLength
+        && TreatmentPlanBinding.Length <= TreatmentPlanMaxLength
+        && CategoryBinding.Length > 0;
 
     public ContactMedicalBehavioral() { }
 
