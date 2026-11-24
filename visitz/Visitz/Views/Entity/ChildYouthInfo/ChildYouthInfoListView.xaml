@@ -149,7 +149,7 @@
                             <VerticalStackLayout>
                                 <Label
                                     FontFamily="BCSansBold"
-                                    Text="{Binding ReadItem.LanguageName}"
+                                    Text="{Binding ReadItem.LanguageNameBinding}"
                                 />
                                 <Label Text="{Binding ReadItem.DisplayPreferred}" />
                             </VerticalStackLayout>

@@ -26,7 +26,7 @@
         />
         <formControls:InfoItemView
             Label="{local:Localize StartDate}"
-            Value="{Binding DisplayStartDate}"
+            Value="{Binding StartDateBinding}"
         />
         <formControls:InfoItemView
             Label="{local:Localize LastGradeCompleted}"

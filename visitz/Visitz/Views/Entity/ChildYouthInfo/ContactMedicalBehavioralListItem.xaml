@@ -38,7 +38,7 @@
         />
         <formControls:InfoItemView
             Label="{local:Localize DiagnosisDate}"
-            Value="{Binding DisplayDiagnosisDate}"
+            Value="{Binding DiagnosisDateBinding}"
         />
         <formControls:InfoItemView
             Label="{local:Localize TreatmentPlan}"
@@ -46,11 +46,11 @@
         />
         <formControls:InfoItemView
             Label="{local:Localize StartDate}"
-            Value="{Binding DisplayStartDate}"
+            Value="{Binding StartDateBinding}"
         />
         <formControls:InfoItemView
             Label="{local:Localize EndDate}"
-            Value="{Binding DisplayEndDate}"
+            Value="{Binding EndDateBinding}"
         />
     </VerticalStackLayout>
 </ContentView>
