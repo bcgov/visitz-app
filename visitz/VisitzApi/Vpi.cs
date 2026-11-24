@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using VisitzApi.Endpoints;
 using VisitzApi.Endpoints.AppLogs;
 using VisitzApi.Endpoints.Attachments;
@@ -24,7 +25,7 @@ namespace VisitzApi;
 /// <summary>
 /// VPI - Visitz (A)PI - convenience wrapper class for interaction with Visitz' API endpoints.
 /// </summary>
-public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
+public partial class Vpi(HttpClient httpClient, string baseVisitzApiUrl, ILogger<Vpi> logger)
 {
     internal static readonly string EmptyJsonBody = "{}";
     internal static readonly string V1 = "v1";
@@ -46,6 +47,10 @@ public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
     private async Task<T> CallApi<T>(VisitzBaseEndpoint<T> endpoint)
     {
         var request = endpoint.MakeRequest();
+
+        if (logger.IsEnabled(LogLevel.Debug))
+            await DebugLogRequest(endpoint, request);
+
         request.RequestUri ??= endpoint.RequestUri;
         request.VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
 
@@ -64,6 +69,15 @@ public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
 
         return endpoint.HandleResponse(response, content);
     }
+
+    private async Task DebugLogRequest<T>(VisitzBaseEndpoint<T> endpoint, HttpRequestMessage request)
+    {
+        string body = request.Content == null ? "<null>" : await request.Content.ReadAsStringAsync();
+        LogRequest(request.Method, endpoint.GetType().Name, body);
+    }
+
+    [LoggerMessage(Level = LogLevel.Debug, Message = "{method} | {endpointName} | Body: {body}")]
+    private partial void LogRequest(HttpMethod method, string endpointName, string body);
 
     public async Task<(int TotalRecords, CaseloadJson)> GetCaseloadAsync(Pagination pagination)
     {

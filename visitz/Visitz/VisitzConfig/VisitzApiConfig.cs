@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Oidc;
 using Visitz.Settings;
 using VisitzApi;
@@ -26,7 +27,8 @@ public static class VisitzApiConfig
 
         builder.Services.AddSingleton(sp => new Vpi(
             sp.GetService<HttpClient>() ?? throw new InvalidOperationException("HttpClient missing"),
-            apiConfig
+            apiConfig,
+            sp.GetService<ILogger<Vpi>>() ?? throw new InvalidOperationException("Unable to create Vpi logger")
         ));
 
         return builder;
