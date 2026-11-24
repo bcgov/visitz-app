@@ -25,6 +25,8 @@ public static class EventLogWriter
         string id = Guid.NewGuid().ToString();
         string level = logLevel.ToString().ToUpperInvariant();
         Assembly? assembly = Assembly.GetEntryAssembly();
+        if (eventId is int idExists)
+            eventId = int.Clamp(idExists, 0, 65535);
 
         string header =
             @$"{assembly?.GetName().Name ?? "NULL ASSEMBLY ERROR"} {AppInfo.Current.VersionString}
