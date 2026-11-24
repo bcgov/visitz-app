@@ -4,5 +4,5 @@ namespace Visitz.Views.Drafts;
 
 internal interface IOpenFocusDraftItem : IFocusDraftItem
 {
-    Task OpenDraftAsync();
+    Task OpenFocusedDraftAsync();
 }

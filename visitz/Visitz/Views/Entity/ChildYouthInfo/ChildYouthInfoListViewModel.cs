@@ -91,7 +91,7 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel, IOpenFocu
 
         IsLoading = false;
 
-        await OpenDraftAsync();
+        await OpenFocusedDraftAsync();
     }
 
     async Task InitReadQueries(IcmContact keyPlayer)
@@ -264,7 +264,7 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel, IOpenFocu
         base.Dispose(disposing);
     }
 
-    public async Task OpenDraftAsync()
+    public async Task OpenFocusedDraftAsync()
     {
         if (FocusedDraftItem is ContactEducationDraft education)
             await OpenEducationDraft(education);
