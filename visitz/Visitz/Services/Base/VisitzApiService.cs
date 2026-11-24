@@ -2,7 +2,6 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Globalization;
 using System.Net;
-using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Network;
 using Visitz.Resources.Localization;
