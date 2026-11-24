@@ -23,9 +23,9 @@ internal partial class ChildYouthInfoPublishViewModel : PublishViewModel, IRecip
         {
             field = value;
 
-            if (value is ContactEducationDraft edu)
+            if (value is ContactEducationDraft eduDraft && eduDraft.ContactEducation is ContactEducation education)
             {
-                Title = edu.ContactEducation?.SchoolNameBinding ?? string.Empty;
+                Title = education.SchoolNameBinding.Length > 0 ? education.SchoolNameBinding : education.DegreeBinding;
                 RefreshTitle = GeneralStrings.EducationInfo;
             }
             else if (value is ContactMedicalBehavioralDraft med)
