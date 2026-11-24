@@ -62,6 +62,7 @@ public static class VisitzServicesConfig
         builder.Services.AddTransient<GetContactLanguagesByRangeService>();
         builder.Services.AddTransient<GetContactEducationService>();
         builder.Services.AddTransient<GetContactEducationByRangeService>();
+        builder.Services.AddTransient<SubmitChildYouthInfoService>();
         builder.Services.AddTransient<SendAppLogsService>();
         builder.Services.AddSingleton<CrashFileStore>();
         builder.Services.AddSingleton<CrashLoggingService>();

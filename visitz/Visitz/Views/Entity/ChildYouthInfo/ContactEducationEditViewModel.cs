@@ -2,6 +2,7 @@ using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.BaseClasses.Publishing;
 using VisitzModel.Models;
 using VisitzModel.Models.ListOfValues;
 using VisitzModel.Models.People;
@@ -53,10 +54,10 @@ public partial class ContactEducationEditViewModel : DraftEditViewModel<ContactE
         base.Dispose(disposing);
     }
 
-    protected override Task DoPublishDraftAsync()
+    protected override async Task DoPublishDraftAsync()
     {
-        // TODO: wire up publishing
-        return Task.CompletedTask;
+        ArgumentNullException.ThrowIfNull(Draft);
+        await PublishPage.Make<ChildYouthInfoPublishViewModel>(vm => vm.SetPayload(BusinessObject, Draft));
     }
 
     partial void OnSelectedDegreeChanged(ListedValue? value)

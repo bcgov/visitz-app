@@ -8,6 +8,7 @@ using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Drafts;
 using VisitzModel.Extensions;
 using VisitzModel.Models;
@@ -243,7 +244,10 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel, IOpenFocu
     }
 
     [RelayCommand]
-    public async Task PublishDraft(IDraftItem draft) { }
+    public async Task PublishDraft(IDraftItem draft)
+    {
+        await PublishPage.Make<ChildYouthInfoPublishViewModel>(vm => vm.SetPayload(BusinessObject, draft));
+    }
 
     protected override void Dispose(bool disposing)
     {

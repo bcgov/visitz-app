@@ -241,15 +241,6 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; published successfully..
-        /// </summary>
-        public static string AttachmentPublishSuccess {
-            get {
-                return ResourceManager.GetString("AttachmentPublishSuccess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Attachments.
         /// </summary>
         public static string Attachments {
@@ -1256,6 +1247,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refreshing {0} on device failed.
+        /// </summary>
+        public static string FailedToRefreshItems {
+            get {
+                return ResourceManager.GetString("FailedToRefreshItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refreshing notes on device failed.
         /// </summary>
         public static string FailedToRefreshNotes {
@@ -1639,6 +1639,15 @@ namespace Visitz.Resources.Localization {
         public static string LoginSuccessButUnauth {
             get {
                 return ResourceManager.GetString("LoginSuccessButUnauth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log in to publish &apos;{0}&apos;.
+        /// </summary>
+        public static string LoginToPublish {
+            get {
+                return ResourceManager.GetString("LoginToPublish", resourceCulture);
             }
         }
         
@@ -2234,15 +2243,6 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Publishing &apos;{0}&apos; to ICM.
-        /// </summary>
-        public static string PublishingAttachmentToIcm {
-            get {
-                return ResourceManager.GetString("PublishingAttachmentToIcm", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Publishing notes to ICM.
         /// </summary>
         public static string PublishingNotesToIcm {
@@ -2261,6 +2261,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Publishing &apos;{0}&apos; to ICM.
+        /// </summary>
+        public static string PublishingToIcm {
+            get {
+                return ResourceManager.GetString("PublishingToIcm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Publishing visit to ICM.
         /// </summary>
         public static string PublishingVisit {
@@ -2275,6 +2284,15 @@ namespace Visitz.Resources.Localization {
         public static string PublishSATitle {
             get {
                 return ResourceManager.GetString("PublishSATitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; published successfully..
+        /// </summary>
+        public static string PublishSuccess {
+            get {
+                return ResourceManager.GetString("PublishSuccess", resourceCulture);
             }
         }
         
@@ -2380,6 +2398,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refreshed {0} on device.
+        /// </summary>
+        public static string RefreshedItems {
+            get {
+                return ResourceManager.GetString("RefreshedItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refreshed notes on device.
         /// </summary>
         public static string RefreshedNotesOnDevice {
@@ -2412,6 +2439,15 @@ namespace Visitz.Resources.Localization {
         public static string RefreshingAttachments {
             get {
                 return ResourceManager.GetString("RefreshingAttachments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refreshing {0}.
+        /// </summary>
+        public static string RefreshingItems {
+            get {
+                return ResourceManager.GetString("RefreshingItems", resourceCulture);
             }
         }
         

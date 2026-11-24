@@ -741,16 +741,16 @@ Do you want to discard this unlinked draft permanently?</value>
   <data name="CopiedToClipboard" xml:space="preserve">
     <value>Copied to clipboard</value>
   </data>
-  <data name="AttachmentPublishSuccess" xml:space="preserve">
+  <data name="PublishSuccess" xml:space="preserve">
     <value>'{0}' published successfully.</value>
-    <comment>0 = Attachment filename</comment>
+    <comment>0 = label of item that was published</comment>
   </data>
   <data name="LoginToSubmitAttachment" xml:space="preserve">
     <value>Log in to submit attachment</value>
   </data>
-  <data name="PublishingAttachmentToIcm" xml:space="preserve">
+  <data name="PublishingToIcm" xml:space="preserve">
     <value>Publishing '{0}' to ICM</value>
-    <comment>0 = Attachment filename</comment>
+    <comment>0 = label of item being published</comment>
   </data>
   <data name="CaseloadError" xml:space="preserve">
     <value>Caseload refresh error</value>
@@ -1266,5 +1266,21 @@ It is unlikely that the file can be recovered.</value>
   <data name="DiscardedThisDraft" xml:space="preserve">
     <value>Discarded {0} draft</value>
     <comment>0 = name of the type of draft</comment>
+  </data>
+  <data name="LoginToPublish" xml:space="preserve">
+    <value>Log in to publish '{0}'</value>
+    <comment>0 = label of item to be published</comment>
+  </data>
+  <data name="RefreshingItems" xml:space="preserve">
+    <value>Refreshing {0}</value>
+    <comment>0 = type of items being refreshed</comment>
+  </data>
+  <data name="RefreshedItems" xml:space="preserve">
+    <value>Refreshed {0} on device</value>
+    <comment>0 = type of items that were refreshed</comment>
+  </data>
+  <data name="FailedToRefreshItems" xml:space="preserve">
+    <value>Refreshing {0} on device failed</value>
+    <comment>0 = type of items that couldn't refresh</comment>
   </data>
 </root>

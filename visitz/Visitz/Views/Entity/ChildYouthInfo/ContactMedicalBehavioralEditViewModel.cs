@@ -3,6 +3,7 @@ using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.BaseClasses.Publishing;
 using VisitzModel.Extensions;
 using VisitzModel.Models;
 using VisitzModel.Models.ListOfValues;
@@ -83,10 +84,10 @@ public partial class ContactMedicalBehavioralEditViewModel : DraftEditViewModel<
             targetList.InsertSorted(item);
     }
 
-    protected override Task DoPublishDraftAsync()
+    protected override async Task DoPublishDraftAsync()
     {
-        // TODO: wire up publishing
-        return Task.CompletedTask;
+        ArgumentNullException.ThrowIfNull(Draft);
+        await PublishPage.Make<ChildYouthInfoPublishViewModel>(vm => vm.SetPayload(BusinessObject, Draft));
     }
 
     partial void OnSelectedCategoryChanged(ListedValue? value)
