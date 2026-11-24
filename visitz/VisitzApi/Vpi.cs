@@ -57,6 +57,9 @@ public partial class Vpi(HttpClient httpClient, string baseVisitzApiUrl, ILogger
         var response = await HttpClient.SendAsync(request);
         string content = await response.Content.ReadAsStringAsync();
 
+        if (logger.IsEnabled(LogLevel.Debug))
+            DebugLogResponse(endpoint, request, content);
+
         if (content.Trim().Length <= 0)
             content = EmptyJsonBody;
 
@@ -72,12 +75,32 @@ public partial class Vpi(HttpClient httpClient, string baseVisitzApiUrl, ILogger
 
     private async Task DebugLogRequest<T>(VisitzBaseEndpoint<T> endpoint, HttpRequestMessage request)
     {
-        string body = request.Content == null ? "<null>" : await request.Content.ReadAsStringAsync();
-        LogRequest(request.Method, endpoint.GetType().Name, body);
+        string body = request.Content == null ? "<empty request body>" : await request.Content.ReadAsStringAsync();
+        LogDebug(
+            request.Method,
+            endpoint.GetType().Name,
+            "Request",
+            request.RequestUri?.ToString() ?? "missing URL",
+            body
+        );
     }
 
-    [LoggerMessage(Level = LogLevel.Debug, Message = "{method} | {endpointName} | Body: {body}")]
-    private partial void LogRequest(HttpMethod method, string endpointName, string body);
+    private void DebugLogResponse<T>(VisitzBaseEndpoint<T> endpoint, HttpRequestMessage request, string responseBody)
+    {
+        if (responseBody.Length <= 0)
+            responseBody = "<empty response body>";
+
+        LogDebug(
+            request.Method,
+            endpoint.GetType().Name,
+            "Response",
+            request.RequestUri?.ToString() ?? "missing URL",
+            responseBody
+        );
+    }
+
+    [LoggerMessage(Level = LogLevel.Debug, Message = "{method} | {endpointName} | {direction} | {url} | Body: {body}")]
+    private partial void LogDebug(HttpMethod method, string endpointName, string direction, string url, string body);
 
     public async Task<(int TotalRecords, CaseloadJson)> GetCaseloadAsync(Pagination pagination)
     {
