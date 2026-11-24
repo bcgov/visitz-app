@@ -23,7 +23,7 @@ internal class SubmitContactMedicalBehavioralEndpoint(
     {
         return new()
         {
-            Content = JsonContent.Create(submitJson, options: PayloadOptions.MiddlewarePost),
+            Content = JsonContent.Create(submitJson, options: PayloadOptions.MiddlewarePostOmitNulls),
             Method = HttpMethod.Post,
             RequestUri = RequestUri,
         };

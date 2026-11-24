@@ -93,11 +93,11 @@ public partial class ContactEducation
         {
             LearningAssistant = LearningAssistant,
             Comments = Comments,
-            DateLastAttended = DateLastAttended?.ToString(dateFormat) ?? string.Empty,
+            DateLastAttended = DateLastAttended?.ToString(dateFormat),
             Degree = Degree,
-            EndDate = EndDate?.ToString(dateFormat) ?? string.Empty,
+            EndDate = EndDate?.ToString(dateFormat),
             IndividualEducationPlan = IndividualEducationPlan,
-            StartDate = DateLastAttended?.ToString(dateFormat) ?? string.Empty,
+            StartDate = DateLastAttended?.ToString(dateFormat),
         };
     }
 

@@ -96,9 +96,9 @@ public partial class ContactMedicalBehavioral
             DiagnosedBy = DiagnosedBy,
             Category = Category,
             Condition = Condition,
-            DiagnosisDate = DiagnosisDate?.ToString(dateFormat) ?? string.Empty,
-            EndDate = EndDate?.ToString(dateFormat) ?? string.Empty,
-            StartDate = StartDate?.ToString(dateFormat) ?? string.Empty,
+            DiagnosisDate = DiagnosisDate?.ToString(dateFormat),
+            EndDate = EndDate?.ToString(dateFormat),
+            StartDate = StartDate?.ToString(dateFormat),
             TreatmentPlan = TreatmentPlan,
         };
     }
