@@ -3,6 +3,7 @@
 		<CSharpierVersion>1.3.0</CSharpierVersion>
 		<CommunityToolkitMvvmVersion>8.4.2</CommunityToolkitMvvmVersion>
 		<CoverletCollectorVersion>10.0.1</CoverletCollectorVersion>
+		<LoggingVersion>10.0.11</LoggingVersion>
 		<MauiPackageVersion>10.0.110</MauiPackageVersion>
 		<NETTestSdkVersion>18.9.0</NETTestSdkVersion>
 		<RealmVersion>20.1.0</RealmVersion>
